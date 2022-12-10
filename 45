@@ -1,0 +1,2 @@
+      invoke  active_record
+      create    db/migrate/20221115051311_add_conf_key_to_configuration.rb

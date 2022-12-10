@@ -1,0 +1,153 @@
+
+	<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<% @cart.each do |product| %>
+						<tr>
+							<td class="cart_product">
+								<a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href=""><%= product.name %></a></h4>
+								<p>Web ID: 1089772</p>
+							</td>
+							<td class="cart_price">
+								<p><%= product.price %></p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button flexclass">
+								<%= button_to '+', increase_quantity_path(product), method: :patch, remote: true, class:"cart_quantity_up"  %>
+
+									<input class="cart_quantity_input" type="text" name="quantity" value="<%= @quantity %>" autocomplete="off" size="2">
+								<%= button_to '-', decrease_quantity_path(product), method: :patch, remote: false, class:"cart_quantity_down"  %>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price"><%= product.price %></p>
+							</td>
+							<td class="cart_delete">
+								<%= link_to remove_from_cart1_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_quantity_delete" do %>
+									<i class="fa fa-times"></i>
+								<% end %>
+							</td>
+						</tr>
+							<% end %>
+
+					
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->
+
+	<section id="do_action">
+		<div class="container">
+			<div class="heading">
+				<h3>What would you like to do next?</h3>
+				<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="chose_area">
+
+					<%= form_with model: @coupon, url: coupons_path,  local: true,data: { turbo: false } do |form| %>
+						<ul class="user_option">
+							<li>
+							<div class="mb-3">
+								<%= form.label :coupon_code %>
+								<%= form.text_field :code, class: "form-control" , placeholder: "enter coupon code" %>
+							</div>
+								
+							</li>
+							
+							<li>
+								<div class="mb-3">
+									<%= form.submit "Apply", class: "btn btn-primary" %>
+								</div>
+							</li>
+						</ul>
+						<% end %>
+						<ul class="user_info">
+							<%= form_for UserAddress.new,  url: user_address_path,turbo_method: :post, remote: true do |form| %>
+							<li class="single_field">
+								<label><%= form.label :city %></label>
+
+								<%#= select_tag (:city_id, options_for_select([['Lisbon', 1], ['Madrid', 2], ['osmanabad',3]]))%>
+								<%#= select_tag(:city, options_for_select([['Lisbon', 1] , ['Madrid', 2], ['osmanabad',3]])) %>
+	   								<%= form.text_field :city %>
+
+							<li class="single_field">
+								<label><%= form.label :state %></label>
+							<%#= select_tag(:state, options_for_select([['Tamilnadu', 1], ['Goa', 2], ['Maharashtra',3]])) %>
+								<%= form.text_field :state %>
+
+							
+							</li>
+							<li class="single_field">
+								<label><%= form.label :country %></label>
+							<%#= select_tag(:country, options_for_select([['India', 1], ['Pakistan', 2], ['Italy',3]])) %>
+								<%= form.text_field :country %>
+
+							</li>
+							<li class="single_field zip-field">
+								<label><%= form.label :zipcode %></label>
+								<%= form.text_field :zipcode %>
+							</li>
+							<%= form.submit "Continue", class:"btn btn-default check_out" %>
+						<% end %>
+						</ul>
+						<a class="btn btn-default update" href="">Get Quotes</a>
+						<a class="btn btn-default check_out" href="">Continue</a>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="total_area">
+						<ul>
+							<li>Cart Sub Total <span><%= @sum %></span></li>
+							<li>Eco Tax <span>$2</span></li>
+							<li>Coupon Off <span><%= @percent_off %></span></li>
+
+							<% if @total.present? && @sum > @max_shipping_charge %>
+								<li>Shipping Cost <span>Free</span></li>
+
+							<% elsif @sum.present? && @sum > @max_shipping_charge  %>
+								<li>shipping Cost <span><%= @shipping_charge = 0  %></span></li>
+
+							<% else %>
+								<li>Shipping Cost <span><%= @shipping_charge %></span></li>
+							<% end %>
+							<% if @total.present? && @total > @max_shipping_charge  %>
+								<li>Total <span><%= @total  %></span></li>
+							
+							<% elsif @sum.present? && @sum < @max_shipping_charge  %>
+							<li>Shipping Cost <span><%= @total_sum = @sum + @shipping_charge %></span></li>
+
+							<% else	 %>
+								<li>Total <span><%= @sum %></span></li>
+							<% end %>
+						</ul>
+							<a class="btn btn-default update" href="">Update</a>
+							<a class="btn btn-default check_out" href="">Check Out</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
