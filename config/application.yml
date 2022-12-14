@@ -1,0 +1,7 @@
+test: &default
+  PAYPAL_ENV: sandbox
+  PAYPAL_CLIENT_ID: 	 	AXqlNdy7GsL9CjtRu8zhHa8mEW7M8x1RMhcOzmKeHDsk4USS-CaEx4Vmn3PJNjFxJL6nf1sGRxfoxNna
+  PAYPAL_CLIENT_SECRET: 	EHv_VCZT7Z77VDuWbMTXfmX60VnzsEfFeC0Etm-EStCEjXVtKkHrMN3qf6H3YFwJXIWKiNuDCD8MHOoq
+  
+development:
+  <<: *default

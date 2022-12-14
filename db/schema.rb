@@ -201,9 +201,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
     t.string "billing_state"
     t.string "billing_city"
     t.string "billing_zipcode"
-    t.string "email"
     t.bigint "coupon_id"
     t.bigint "user_id", null: false
+    t.string "email"
+    t.string "charge_id"
+    t.string "error_message"
+    t.string "customer_id"
+    t.integer "payment_gateway"
+    t.string "token"
     t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
     t.index ["user_id"], name: "index_user_orders_on_user_id"
   end

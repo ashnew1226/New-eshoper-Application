@@ -85,4 +85,9 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-github', github: 'omniauth/omniauth-github', branch: 'master'
 # gem 'omniauth-twitter'
 gem 'coupon_code'
+gem 'stripe-rails'
 
+gem "haml"
+gem "jquery-rails"
+gem "money-rails"
+gem 'paypal-sdk-rest'

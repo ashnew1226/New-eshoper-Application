@@ -31,5 +31,12 @@ Rails.application.routes.draw do
   # checkout routes
   # get "eshop/user_order_information", to: "eshop#user_order_information"
   post "eshop/user_order_information", to: "eshop#user_order_information"
+  
+  # resources :billings
+  get 'orders/index', to: 'orders#index'
+  post 'orders/submit', to: 'orders#submit'
 
+  post 'orders/paypal/create_payment'  => 'orders#paypal_create_payment', as: :paypal_create_payment
+  post 'orders/paypal/execute_payment'  => 'orders#paypal_execute_payment', as: :paypal_execute_payment
 end
+

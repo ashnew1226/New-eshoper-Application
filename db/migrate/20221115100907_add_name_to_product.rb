@@ -18,4 +18,5 @@ class AddNameToProduct < ActiveRecord::Migration[7.0]
     add_column :products, :modify_by, :integer
     add_column :products, :modify_date, :date
   end
+
 end

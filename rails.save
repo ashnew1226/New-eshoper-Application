@@ -1,0 +1,4 @@
+stripe:
+  development:
+    publishable_key: 'pk_test_...'
+    secret_key: ''

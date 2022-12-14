@@ -83,5 +83,9 @@ Rails.application.configure do
   password:             'qjdgvcerbhhxriye',
   authentication:       'plain'
   }
+  # binding.pry
+  
+  config.stripe.secret_key = Rails.application.credentials.stripe[:secret_key]
+  config.stripe.publishable_key = Rails.application.credentials.stripe[:publishable_key]  
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
