@@ -6,22 +6,23 @@ class EshopController < ApplicationController
         @banners = BannerManagement.all
         @products = Product.all.limit(6)
         @category = Category.where(parent_id: nil)
-        
-
     end
+
     def shopping_cart
         
     end
+
     def login
         
     end
+
     def product_details
         @category = Category.find(params[:id])
         @products = @category.products
     end
+
     def shop
         @category = Category.where(parent_id: nil)
-
     end
 
     def blog
@@ -30,7 +31,6 @@ class EshopController < ApplicationController
     end
     def blog_single
         @category = Category.where(parent_id: nil)
-
     end
 
     def add_user_address
@@ -52,7 +52,8 @@ class EshopController < ApplicationController
 
         @sum = 0
         @item = @cart.each do |item|
-            @sum += item.price
+            binding.pry
+            @sum += item.price.to_i
         end
         @shipping_charge = 25
         @max_shipping_charge = 500
@@ -73,11 +74,9 @@ class EshopController < ApplicationController
                 else
                     @percent_off = c.percent_off
                     @total = @sum - @percent_off
-                
                     puts "valid coupon applied"
                     use = c.number_of_uses += 1
                     @user.coupons << c
-                            
                 end
             end
         end
@@ -88,23 +87,30 @@ class EshopController < ApplicationController
     def checkout
 
         @user_order = UserOrder.new
+        @user_addresses = UserAddress.last
+        # binding.pry
     end
     
     def user_order_information
-        @user_order = current_user.user_orders.build(user_order_params)
-        if @user_order.save
+        
+        @user_address = current_user.user_addresses.build(user_address_params)
+        binding.pry
+        if @user_address.save
             puts "################## data is saved #################"
-            redirect_to user
+            redirect_to eshop_checkout_path
         else
             render 'eshop/checkout'
         end
     end
     def contact_us
-                @category = Category.where(parent_id: nil)
 
     end
     def error404
         
+    end
+    def payment_success
+        binding.pry
+        @user_order = current_user.user_orders.last
     end
 
        
@@ -145,7 +151,7 @@ class EshopController < ApplicationController
     private
 
     def user_address_params
-        params.require(:user_address).permit(:city, :state, :country, :zipcode)
+        params.require(:user_address).permit(:shipping_address, :city, :state, :country, :zipcode)
     end
 
     def user_order_params

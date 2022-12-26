@@ -83,73 +83,33 @@
 						</form>
 						</div>
 						<div class="col-md-8 order-md-1">
-						<h4 class="mb-3">Billing address</h4>
+						<h4 class="mb-3">Address</h4>
+		
 						<%# <form class="needs-validation" novalidate=""> %>
-						<%= form_for UserOrder.new,  url: eshop_user_order_information_path, turbo_method: :post do |form| %>				
+						<%= form_for UserAddress.new,  url: eshop_user_order_information_path,turbo_method: :post, remote: true do |form| %>
 							<div class="row">
-								<div class="row">
-									<div class="col-md-6 mb-3">
-										<%= form.label :full_name %>
-										<%= form.text_field :full_name, class:"form_control" %>
-										<div class="invalid-feedback">
-											Valid first name is required.
-										</div>
-									</div>
-									<div class="col-md-6 mb-3">
-										<%= form.label :mobile_number %>
-										<%= form.text_field :mobile_number, class:"form_control" %>
-										<div class="invalid-feedback">
-											Valid last name is required.
-										</div>
-									</div>
-								</div>
-								<div class="mb-3"  style="margin-bottom: 20px;">
-									<label for="email"><%= form.label :email%><span class="text-muted">(required)</span></label>
-									<%= form.email_field :email, class: "form-control" %>
-									<div class="invalid-feedback">
-										Please enter a valid email address for shipping updates.
-									</div>
-								</div>
 								<div class="mb-3">
-									<%= form.label :Billing_address %>
-									<%= form.text_field :address_2, class:"form-control" %>
-									<div class="invalid-feedback">
-										Please enter your shipping address.
-									</div>
+									<%= form.label :Local_address %>
+									<%= form.text_field :shipping_address, class:"form-control" %>
 								</div>
 								<div class="row" style="margin-bottom: 50px;">
-									<div class="col-md-5 mb-3">
+									<div class="col-md-6 mb-3">
 										<label for="country">City</label>
-										<%= form.text_field :billing_city, class: "form-control" %>
+										<%= form.text_field :city, class: "form-control" %>
 									</div>
-									<div class="col-md-4 mb-3">
+									<div class="col-md-6 mb-3">
 										<label for="state">State</label>
-										<%= form.text_field :billing_state, class: "form-control" %>
+										<%= form.text_field :state, class: "form-control" %>
 									</div>
-									<div class="col-md-3 mb-3">
+									<div class="col-md-6 mb-3">
+										<label for="state">Country</label>
+										<%= form.text_field :country, class: "form-control" %>
+									</div>
+									<div class="col-md-6 mb-3">
 										<label for="zip">Zip</label>
-										<%= form.text_field :billing_zipcode, class: "form-control" %>
+										<%= form.text_field :zipcode, class: "form-control" %>
 									</div>	
 								</div>
-								<div class="mb-3">
-									<%= form.label :Shipping_address %>
-									<%= form.text_field :address_1, class:"form-control" %>
-								</div>
-								<div class="row">
-									<div class="col-md-5 mb-3">
-										<label for="country">City</label>
-										<%= form.text_field :shipping_city, class: "form-control" %>
-									</div>
-									<div class="col-md-4 mb-3">
-										<label for="state">State</label>
-										<%= form.text_field :shipping_state, class: "form-control" %>
-									</div>
-									<div class="col-md-3 mb-3">
-										<label for="zip">Zip</label>
-										<%= form.text_field :shipping_zipcode, class: "form-control" %>
-									</div>	
-								</div>
-								
 							</div>
 							<div class="payment-options" style="margin-top: 30px;">
 							  <%= check_box_tag "pages[#{@user_order.id}]", true %>
@@ -163,10 +123,22 @@
 								<span>
 									<label><input type="checkbox"> Paypal</label>
 								</span><br>
-								<%= form.submit "Place Order", class: "btn btn-primary" %>
+								<%= form.submit "Save Address", class: "btn btn-primary" %>
+
 							</div>
 						<% end %>
+						<%= link_to "Checkout", orders_index_path %>
+
 					</div>
+				</div>
+				<div class="address">
+					<p>
+					<% if @user_addresses.present? %>
+							<strong></strong><%= @user_addresses.shipping_address %> 
+							<%= @user_addresses.city %> <%= @user_addresses.state %> <%= @user_addresses.country %> <%= @user_addresses.zipcode %>
+					<% end %>
+					</p>
 				</div>
 			</div>
 		</section> <!--/#cart_items-->
+						

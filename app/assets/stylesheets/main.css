@@ -2535,3 +2535,6 @@ td h4,p {
   padding-left: 75px;
 
 }
+.inline_nav_link{
+  display: inline-block;
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -162,7 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
     t.string "sku"
     t.string "short_description"
     t.text "long_description"
-    t.decimal "price", precision: 14, scale: 2
+    t.integer "price"
     t.decimal "special_price", precision: 14, scale: 2
     t.date "special_price_from"
     t.date "special_price_to"
@@ -175,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
     t.date "created_date"
     t.integer "modify_by"
     t.date "modify_date"
+    t.string "stripe_plan_name"
   end
 
   create_table "user_addresses", force: :cascade do |t|
@@ -186,6 +187,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
     t.string "state"
     t.string "country"
     t.string "zipcode"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_user_addresses_on_user_id"
   end
 
   create_table "user_orders", force: :cascade do |t|
@@ -209,6 +212,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
     t.string "customer_id"
     t.integer "payment_gateway"
     t.string "token"
+    t.string "amount"
     t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
     t.index ["user_id"], name: "index_user_orders_on_user_id"
   end
@@ -250,6 +254,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_124136) do
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
   add_foreign_key "product_images", "products"
+  add_foreign_key "user_addresses", "users"
   add_foreign_key "user_orders", "coupons"
   add_foreign_key "user_orders", "users"
 end

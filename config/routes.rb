@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'eshop/checkout'
   get 'eshop/contact_us'
   get 'eshop/error404'
+  get 'eshop/payment_success'
   # get 'eshop/shopping_cart'
   post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
   get 'eshop/product_details/:id', to: 'eshop#product_details', as: 'product_details'
