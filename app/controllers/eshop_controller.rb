@@ -65,7 +65,7 @@ class EshopController < ApplicationController
         @coupons = Coupon.all
         # coupons = []
         number_of_uses = 0
-        
+        # "payment successfull with product creation , payment_mode creation and confirming the payment intent for stripe api & navbar links are added"
         @coupons.each do |coupon|
             binding.pry
             # coupons << c.code
