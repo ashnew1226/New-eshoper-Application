@@ -2538,3 +2538,7 @@ td h4,p {
 .inline_nav_link{
   display: inline-block;
 }
+#cart_id{
+  display: inline-block;
+
+}

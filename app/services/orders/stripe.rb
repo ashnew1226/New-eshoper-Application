@@ -20,12 +20,33 @@ class Orders::Stripe
       end
       private
       def self.execute_payment_intent(price:, description:)
-      Stripe::PaymentIntent.create({
-        amount: price,
+
+      cutomer = Stripe::Customer.create({
+        description: "test user for stripe api"
+      })
+
+      pay_method = Stripe::PaymentMethod.create({
+        type: 'card',
+        card: {
+          number: '4242424242424242',
+          exp_month: 8,
+          exp_year: 2050,
+          cvc: '314',
+        },
+      })
+
+      pay_intent = Stripe::PaymentIntent.create({
+        payment_method_types: ['card'],
+        payment_method: pay_method.id,
+        customer: cutomer.id,
+        amount: price.to_s,
         currency: "inr",
         description: description,
-        # source: card_token
+        
       })
+      Stripe::PaymentIntent.confirm(
+        pay_intent.id,
+        {payment_method: pay_method.id},
+      )
     end
 end
-# pi_3MJ9TwSDCO9rQieo1rDPBqie

@@ -88,7 +88,9 @@
 							<ul class="nav navbar-nav">
 								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><i class="fa fa-shopping-cart"></i><%= link_to "Checkout", eshop_checkout_path, class: "inline_nav_link" %></li>
+								<li style="display: inline-block"><i class="fa fa-shopping-cart"></i><%= link_to "Checkout", eshop_checkout_path, class: "inline_nav_link" %></li>
+								<li><%= link_to "Cart", eshop_cart_path %></li> 
+								
 								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>

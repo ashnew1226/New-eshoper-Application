@@ -52,7 +52,7 @@ class EshopController < ApplicationController
 
         @sum = 0
         @item = @cart.each do |item|
-            binding.pry
+            # binding.pry
             @sum += item.price.to_i
         end
         @shipping_charge = 25
@@ -60,23 +60,27 @@ class EshopController < ApplicationController
         @user = current_user
         @used_coupon = params[:code]
         cp = Coupon.find_by(code: @used_coupon)
+        # binding.pry
         #    cp = Coupon.where(code: @used_coupon)
         @coupons = Coupon.all
         # coupons = []
         number_of_uses = 0
-        @coupons.each do |c|
+        
+        @coupons.each do |coupon|
+            binding.pry
             # coupons << c.code
             # coupons.each do |ele|
-            if @used_coupon == c.code
+            if @used_coupon == coupon.code
                 # binding.pry
                 if @user.coupons.include?(cp)
                     puts "*****coupn already used************************"
                 else
-                    @percent_off = c.percent_off
+                    @percent_off = coupon.percent_off
                     @total = @sum - @percent_off
-                    puts "valid coupon applied"
-                    use = c.number_of_uses += 1
-                    @user.coupons << c
+                    puts "******************valid coupon applied*******************************"
+                    binding.pry
+                    coupon.number_of_uses += 1
+                    @user.coupons << coupon
                 end
             end
         end
