@@ -1,6 +1,6 @@
 class EshopController < ApplicationController
     skip_before_action :authenticate_user!
-    # before_action :set_total_price, only: [:checkout]
+    before_action :set_total_price, only: [:cart, :checkout]
 
     def index
         @banners = BannerManagement.all
@@ -50,13 +50,15 @@ class EshopController < ApplicationController
     def cart
         @category = Category.where(parent_id: nil)
 
-        @sum = 0
-        @item = @cart.each do |item|
-            # binding.pry
-            @sum += item.price.to_i
+        @cart_product_price = set_total_price
+        if @cart_product_price < 500
+            @shipping_charge  = 25
+        else
+            @shipping_charge  = 0
         end
-        @shipping_charge = 25
-        @max_shipping_charge = 500
+        @applied_shipping_charge = @shipping_charge
+        @products_price = @cart_product_price + @shipping_charge
+        binding.pry
         @user = current_user
         @used_coupon = params[:code]
         cp = Coupon.find_by(code: @used_coupon)
@@ -67,7 +69,7 @@ class EshopController < ApplicationController
         number_of_uses = 0
         # "payment successfull with product creation , payment_mode creation and confirming the payment intent for stripe api & navbar links are added"
         @coupons.each do |coupon|
-            binding.pry
+            # binding.pry
             # coupons << c.code
             # coupons.each do |ele|
             if @used_coupon == coupon.code
@@ -76,20 +78,21 @@ class EshopController < ApplicationController
                     puts "*****coupn already used************************"
                 else
                     @percent_off = coupon.percent_off
-                    @total = @sum - @percent_off
+                    @total = @products_price - @percent_off
                     puts "******************valid coupon applied*******************************"
-                    binding.pry
+                    # binding.pry
                     coupon.number_of_uses += 1
                     @user.coupons << coupon
+                    binding.pry
                 end
             end
-        end
+        end 
+        binding.pry
     end
 
     
     
     def checkout
-
         @user_order = UserOrder.new
         @user_addresses = UserAddress.last
         # binding.pry
@@ -98,7 +101,7 @@ class EshopController < ApplicationController
     def user_order_information
         
         @user_address = current_user.user_addresses.build(user_address_params)
-        binding.pry
+        # binding.pry
         if @user_address.save
             puts "################## data is saved #################"
             redirect_to eshop_checkout_path
@@ -113,7 +116,7 @@ class EshopController < ApplicationController
         
     end
     def payment_success
-        binding.pry
+        # binding.pry
         @user_order = current_user.user_orders.last
     end
 
@@ -160,5 +163,16 @@ class EshopController < ApplicationController
 
     def user_order_params
         params.require(:user_order).permit(:full_name, :mobile_number, :email, :address_1, :billing_state, :billing_city, :billing_zipcode, :address_2, :shipping_state, :shipping_city, :shipping_zipcode)
+    end
+
+    def set_total_price
+        @cart_products = []
+        @cart.each do |product|
+            @total_price = (product.quantity)*(product.price).to_i
+            @cart_products << @total_price
+        end
+        @tp = @cart_products.inject {|sum,price| sum + price}
+        @max_total = @tp.to_i
+        # binding.pry
     end
 end

@@ -121,27 +121,25 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span><%= @sum %></span></li>
+							<li>Cart Sub Total <span><%= @products_price %></span></li>
 							<li>Eco Tax <span>$2</span></li>
-							<li>Coupon Off <span><%= @percent_off %></span></li>
-
-							<% if @total.present? && @sum > @max_shipping_charge %>
-								<li>Shipping Cost <span>Free</span></li>
-
-							<% elsif @sum.present? && @sum > @max_shipping_charge  %>
-								<li>shipping Cost <span><%= @shipping_charge = 0  %></span></li>
+							<% if @percent_off.present? %>
+								<li>Coupon Off <span><%= @percent_off %></span></li>
+							<% else %>
+								<li>Coupon Off <span><%= @percent_off = 0 %></span></li>
+							<% end %>
+							<% if @applied_shipping_charge.present? %>
+								<li>Shipping Cost <span><%= @shipping_charge %></span></li>
 
 							<% else %>
-								<li>Shipping Cost <span><%= @shipping_charge %></span></li>
+								<li>Shipping Cost <span>Free</span></li>
 							<% end %>
-							<% if @total.present? && @total > @max_shipping_charge  %>
+							<% if @total.present? %>
 								<li>Total <span><%= @total  %></span></li>
 							
-							<% elsif @sum.present? && @sum < @max_shipping_charge  %>
-							<li>Shipping Cost <span><%= @total_sum = @sum + @shipping_charge %></span></li>
+							<% else @products_price.present?  %>
+							<li>Total <span><%= @products_price %></span></li>
 
-							<% else	 %>
-								<li>Total <span><%= @sum %></span></li>
 							<% end %>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
