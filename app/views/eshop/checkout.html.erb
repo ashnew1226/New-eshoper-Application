@@ -111,8 +111,16 @@
 									</div>	
 								</div>
 							</div>
+							<div class="address_info">
+							<p>
+							<% if @user_addresses.present? %>
+									<strong></strong><%= @user_addresses.shipping_address %> 
+									<%= @user_addresses.city %> <%= @user_addresses.state %> <%= @user_addresses.country %> <%= @user_addresses.zipcode %>
+							<% end %>
+							</p>
+						</div>
 							<div class="payment-options" style="margin-top: 30px;">
-							  <%= check_box_tag "pages[#{@user_order.id}]", true %>
+							  <%#= check_box_tag "pages[#{@user_order.id}]", true %>
 								<%#= label_tag  %>
 								<span>
 									<label><input type="checkbox"> Direct Bank Transfer</label>
@@ -128,16 +136,8 @@
 							</div>
 						<% end %>
 						<%= link_to "Checkout", orders_index_path %>
-
+						
 					</div>
-				</div>
-				<div class="address">
-					<p>
-					<% if @user_addresses.present? %>
-							<strong></strong><%= @user_addresses.shipping_address %> 
-							<%= @user_addresses.city %> <%= @user_addresses.state %> <%= @user_addresses.country %> <%= @user_addresses.zipcode %>
-					<% end %>
-					</p>
 				</div>
 			</div>
 		</section> <!--/#cart_items-->
