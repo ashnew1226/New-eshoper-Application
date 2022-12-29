@@ -121,10 +121,9 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span><%= @products_price %></span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <span><%= @produts_price %></span></li>
 							<% if @percent_off.present? %>
-								<li>Coupon Off <span><%= @percent_off %></span></li>
+								<li>Coupon Off <span>-<%= @percent_off %></span></li>
 							<% else %>
 								<li>Coupon Off <span><%= @percent_off = 0 %></span></li>
 							<% end %>

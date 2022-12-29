@@ -1,5 +1,5 @@
 
-%div
+%div.container
   %h1 List of products
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
     %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'user_orders[payment_gateway]'}
@@ -8,10 +8,10 @@
       - @products_purchase.each do |product|
         %div{'data-charges-and-payments-section': true}
           = radio_button_tag 'user_orders[product_id]', product.id, @products_purchase.first == product
-          %span{id: "radioButtonName#{product.id}"} #{product.name}
-          %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{product.price}"} #{humanized_money_with_symbol product.price}
+          %input{:id=>"hideid", :type=>"hidden", :value=>1+1, :name=>:order}
+          %span{id: "radioButtonName#{product.id}"} "Your Order"
+          %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{@total_amount}"} #{humanized_money_with_symbol @total_amount}
         %br
-      %h4 Subscriptions
       - @products_subscription.each do |product|
         %div
           = radio_button_tag 'user_orders[product_id]', product.id, false
@@ -25,9 +25,7 @@
         = radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();"
         %span Stripe
       %br
-      %div
-        = radio_button_tag 'payment-selection', 'paypal', false, onclick: "changeTab();"
-        %span Paypal
+     
     %br
     %br
     %div{id:'tab-stripe', class:'paymentSelectionTab active'}
