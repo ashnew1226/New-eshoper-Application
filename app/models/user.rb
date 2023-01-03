@@ -8,6 +8,9 @@ class User < ApplicationRecord
   has_many :user_addresses
   has_many :coupons_useds
   has_many :coupons, through: :coupons_useds
+  has_many :wishlists
+  has_many :products, through: :wishlists
+  has_one_attached :image
   def self.from_omniauth(auth)
 
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

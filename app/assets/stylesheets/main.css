@@ -2542,3 +2542,8 @@ td h4,p {
   display: inline-block;
 
 }
+.imgwidth{
+  width: 156px;
+  border-radius: 50%;
+  height: 170px;
+}

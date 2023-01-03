@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_30_105033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
     t.bigint "coupon_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "final_amount"
     t.index ["coupon_id"], name: "index_coupons_useds_on_coupon_id"
     t.index ["user_id"], name: "index_coupons_useds_on_user_id"
   end
@@ -94,10 +95,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
   create_table "order_details", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "quantity"
-    t.decimal "amount"
     t.bigint "product_id", null: false
     t.bigint "user_order_id", null: false
+    t.integer "quantity"
+    t.decimal "amount"
     t.index ["product_id"], name: "index_order_details_on_product_id"
     t.index ["user_order_id"], name: "index_order_details_on_user_order_id"
   end
@@ -194,25 +195,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
   create_table "user_orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "full_name"
-    t.string "mobile_number"
-    t.string "address_1"
-    t.string "shipping_state"
-    t.string "shipping_city"
-    t.string "shipping_zipcode"
-    t.string "address_2"
-    t.string "billing_state"
-    t.string "billing_city"
-    t.string "billing_zipcode"
     t.bigint "coupon_id"
     t.bigint "user_id", null: false
-    t.string "email"
-    t.string "charge_id"
+    t.string "payment_id"
     t.string "error_message"
     t.string "customer_id"
     t.integer "payment_gateway"
     t.string "token"
-    t.string "amount"
+    t.integer "status", default: 0
     t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
     t.index ["user_id"], name: "index_user_orders_on_user_id"
   end
@@ -242,6 +232,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_wishlists_on_product_id"
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "coupons_useds", "coupons"
@@ -257,4 +256,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_26_095310) do
   add_foreign_key "user_addresses", "users"
   add_foreign_key "user_orders", "coupons"
   add_foreign_key "user_orders", "users"
+  add_foreign_key "wishlists", "products"
+  add_foreign_key "wishlists", "users"
 end

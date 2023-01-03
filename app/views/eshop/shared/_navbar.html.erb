@@ -88,17 +88,19 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><i class="fa fa-shopping-cart"></i><%= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>
+								<li><i class="fa fa-user"></i> <%= link_to "Account", users_index_path,id: 'cart_id' %></li>
+								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", eshop_wishlist_path ,id: 'cart_id' %></li>
+								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>
 								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path,id: 'cart_id' %></li>
+								<li><%= link_to 'Sign Up', new_user_registration_path,id: 'cart_id' %></li>
 								<li><i class="fa fa-lock">
 									<% if user_signed_in? %>
 									<%= link_to 'Sign Out', destroy_user_session_path, data: {:turbo_method => :delete},id: 'cart_id' %>
 									<% else %>
 									<%= link_to 'Sign In', new_user_session_path,id: 'cart_id' %>
 									<% end %>
-									</i></li>
+									</i>
+								</li>
 							</ul>
 						</div>
 					</div>

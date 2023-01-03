@@ -134,9 +134,7 @@
 								<%= form.submit "Save Address", class: "btn btn-primary" %>
 
 							</div>
-						<% end %>
-						<%= link_to "Checkout", orders_index_path %>
-						
+						<% end %>						
 					</div>
 				</div>
 			</div>
@@ -185,7 +183,9 @@
 						</tr>
 							<% end %>
 
-					
+					<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out" %>
+						
+					<%= link_to "COD", cash_on_delivary_path, class: 'btn btn-default check_out' %>
 					</tbody>
 				</table>
 			</div>

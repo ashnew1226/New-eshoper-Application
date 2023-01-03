@@ -4,17 +4,21 @@ Rails.application.routes.draw do
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'home/index'
+  get 'users/index'
+  get 'users/myorder', to: 'users#myorder', as: 'myorder'
   root 'eshop#index'
   get 'eshop/login'
   get 'eshop/blog_single'
   get 'eshop/blog'
   get 'eshop/cart'
   post 'eshop/cart', to: 'eshop#cart', as: 'coupons'
+  post 'eshop/apply_coupon', to: 'eshop#apply_coupon', as: 'apply_coupon'
   # patch 'eshop/cart', to: 'eshop#cart', as: 'coupons'
   get 'eshop/checkout'
   get 'eshop/contact_us'
   get 'eshop/error404'
   get 'eshop/payment_success'
+  get 'eshop/wishlist'
   # get 'eshop/shopping_cart'
   post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
   get 'eshop/product_details/:id', to: 'eshop#product_details', as: 'product_details'
@@ -37,7 +41,11 @@ Rails.application.routes.draw do
   get 'orders/index', to: 'orders#index'
   post 'orders/submit', to: 'orders#submit'
 
-  post 'orders/paypal/create_payment'  => 'orders#paypal_create_payment', as: :paypal_create_payment
-  post 'orders/paypal/execute_payment'  => 'orders#paypal_execute_payment', as: :paypal_execute_payment
+  get 'eshop/cash_on_delivary', to: 'eshop#cash_on_delivary', as: 'cash_on_delivary'
+  get 'eshop/success', to: 'eshop#success', as: 'order_success'
+
+  get 'eshop/add_to_wishlist/:id', to: 'eshop#add_to_wishlist', as: 'wishlist'
+  delete 'eshop/remove_from_wishlist/:id', to: 'eshop#remove_from_wishlist', as: 'remove_from_wishlist'
+
 end
 

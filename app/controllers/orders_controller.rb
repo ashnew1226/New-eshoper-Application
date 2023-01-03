@@ -34,7 +34,6 @@ class OrdersController < ApplicationController
       @user_order = UserOrder.new(order_params)
       @user_order.user_id = current_user.id
       @user_product = Product.find(params[:user_orders][:product_id])
-
     end
     
     def order_params
