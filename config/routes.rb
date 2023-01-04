@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'users/index'
   get 'users/myorder', to: 'users#myorder', as: 'myorder'
+  get 'users/track_order'
+  post 'users/track_order'
   root 'eshop#index'
   get 'eshop/login'
   get 'eshop/blog_single'

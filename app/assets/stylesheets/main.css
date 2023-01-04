@@ -2547,3 +2547,6 @@ td h4,p {
   border-radius: 50%;
   height: 170px;
 }
+#track_form_input{
+  width: fit-content;
+}

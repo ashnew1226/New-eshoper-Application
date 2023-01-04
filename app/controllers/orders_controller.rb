@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
     end
     
     def order_params
-      params.require(:user_orders).permit(:token, :payment_gateway, :charge_id, :amount)
+      params.require(:user_orders).permit(:token, :payment_gateway, :charge_id, :amount, :status)
 
     end
 

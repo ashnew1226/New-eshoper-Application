@@ -3,7 +3,7 @@ class UserOrder < ApplicationRecord
     has_many :products, through: :order_details
     belongs_to :coupon, optional: true
     belongs_to :user
-    enum status: { pending: 0, failed: 1, paid: 2, paypal_executed: 3}
+    enum order_status: { pending: 0, failed: 1, paid: 2, stripe_executed: 3, ordered: 4}
     enum payment_gateway: { stripe: 0, paypal: 1 }
 
 
@@ -13,12 +13,15 @@ class UserOrder < ApplicationRecord
     # belongs_to :billing_address, :class_name => "UserAddress"
     # belongs_to :shipping_address, :class_name => "UserAddress"
     def set_paid
-      self.status = UserOrder.statuses[:paid]
+      self.order_status = UserOrder.order_statuses[:paid]
+    end
+    def set_order
+      self.order_status = UserOrder.order_statuses[:ordered]
     end
     def set_failed
-      self.status = UserOrder.statuses[:failed]
+      self.order_status = UserOrder.order_statuses[:failed]
     end
-    def set_paypal_executed
-      self.status = UserOrder.statuses[:paypal_executed]
+    def set_stripe_executed
+      self.order_status = UserOrder.order_statuses[:stripe_executed]
     end
   end

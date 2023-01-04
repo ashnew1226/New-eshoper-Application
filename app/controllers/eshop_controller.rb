@@ -165,14 +165,17 @@ class EshopController < ApplicationController
         product_price_lists = []
         @total_amount = session[:total_amount]
         products = Product.where(id: @cart.map(&:id))
-		@user_order = UserOrder.create(user_id: current_user.id)
+        status = @user_order.set_order
+		@user_order = UserOrder.create(user_id: current_user.id, order_status: status)
+        # binding.pry
         if @user_order.save
+
+            puts "---user_order #{@user_order.inspect}"
             products.each do |product|
                 @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
                 total = (product.quantity)*(product.price)
                 product_price_lists << total
             end
-            # binding.pry
             @product_prices = product_price_lists
 		end
     end
@@ -183,7 +186,7 @@ class EshopController < ApplicationController
     end
 
     def user_order_params
-        params.require(:user_order).permit(:full_name, :mobile_number, :email, :address_1, :billing_state, :billing_city, :billing_zipcode, :address_2, :shipping_state, :shipping_city, :shipping_zipcode)
+        params.require(:user_order).permit(:full_name, :mobile_number, :email, :address_1, :billing_state, :billing_city, :billing_zipcode, :address_2, :shipping_state, :shipping_city, :shipping_zipcode, sta)
     end
 
     def set_total_price

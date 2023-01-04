@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_30_105033) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_03_115809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,10 +95,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_105033) do
   create_table "order_details", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "product_id", null: false
-    t.bigint "user_order_id", null: false
     t.integer "quantity"
     t.decimal "amount"
+    t.bigint "product_id", null: false
+    t.bigint "user_order_id", null: false
     t.index ["product_id"], name: "index_order_details_on_product_id"
     t.index ["user_order_id"], name: "index_order_details_on_user_order_id"
   end
@@ -196,13 +196,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_30_105033) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "coupon_id"
-    t.bigint "user_id", null: false
+    t.string "email"
     t.string "payment_id"
     t.string "error_message"
     t.string "customer_id"
     t.integer "payment_gateway"
     t.string "token"
-    t.integer "status", default: 0
+    t.bigint "user_id", null: false
+    t.integer "order_status"
     t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
     t.index ["user_id"], name: "index_user_orders_on_user_id"
   end

@@ -10,8 +10,7 @@ class RemoveFullNameFromUserOrders < ActiveRecord::Migration[7.0]
     remove_column :user_orders, :billing_state, :string
     remove_column :user_orders, :billing_city, :string
     remove_column :user_orders, :billing_zipcode, :string
-    remove_column :user_orders, :email, :string
+    # remove_column :user_orders, :email, :string
     rename_column :user_orders, :charge_id, :payment_id
-    add_column :user_orders, :status, :integer , default: 0
   end
 end
