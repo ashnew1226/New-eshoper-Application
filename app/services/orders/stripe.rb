@@ -11,9 +11,8 @@ class Orders::Stripe
       unless charge&.id.blank?
         # binding.pry
         # If there is a charge with id, set order paid.
-        user_order.charge_id = charge.id
+        user_order.payment_id = charge.id
         user_order.set_paid
-        user_order.amount = amount
         # binding.pry
       end
       rescue Stripe::StripeError => e

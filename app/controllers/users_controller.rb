@@ -23,9 +23,5 @@ class UsersController < ApplicationController
             flash[:notice] = "Please enter correct order id."
         end
     end
-    def contact_us
-        
-    end
-    
     
 end

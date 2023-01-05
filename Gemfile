@@ -95,3 +95,4 @@ gem "jquery-rails"
 gem "money-rails"
 gem 'paypal-sdk-rest'
 gem 'pay'
+gem 'MailchimpMarketing'

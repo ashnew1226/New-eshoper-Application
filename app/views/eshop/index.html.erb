@@ -87,11 +87,11 @@
 											<div class="productinfo text-center">
 												<%= image_tag product.ProductImage %>
 													<h2>₹<%= product.price %></h2>
-													<p><%= product.name.truncate(50) %></p>
+													<p><%= product.name.truncate(100) %></p>
 													<% if @cart.present? && @cart.include?(product) %>
-														<i class="fa fa-shopping-cart"></i><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart", data: {turbo_method: :delete} %>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart", data: {turbo_method: :delete} %></i>
 													<% else %>
-														<i class="fa fa-shopping-cart"></i><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart", data: {turbo_method: :post} %>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart", data: {turbo_method: :post} %></i>
 													<% end %>
 											</div>
 										</div>

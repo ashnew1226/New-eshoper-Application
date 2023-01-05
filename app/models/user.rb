@@ -11,6 +11,9 @@ class User < ApplicationRecord
   has_many :wishlists
   has_many :products, through: :wishlists
   has_one_attached :image
+
+  after_create :user_email, :admin_email
+
   def self.from_omniauth(auth)
 
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -20,4 +23,14 @@ class User < ApplicationRecord
       
     end
   end
+
+  def user_email
+    UserMailer.new_user_email(self).deliver_now
+  end
+  
+  def admin_email
+    UserMailer.new_user_admin_email.deliver_now
+  end
+
+
 end

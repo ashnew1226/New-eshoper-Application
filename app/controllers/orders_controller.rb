@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
     def index
       products = Product.all
       @products_purchase = @cart
-      @total_amount = total_amount
+      @total_amount = session[:total_amount]
       # binding.pry
       @products_subscription = products.where(name:nil, name:nil)
     end
@@ -20,6 +20,15 @@ class OrdersController < ApplicationController
     ensure
       if @user_order&.save
         if @user_order.paid?
+          product_price_lists = []
+          @total_amount = session[:total_amount]
+          products = Product.where(id: @cart.map(&:id))
+          products.each do |product|
+            @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
+            total = (product.quantity)*(product.price)
+            product_price_lists << total
+          end
+          UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
           return render 'eshop/payment_success'
         elsif @user_order.failed? && !@user_order.error_message.blank?
           return render html: @user_order.error_message

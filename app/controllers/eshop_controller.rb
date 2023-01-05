@@ -4,6 +4,7 @@ class EshopController < ApplicationController
     before_action :price_with_coupon, only: [:cart,:checkout]
     before_action :final_price_checkout, only: [:checkout]
     before_action :cart_price_with_shipping, only: [:cart]
+    before_action :user_shipping_address, only: [:add_subscription_mailchimp]
     # before_action :prepare_new_order, only: [:cash_on_delivary]
     # binding.pry
     def index
@@ -50,6 +51,7 @@ class EshopController < ApplicationController
 
     def shop
         @category = Category.where(parent_id: nil)
+        @products = Product.all
     end
 
     def blog
@@ -59,7 +61,6 @@ class EshopController < ApplicationController
     def blog_single
         @category = Category.where(parent_id: nil)
     end
-
     def add_user_address
         @user_address = UserAddress.new(user_address_params)
         user_address_params.each do |item|
@@ -83,7 +84,6 @@ class EshopController < ApplicationController
         else
             session[:total_amount] = @produts_price
         end
-        binding.pry
     end
 
     def apply_coupon
@@ -110,9 +110,47 @@ class EshopController < ApplicationController
             render 'eshop/checkout'
         end
     end
-    def contact_us
-
+    def contact
+          @contact_detail = Contact.all
     end
+    def contact_us
+        @contact = Contact.new(contact_params)
+        respond_to do |format|   
+          if @contact.save   
+            format.html { redirect_to eshop_contact_path, notice: 'Your responce submitted successfully' }   
+            format.json { render :contact, status: :created, location: @contact }   
+          else   
+            format.html { render :contact }   
+            format.json { render json: @contact.errors, status: :unprocessable_entity }   
+          end   
+        end 
+    end
+    
+    def add_subscription_mailchimp
+        client = MailchimpMarketing::Client.new()
+            client.set_config({
+                :api_key => '5bac1b07f0e243c9e9a44971ce8f4f79',
+                :server => 'us11'
+            })
+            list_id = "e6757e33e0"
+            result = client.lists.add_list_member list_id, {
+                email_address: params[:email],
+                status: "subscribed",
+                merge_fields: {
+                FNAME: params[:fname],
+                LNAME: params[:lname],
+                ADDRESS: {
+                addr1: params[:addr1],
+                city: params[:city],
+                state: params[:state],
+                zip: params[:zip],
+                },
+            },
+            }
+            flash[:notice] = "subscribed !!!"
+    end
+    
+
     def error404
         
     end
@@ -169,14 +207,14 @@ class EshopController < ApplicationController
 		@user_order = UserOrder.create(user_id: current_user.id, order_status: status)
         # binding.pry
         if @user_order.save
-
-            puts "---user_order #{@user_order.inspect}"
             products.each do |product|
                 @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
                 total = (product.quantity)*(product.price)
                 product_price_lists << total
             end
             @product_prices = product_price_lists
+            binding.pry
+            UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
 		end
     end
     private
@@ -188,6 +226,11 @@ class EshopController < ApplicationController
     def user_order_params
         params.require(:user_order).permit(:full_name, :mobile_number, :email, :address_1, :billing_state, :billing_city, :billing_zipcode, :address_2, :shipping_state, :shipping_city, :shipping_zipcode, sta)
     end
+
+    def contact_params
+        params.require(:contact).permit(:name, :email, :contact_no, :message)
+    end
+    
 
     def set_total_price
         @cart_products = []
