@@ -1,0 +1,65 @@
+
+	 <div id="contact-page" class="container">
+    	<div class="bg">
+	    	<div class="row">    		
+	    		<div class="col-sm-12">    			   			
+					<h2 class="title text-center">Contact <strong>Us</strong></h2>    			    				    				
+					<div id="gmap" class="contact-map">
+					</div>
+				</div>			 		
+			</div>    	
+    		<div class="row">  	
+	    		<div class="col-sm-8">
+	    			<div class="contact-form">
+	    				<h2 class="title text-center">Get In Touch</h2>
+	    				<div class="status alert alert-success" style="display: none"></div>
+						<%= form_with model: Contact,url: eshop_contact_us_path, turbo_method: :post, remote: true,class:"contact-form row" do |form| %>
+
+				            <div class="form-group col-md-6">
+								<%= form.text_field :name, class:"form-control",placeholder:"Name" ,autocomplete: false%>
+				            </div>
+				            <div class="form-group col-md-6">
+								<%= form.text_field :email, class:"form-control",placeholder:"Email" %>
+				            </div>
+				            <div class="form-group col-md-12">
+				                <%= form.text_field :contact_no, class:"form-control",placeholder:"Subject" %>
+				            </div>
+				            <div class="form-group col-md-12">
+				                <%= form.text_area :message, class:"form-control",placeholder:"Message" %>
+				            </div>
+				            <div class="form-group col-md-12">
+				                <%= form.submit "Submit", class:"btn btn-primary pull-right" %>
+				            </div>
+						<% end %>
+	    			</div>
+	    		</div>
+	    		<div class="col-sm-4">
+	    			<div class="contact-info">
+	    				<h2 class="title text-center">Customer Queries</h2>
+						<% if current_user.present? %>
+	    				<p><strong><%=@contact_detail.last.name%></strong>: <%= @contact_detail.last.message %></p>
+	    				<p><strong>Admin</strong>: <%= @contact_detail.last.note_admin %></p>
+
+						<% end %>
+	    				<div class="social-networks">
+	    					<h2 class="title text-center">Social Networking</h2>
+							<ul>
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-google-plus"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-youtube"></i></a>
+								</li>
+							</ul>
+	    				</div>
+	    			</div>
+    			</div>    			
+	    	</div>  
+    	</div>	
+    </div><!--/#contact-page-->
