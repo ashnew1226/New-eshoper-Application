@@ -26,6 +26,7 @@ class EshopController < ApplicationController
     def add_to_wishlist
         product = Product.find(params[:id])
         @wishlist_product = current_user.wishlists.find_by(product_id: product.id)
+        binding.pry
         if @wishlist_product.present?
             flash[:alert] = "Product allready present in wishlist"
             render 'eshop/index'
@@ -116,7 +117,8 @@ class EshopController < ApplicationController
     def contact_us
         @contact = Contact.new(contact_params)
         respond_to do |format|   
-          if @contact.save   
+          if @contact.save
+            ContactMailer.with(contact: @contact).contact_mail(current_user).deliver_now  
             format.html { redirect_to eshop_contact_path, notice: 'Your responce submitted successfully' }   
             format.json { render :contact, status: :created, location: @contact }   
           else   

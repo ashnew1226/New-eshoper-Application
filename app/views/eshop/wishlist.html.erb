@@ -1,32 +1,32 @@
 <div class="container table-responsive cart_info">
-				<table class="table table-condensed">
-					<thead>
-						<tr class="cart_menu" style="background-color: bisque;">
-							<td class="image" style="padding-left: 42px;">Product</td>
-							<td class="description" style="padding-left: 80px;" >Name</td>
-							<td class="price" style="padding-left: 72px;">Price</td>
-						</tr>
-					</thead>
-					<tbody>
-						<% @wishlist.each do |wishlist| %>
-                        <% product = wishlist.product%>
-                            <tr>
-                                <td class="cart_product">
-                                    <a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
-                                </td>
-                                <td class="cart_description">
-                                    <h4><a href=""><%= product.name %></a></h4>
-                                </td>
-                                <td class="cart_price">
-                                    <p><%= product.price %></p>
-                                </td>
-                                <td class="cart_delete">
-                                    <%= link_to remove_from_wishlist_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_quantity_delete" do %>
-                                        <i class="fa fa-times"></i>
-                                    <% end %>
-                                </td>
-                            </tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
+    <table class="table table-condensed">
+        <thead>
+            <tr class="cart_menu" style="background-color: bisque;">
+                <td class="image" style="padding-left: 42px;">Product</td>
+                <td class="description" style="padding-left: 80px;" >Name</td>
+                <td class="price" style="padding-left: 72px;">Price</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% @wishlist.each do |wishlist| %>
+            <% product = wishlist.product%>
+                <tr>
+                    <td class="cart_product">
+                        <a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
+                    </td>
+                    <td class="cart_description">
+                        <h4><a href=""><%= product.name %></a></h4>
+                    </td>
+                    <td class="cart_price">
+                        <p><%= product.price %></p>
+                    </td>
+                    <td class="cart_delete">
+                        <%= link_to remove_from_wishlist_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_quantity_delete" do %>
+                            <i class="fa fa-times"></i>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

@@ -96,3 +96,4 @@ gem "money-rails"
 gem 'paypal-sdk-rest'
 gem 'pay'
 gem 'MailchimpMarketing'
+gem 'whenever'

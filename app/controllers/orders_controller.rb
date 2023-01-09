@@ -15,7 +15,6 @@ class OrdersController < ApplicationController
       if order_params[:payment_gateway] == "stripe"
        @product = prepare_new_order
         Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount)
-      elsif order_params[:payment_gateway] == "paypal"
       end
     ensure
       if @user_order&.save
