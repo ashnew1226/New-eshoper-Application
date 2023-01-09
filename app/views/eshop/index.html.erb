@@ -87,7 +87,7 @@
 											<div class="productinfo text-center">
 												<%= image_tag product.ProductImage %>
 													<h2>₹<%= product.price %></h2>
-													<p><%= product.name.truncate(100) %></p>
+													<p><%= product.name.truncate(90) %></p>
 													<% if @cart.present? && @cart.include?(product) %>
 														<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart", data: {turbo_method: :delete} %></i>
 													<% else %>
