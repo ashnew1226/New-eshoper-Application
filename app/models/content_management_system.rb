@@ -1,0 +1,2 @@
+class ContentManagementSystem < ApplicationRecord
+end
