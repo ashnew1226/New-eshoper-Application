@@ -18,4 +18,7 @@ every 1.day do
   rake 'batch:send_messages'
 end
 
+every 7.day do
+    rake 'batch:week_wishlist'
+end
 # Learn more: http://github.com/javan/whenever
