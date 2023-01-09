@@ -11,6 +11,7 @@ class EshopController < ApplicationController
         @banners = BannerManagement.all
         @products = Product.all.limit(6)
         @category = Category.where(parent_id: nil)
+        @cms = ContentManagementSystem.last
     end
 
     def shopping_cart
@@ -27,7 +28,6 @@ class EshopController < ApplicationController
         @wishlist = Wishlist.all
         product = Product.find(params[:id])
         @wishlist_product = current_user.wishlists.find_by(product_id: product.id)
-        binding.pry
         if @wishlist.include?(@wishlist_product)
             flash[:alert] = "Product allready present in wishlist"
             redirect_to root_path
@@ -36,7 +36,6 @@ class EshopController < ApplicationController
             flash[:notice] = "Product added to wishlist"
             redirect_to root_path
         end
-        # binding.pry
     end
     def remove_from_wishlist
         product = Product.find(params[:id])
