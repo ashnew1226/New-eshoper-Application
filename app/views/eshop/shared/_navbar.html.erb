@@ -1,9 +1,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+	<meta name="description" content="<%= @cms.meta_description %>">
+  	<meta name="keywords" content="<%= @cms.meta_keywords %>">
     <meta name="author" content="">
-    <title>Home | E-Shopper</title>
+    <title><%= @cms.title %></title>
 	<%= stylesheet_link_tag 'bootstrap.min.css' %>
 	<%= stylesheet_link_tag 'font-awesome.min.css' %>
 	<%= stylesheet_link_tag 'prettyPhoto.css' %>
