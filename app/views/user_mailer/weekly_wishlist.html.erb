@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+    ul li{
+        list-style-type: circle;
+    }
+    </style>
+  </head>
+  <body>
+    <p>Products added to wishlist in this week.<br>
+    ---------------------------------------------
+    </p>
+    <% @total_products.each do |product|%>
+        <ul>
+        <li>poduct-name:<%= product.product.name %></li>
+        <li>product_price:<%= product.product.price %></li>
+        </ul>
+    <% end %>
+    <p>Total products quantity : <strong><%= @total_products.count %></strong></p> 
+  </body>
+</html>
