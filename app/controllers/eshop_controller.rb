@@ -24,12 +24,13 @@ class EshopController < ApplicationController
         @wishlist = Wishlist.all
     end
     def add_to_wishlist
+        @wishlist = Wishlist.all
         product = Product.find(params[:id])
         @wishlist_product = current_user.wishlists.find_by(product_id: product.id)
         binding.pry
-        if @wishlist_product.present?
+        if @wishlist.include?(@wishlist_product)
             flash[:alert] = "Product allready present in wishlist"
-            render 'eshop/index'
+            redirect_to root_path
         else 
             @wishlist_product = current_user.wishlists.find_or_create_by(product_id: product.id)
             flash[:notice] = "Product added to wishlist"
