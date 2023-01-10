@@ -7,20 +7,22 @@
 				<li class="active">Shopping Cart</li>
 			</ol>
 		</div>
+		<%if session[:cart].empty?%>
+		<p>Please add product...</p>
+		<% else %>
 		<div class="table-responsive cart_info">
 			<table class="table table-condensed">
 				<thead>
 					<tr class="cart_menu">
 						<td class="image">Item</td>
-						<td class="description"></td>
+						<td class="description">Description</td>
 						<td class="price">Price</td>
 						<td class="quantity">Quantity</td>
 						<td class="total">Total</td>
-						<td></td>
 					</tr>
 				</thead>
-				<tbody>
 					<% @cart.each do |product| %>
+				<tbody>
 					<tr>
 						<td class="cart_product">
 							<a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
@@ -43,16 +45,14 @@
 						<td class="cart_total">
 							<p class="cart_total_price"><%= product.price %></p>
 						</td>
-						<td class="cart_delete">
+						<td class="cart_delete" style="padding:11px;">
 							<%= link_to remove_from_cart1_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_quantity_delete" do %>
 								<i class="fa fa-times"></i>
 							<% end %>
 						</td>
 					</tr>
-						<% end %>
-
-				
 				</tbody>
+			<% end %>
 			</table>
 		</div>
 	</div>
@@ -75,47 +75,16 @@
 							<%= form.label :coupon_code %>
 							<%= form.text_field :code, class: "form-control" , placeholder: "enter coupon code" %>
 						</div>
-							
 						</li>
-						
 						<li>
-							<div class="mb-3">
-								<%= form.submit "Apply", class: "btn btn-primary" %>
-							</div>
+						<div class="mb-3">
+							<%= form.submit "Apply", class: "btn btn-primary" %>
+						</div>
 						</li>
 					</ul>
 					<% end %>
-					<ul class="user_info">
-						<%= form_for UserAddress.new,  url: user_address_path,turbo_method: :post, remote: true do |form| %>
-						<li class="single_field">
-							<label><%= form.label :city %></label>
-
-							<%#= select_tag (:city_id, options_for_select([['Lisbon', 1], ['Madrid', 2], ['osmanabad',3]]))%>
-							<%#= select_tag(:city, options_for_select([['Lisbon', 1] , ['Madrid', 2], ['osmanabad',3]])) %>
-								<%= form.text_field :city %>
-
-						<li class="single_field">
-							<label><%= form.label :state %></label>
-						<%#= select_tag(:state, options_for_select([['Tamilnadu', 1], ['Goa', 2], ['Maharashtra',3]])) %>
-							<%= form.text_field :state %>
-
-						
-						</li>
-						<li class="single_field">
-							<label><%= form.label :country %></label>
-						<%#= select_tag(:country, options_for_select([['India', 1], ['Pakistan', 2], ['Italy',3]])) %>
-							<%= form.text_field :country %>
-
-						</li>
-						<li class="single_field zip-field">
-							<label><%= form.label :zipcode %></label>
-							<%= form.text_field :zipcode %>
-						</li>
-						<%= form.submit "Continue", class:"btn btn-default check_out" %>
-					<% end %>
-					</ul>
-					<a class="btn btn-default update" href="">Get Quotes</a>
-					<a class="btn btn-default check_out" href="">Continue</a>
+				
+					
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -156,3 +125,97 @@
 		</div>
 	</div>
 </section><!--/#do_action-->
+
+<% end %>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="cart_product">
+								<a href=""><img src="images/cart/one.png" alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="">Colorblock Scuba</a></h4>
+								<p>Web ID: 1089772</p>
+							</td>
+							<td class="cart_price">
+								<p>$59</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a class="cart_quantity_up" href=""> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+									<a class="cart_quantity_down" href=""> - </a>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">$59</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+
+						<tr>
+							<td class="cart_product">
+								<a href=""><img src="images/cart/two.png" alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="">Colorblock Scuba</a></h4>
+								<p>Web ID: 1089772</p>
+							</td>
+							<td class="cart_price">
+								<p>$59</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a class="cart_quantity_up" href=""> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+									<a class="cart_quantity_down" href=""> - </a>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">$59</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="cart_product">
+								<a href=""><img src="images/cart/three.png" alt=""></a>
+							</td>
+							<td class="cart_description">
+								<h4><a href="">Colorblock Scuba</a></h4>
+								<p>Web ID: 1089772</p>
+							</td>
+							<td class="cart_price">
+								<p>$59</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a class="cart_quantity_up" href=""> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+									<a class="cart_quantity_down" href=""> - </a>
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">$59</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
