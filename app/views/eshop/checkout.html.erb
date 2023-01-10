@@ -8,10 +8,10 @@
 				</ol>
 			</div><!--/breadcrums-->
 
-			<div class="step-one">
+			<%# <div class="step-one">
 				<h2 class="heading">Step1</h2>
-			</div>
-			<div class="checkout-options">
+			</div> %>
+			<%# <div class="checkout-options">
 				<h3>New User</h3>
 				<p>Checkout options</p>
 				<ul class="nav">
@@ -25,10 +25,10 @@
 						<a href=""><i class="fa fa-times"></i>Cancel</a>
 					</li>
 				</ul>
-			</div><!--/checkout-options-->
+			</div><!--/checkout-options--> %>
 
 			<div class="register-req">
-				<p>Please use Register And Checkout to easily get access to your order history, or use Checkout as Guest</p>
+				<p>Please use Register And Checkout to easily get access to your order history.</p>
 			</div><!--/register-req-->
 
 			<div class="shopper-informations">
@@ -73,40 +73,40 @@
 							</li>
 						</ul>
 
-						<form class="card p-2">
+						<%# <form class="card p-2">
 							<div class="input-group">
 							<input type="text" class="form-control" placeholder="Promo code">
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-secondary">Redeem</button>
 							</div>
 							</div>
-						</form>
+						</form> %>
 						</div>
 						<div class="col-md-8 order-md-1">
 						<h4 class="mb-3">Address</h4>
 		
 						<%# <form class="needs-validation" novalidate=""> %>
 						<%= form_for UserAddress.new,  url: eshop_user_order_information_path,turbo_method: :post, remote: true do |form| %>
-							<div class="row">
+							<div class="row" >
 								<div class="mb-3">
-									<%= form.label :Local_address %>
+									<%= form.label :Local_address,class:"form-margin" %>
 									<%= form.text_field :shipping_address, class:"form-control" %>
 								</div>
 								<div class="row" style="margin-bottom: 50px;">
 									<div class="col-md-6 mb-3">
-										<label for="country">City</label>
+										<label  class="form-margin" for="country">City</label>
 										<%= form.text_field :city, class: "form-control" %>
 									</div>
 									<div class="col-md-6 mb-3">
-										<label for="state">State</label>
+										<label for="state" class="form-margin">State</label>
 										<%= form.text_field :state, class: "form-control" %>
 									</div>
 									<div class="col-md-6 mb-3">
-										<label for="state">Country</label>
+										<label class="form-margin" for="state">Country</label>
 										<%= form.text_field :country, class: "form-control" %>
 									</div>
 									<div class="col-md-6 mb-3">
-										<label for="zip">Zip</label>
+										<label class="form-margin" for="zip">Zip</label>
 										<%= form.text_field :zipcode, class: "form-control" %>
 									</div>	
 								</div>
@@ -122,23 +122,21 @@
 							<div class="payment-options" style="margin-top: 30px;">
 							  <%#= check_box_tag "pages[#{@user_order.id}]", true %>
 								<%#= label_tag  %>
-								<span>
-									<label><input type="checkbox"> Direct Bank Transfer</label>
-								</span>
-								<span>
-									<label><input type="checkbox"> Check Payment</label>
-								</span>
-								<span>
-									<label><input type="checkbox"> Paypal</label>
-								</span><br>
+								
 								<%= form.submit "Save Address", class: "btn btn-primary" %>
 
 							</div>
-						<% end %>						
+						<% end %>					
+						<div class="", style="margin-bottom: 30px;">
+					<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out" %>
+					<%= link_to "COD", cash_on_delivery_path, class: 'btn btn-default check_out' %>
+					</div>	
 					</div>
 				</div>
 			</div>
-
+			<%if session[:cart].empty?%>
+			
+			<% else %>
 			<div class="table-responsive cart_info">
 				<table class="table table-condensed">
 					<thead>
@@ -182,12 +180,14 @@
 							</td>
 						</tr>
 							<% end %>
-
-					<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out" %>
-						
-					<%= link_to "COD", cash_on_delivary_path, class: 'btn btn-default check_out' %>
+					
+					
 					</tbody>
+					
 				</table>
+						
 			</div>
+			<% end %>
+
 		</section> <!--/#cart_items-->
 						
