@@ -871,6 +871,15 @@ h2.title {
 	font-size: 24px;
 	font-weight: 700;
 }
+
+.productinfos h2{
+	color: #FE980F;
+	font-family: 'Roboto', sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+
 .product-overlay h2{
 	color: #fff;
 	font-family: 'Roboto', sans-serif;
@@ -886,9 +895,25 @@ h2.title {
   color: #696763;
 }
 
-.productinfo img{
-  width: 100%;
+.productinfos p{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #696763;
 }
+.productinfo img{
+  width: 80%;
+  height: 140px;
+}
+.productinfos img{
+  width: 80%;
+  height: 195px;
+
+}
+.productinfos{
+  position:relative;
+ }
+ 
 
 .productinfo{
  position:relative;
@@ -1902,7 +1927,7 @@ h2.title {
   width: 47%
 }
 
-
+23510527625
 .shopper-info > form > input, 
 .form-two > form > select, 
 .form-two > form > input, 
@@ -2532,7 +2557,7 @@ h2.title {
   display:flex;
 }
 td h4,p {
-  padding-left: 75px;
+  padding-left: 3px;
 
 }
 .inline_nav_link{
@@ -2553,4 +2578,9 @@ td h4,p {
 .newfa {
   font-size: 29px;
   display: inline-flex;
+}
+
+.form-margin{
+  margin-bottom: 16px;
+  margin-top: 10px;
 }
