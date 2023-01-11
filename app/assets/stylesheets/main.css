@@ -2584,3 +2584,21 @@ td h4,p {
   margin-bottom: 16px;
   margin-top: 10px;
 }
+.position_class{
+  float: right;
+  margin-bottom: 10px;
+}
+
+.sign_up_btn{
+  margin-left: 42%;
+  margin-right: 44%;
+  width: 136px;
+  border-radius: 10px !important;
+}
+
+.sign_in_btn{
+  margin-left: 40%;
+  margin-right: 44%;
+  width: 136px;
+  border-radius: 10px !important;
+}
