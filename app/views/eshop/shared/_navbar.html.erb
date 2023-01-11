@@ -93,7 +93,10 @@
 								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", eshop_wishlist_path ,id: 'cart_id' %></li>
 								<!--<li><i class="fa fa-shopping-cart"></i> <%#= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>-->
 								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path, id: 'cart_id' %><span id='number',class="badge badge-secondary badge-pill"><%#= @cart_quantity %></span></li>
+								<%if user_signed_in? %>
+								<% else %>
 								<li><%= link_to 'Sign Up', new_user_registration_path,id: 'cart_id' %></li>
+								<% end %>
 								<li><i class="fa fa-lock">
 									<% if user_signed_in? %>
 									<%= link_to 'Sign Out', destroy_user_session_path, data: {:turbo_method => :delete},id: 'cart_id' %>

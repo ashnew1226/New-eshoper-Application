@@ -114,7 +114,9 @@
 							<div class="address_info">
 							<p>
 							<% if @user_addresses.present? %>
-									<strong></strong><%= @user_addresses.shipping_address %> 
+									<strong>
+									<%= radio_button("user", "user_addresses", "@useraddress")%>
+									</strong><%= @user_addresses.shipping_address %> 
 									<%= @user_addresses.city %> <%= @user_addresses.state %> <%= @user_addresses.country %> <%= @user_addresses.zipcode %>
 							<% end %>
 							</p>

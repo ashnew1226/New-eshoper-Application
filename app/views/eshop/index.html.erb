@@ -50,7 +50,9 @@
 						<%= render partial: "eshop/shared/sidebar"%>		
 						
 						
-						
+						<div class="shipping text-center"><!--shipping-->
+							<%= image_tag "home/shipping.jpg" %>
+						</div>
 						
 					</div>
 				</div>
@@ -83,6 +85,8 @@
 								</div>
 							<% end %>
 						<% end %>
+						<%= link_to "More Products >>",eshop_shop_path, class:"btn btn-primary position_class" %>
+						<%# <button class="" style="float:right;">More Products</button> %>
 					</div><!--features_items-->					
 				</div>
 			</div>

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:google_oauth2, :facebook, :github]
-  has_many :user_orders
+  has_many :user_orders, dependent: :destroy
   has_many :user_addresses
   has_many :coupons_useds
   has_many :coupons, through: :coupons_useds
@@ -13,6 +13,9 @@ class User < ApplicationRecord
   has_one_attached :image
 
   after_create :user_email, :admin_email
+
+  validates :firstname, presence: { message: "first name is required." }
+  validates :lastname, presence: { message: "last name is required." }
 
   def self.from_omniauth(auth)
 

@@ -1,5 +1,6 @@
 
 	<footer id="footer"><!--Footer-->
+	<div class="container-fluid">
 		<div class="footer-top">
 			<div class="container">
 				<div class="row">
@@ -134,7 +135,7 @@
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
-							<h2>About Shopper</h2>
+							<h2>Subscribe Here</h2>
 							<% if user_signed_in? %>
 								<%=form_with url: mailchimp_users_path, local: true,class:"searchform" do |form| %>
 									<% address = current_user.user_addresses.last%>
@@ -165,6 +166,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 		
 	</footer><!--/Footer-->
 	

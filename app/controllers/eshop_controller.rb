@@ -1,5 +1,5 @@
 class EshopController < ApplicationController
-    skip_before_action :authenticate_user!
+    before_action :authenticate_user!
     before_action :set_total_price, only: [:cart]
     before_action :price_with_coupon, only: [:cart,:checkout]
     before_action :final_price_checkout, only: [:checkout]
@@ -22,7 +22,9 @@ class EshopController < ApplicationController
         
     end
     def wishlist
-        @wishlist = Wishlist.all
+        @wishlist = current_user.wishlists.all
+        @cms = ContentManagementSystem.last
+
     end
     def add_to_wishlist
         @wishlist = Wishlist.all
@@ -46,6 +48,7 @@ class EshopController < ApplicationController
         end
     end
     def product_details
+        @cms = ContentManagementSystem.last
         @category = Category.find(params[:id])
         @products = @category.products
     end
@@ -53,14 +56,17 @@ class EshopController < ApplicationController
     def shop
         @category = Category.where(parent_id: nil)
         @products = Product.all
+        @cms = ContentManagementSystem.last
     end
 
     def blog
         @category = Category.where(parent_id: nil)
+        @cms = ContentManagementSystem.last
 
     end
     def blog_single
         @category = Category.where(parent_id: nil)
+        @cms = ContentManagementSystem.last
     end
     def add_user_address
         @user_address = UserAddress.new(user_address_params)
@@ -77,6 +83,7 @@ class EshopController < ApplicationController
     end  
 
     def cart
+        @cms = ContentManagementSystem.last
         @category = Category.where(parent_id: nil)
         price_with_coupon
         @produts_price = cart_price_with_shipping
@@ -92,11 +99,13 @@ class EshopController < ApplicationController
     end
     
     def checkout
+        @cms = ContentManagementSystem.last
         # binding.pry
-        @checkout_amount = params[:price]
-        puts "*****************#{@checkout_amount}********************"
+        # @checkout_amount = params[:price]
+        # puts "*****************#{@checkout_amount}********************"
         @user_order = UserOrder.new
-        @user_addresses = UserAddress.last
+        @user_addresses = current_user.user_addresses.last
+        binding.pry
         # render "eshop/cash"
         # redirect_to cash_on_delivary_path
     end
@@ -115,6 +124,7 @@ class EshopController < ApplicationController
           @contact_detail = Contact.all
     end
     def contact_us
+        @cms = ContentManagementSystem.last
         @contact = Contact.new(contact_params)
         respond_to do |format|   
           if @contact.save
@@ -149,36 +159,39 @@ class EshopController < ApplicationController
                 },
             },
             }
+            redirect_to root_path
             flash[:notice] = "subscribed !!!"
     end
-    
 
-    def error404
-        
-    end
     def payment_success
+        @cms = ContentManagementSystem.last
         # binding.pry
         @user_order = current_user.user_orders.last
     end
 
        
     def add_to_cart
+        @category = Category.where(parent_id: nil)
         id = params[:id].to_i
         a = session[:cart] << id unless session[:cart].include?(id)
         # binding.pry   @product_price_lists = [] 
+        redirect_to root_path
         flash[:notice] = "product added successfully"
-        redirect_to add_to_cart_path
     end
     
     def remove_from_cart
         id = params[:id].to_i
         session[:cart].delete(id)
         redirect_to remove_from_cart_path
+        flash[:notice] = "product removed successfully"
+
     end
     def remove_from_cart1
         id = params[:id].to_i
         session[:cart].delete(id)
         redirect_to eshop_cart_path
+        flash[:notice] = "product removed successfully"
+
     end
 
    
@@ -195,12 +208,14 @@ class EshopController < ApplicationController
         @quantity += 1
 
     end
-    def cash_on_delivary
+    def cash_on_delivery
+        @cms = ContentManagementSystem.last
         @orders_products = @cart
         @total_amount = session[:total_amount]
         @newaddress = user_shipping_address
     end
     def success
+        @cms = ContentManagementSystem.last
         @user_order = UserOrder.new
         product_price_lists = []
         @total_amount = session[:total_amount]
@@ -215,8 +230,9 @@ class EshopController < ApplicationController
                 product_price_lists << total
             end
             @product_prices = product_price_lists
-            binding.pry
+            # binding.pry
             UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
+            session[:cart] = nil
 		end
     end
     private
@@ -295,8 +311,6 @@ class EshopController < ApplicationController
             # binding.pry
             if @used_coupon != coupon.code && cp.blank?
                 cp
-            else
-                flash[:alert] = "Invalid coupon"
             end
         end 
     end

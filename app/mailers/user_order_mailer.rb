@@ -1,6 +1,5 @@
 class UserOrderMailer < ApplicationMailer
     def new_order(current_user)
-        binding.pry
         @products = params[:product]
         @order = params[:order]
         @amount = params[:amount]

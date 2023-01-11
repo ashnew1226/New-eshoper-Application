@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   get 'orders/index', to: 'orders#index'
   post 'orders/submit', to: 'orders#submit'
 
-  get 'eshop/cash_on_delivary', to: 'eshop#cash_on_delivary', as: 'cash_on_delivary'
+  get 'eshop/cash_on_delivery', to: 'eshop#cash_on_delivery', as: 'cash_on_delivery'
   get 'eshop/success', to: 'eshop#success', as: 'order_success'
 
   get 'eshop/add_to_wishlist/:id', to: 'eshop#add_to_wishlist', as: 'wishlist'

@@ -4,27 +4,25 @@
       <div class="row">
         <%= render "users/shared/sidebar" %>
         <div class="col-sm-9 padding-right">
-        <div class="features_items"><!--fmy orders-->
-          <h2 class="title text-center">My Orders</h2>
-          <div class="col-sm-12">
-            <% @my_order.each do |myorder| %>
-            <span>Order Id : <strong><%= myorder.id %></strong></span>
-            <% product = myorder.products %>
-            <% product.each do |order_product| %>
-            <div class="product-image-wrapper">
-              <div class="single-products">
-                <div class="productinfo text-center">
-                <%= image_tag order_product.ProductImage, style: 'height:200px;width:auto;' %>
-                  <h2><%= order_product.price %></h2>
-                  <p><%= order_product.name%></p>
+          <div class="features_items"><!--fmy orders-->
+            <h2 class="title text-center">My Orders</h2>
+              <% @my_order.each do |myorder| %>
+              <span>Order Id : <strong><%= myorder.id %></strong></span>
+              <% product = myorder.products %>
+              <% product.each do |order_product| %>
+              <div class="product-image-wrapper">
+                <div class="single-products">
+                  <div class="productinfo text-center">
+                  <%= image_tag order_product.ProductImage, style: 'height:200px;width:auto;' %>
+                    <h2><%= order_product.price %></h2>
+                    <p><%= order_product.name%></p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <% end %>
-            <% end %>
-          </div>
-        </div><!--my orders-->
-      </div>
+              <% end %>
+              <% end %>
+          </div><!--my orders-->
+        </div>
       </div>
     </div>
   </div>
