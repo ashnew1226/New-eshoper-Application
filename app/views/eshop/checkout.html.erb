@@ -88,6 +88,29 @@
 						<%# <form class="needs-validation" novalidate=""> %>
 						<%= form_for UserAddress.new,  url: eshop_user_order_information_path,turbo_method: :post, remote: true do |form| %>
 							<div class="row" >
+								<% if @address.present? %>
+									<div class="form-check">
+										<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+										<%# radio_button_tag 'color', "green", true, class: "color_input" %>
+										
+											<%= radio_button_tag(:address,@address,true) %>
+											
+										
+											<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
+											<label class="form-check-label" for="flexRadioDefault2">
+											<%= @address%>
+											</label>
+										</ol>
+										</nav>
+										<button class="btn btn-primary" id="display_btn" onclick="buttonFunc()">Click Here to add new address</button>
+									</div>
+								<% else %>
+								<p>Please add your address........</p>
+
+								<% end %>
+
+
 								<div class="mb-3">
 									<%= form.label :Local_address,class:"form-margin" %>
 									<%= form.text_field :shipping_address, class:"form-control" %>
@@ -112,26 +135,25 @@
 								</div>
 							</div>
 							<div class="address_info">
-							<p>
-							<% if @user_addresses.present? %>
-									<strong>
-									<%= radio_button("user", "user_addresses", "@useraddress")%>
-									</strong><%= @user_addresses.shipping_address %> 
-									<%= @user_addresses.city %> <%= @user_addresses.state %> <%= @user_addresses.country %> <%= @user_addresses.zipcode %>
-							<% end %>
-							</p>
+
 						</div>
-							<div class="payment-options" style="margin-top: 30px;">
+							<div class="payment-options" style="margin-top: 30px; display: inline-flex;">
 							  <%#= check_box_tag "pages[#{@user_order.id}]", true %>
 								<%#= label_tag  %>
 								
-								<%= form.submit "Save Address", class: "btn btn-primary" %>
+								<% if @address.present? %>
+
+								<% else %>
+									<%= form.submit "Save Address", class: "btn btn-primary" %>
+								<% end %>
+									<%= form.submit "Save Address", class: "btn btn-primary", id: "savebtn" %>
+									<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out float-right" %>
+									<%= link_to "Cash On Delivery", cash_on_delivery_path, class: 'btn btn-default check_out float-right' %>
+								
 
 							</div>
 						<% end %>					
 						<div class="", style="margin-bottom: 30px;">
-					<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out" %>
-					<%= link_to "COD", cash_on_delivery_path, class: 'btn btn-default check_out' %>
 					</div>	
 					</div>
 				</div>
