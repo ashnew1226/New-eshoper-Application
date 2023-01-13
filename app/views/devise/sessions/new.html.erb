@@ -8,13 +8,13 @@
 				<h2 class="title text-center">Sign In</h2>
 				<div class="status alert alert-success" style="display: none"></div>
             <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
-          <% if f.object.errors.any? %>
-              <div class="alert alert-danger">
-                  <% resource.errors.full_messages.each do |msg| %>
-                  <div><%= msg %></div>
+            <% if f.object.errors.any? %>
+                <div class="alert alert-danger">
+                    <% resource.errors.full_messages.each do |msg| %>
+                      <div><%= msg %></div>
+                    <% end %>
+                </div>
             <% end %>
-              </div>
-          <% end %>
           <div class="form-group">
             <%= f.email_field :email, autofocus: true,class:"form-control",placeholder: "email", autocomplete: "email" %>
           </div>
