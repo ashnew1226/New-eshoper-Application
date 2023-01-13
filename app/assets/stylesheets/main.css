@@ -2602,3 +2602,9 @@ td h4,p {
   width: 136px;
   border-radius: 10px !important;
 }
+.float-right{
+  float:right;
+}
+#savebtn{
+  display: none;
+}
