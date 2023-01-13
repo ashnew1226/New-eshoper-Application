@@ -47,3 +47,11 @@
 // 	success: function(data) {},
 // 	error: function(data) {}
 //   })
+function buttonFunc() {
+	var x = document.getElementById("savebtn");
+	if (x.style.display === "none") {
+	  x.style.display = "block";
+	} else {
+	  x.style.display = "none";
+	}
+  }
