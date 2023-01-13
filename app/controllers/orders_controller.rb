@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     def submit
       if order_params[:payment_gateway] == "stripe"
        @product = prepare_new_order
-        Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount)
+        Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount, user_address: @address)
       end
     ensure
       if @user_order&.save
@@ -39,7 +39,8 @@ class OrdersController < ApplicationController
     private
     # Initialize a new order and and set its user, product and price.
     def prepare_new_order
-      @user_order = UserOrder.new(order_params)
+      @address = current_user.user_addresses.last
+      @user_order = UserOrder.new(order_params, )
       @user_order.user_id = current_user.id
       @user_product = Product.find(params[:user_orders][:product_id])
     end
