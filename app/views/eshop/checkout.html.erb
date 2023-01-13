@@ -86,17 +86,21 @@
 						<h4 class="mb-3">Address</h4>
 		
 						<%# <form class="needs-validation" novalidate=""> %>
-						<%= form_for UserAddress.new,  url: eshop_user_order_information_path,turbo_method: :post, remote: true do |form| %>
+						<%= form_for @user_address,  url: eshop_user_order_information_path,turbo_method: :post,data: {turbo: false} do |form| %>
 							<div class="row" >
+								<% if form.object.errors.any? %>
+									<div class="alert alert-danger">
+										<% form.object.errors.full_messages.each do |msg| %>
+										<div><%= msg %></div>
+										<% end %>
+									</div>
+								<% end %>
 								<% if @address.present? %>
 									<div class="form-check">
 										<nav aria-label="breadcrumb">
 										<ol class="breadcrumb">
 										<%# radio_button_tag 'color', "green", true, class: "color_input" %>
-										
 											<%= radio_button_tag(:address,@address,true) %>
-											
-										
 											<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
 											<label class="form-check-label" for="flexRadioDefault2">
 											<%= @address%>
@@ -106,11 +110,8 @@
 										<button class="btn btn-primary" id="display_btn" onclick="buttonFunc()">Click Here to add new address</button>
 									</div>
 								<% else %>
-								<p>Please add your address........</p>
-
+									<p>Please add your address........</p>
 								<% end %>
-
-
 								<div class="mb-3">
 									<%= form.label :Local_address,class:"form-margin" %>
 									<%= form.text_field :shipping_address, class:"form-control" %>
@@ -136,7 +137,7 @@
 							</div>
 							<div class="address_info">
 
-						</div>
+							</div>
 							<div class="payment-options" style="margin-top: 30px; display: inline-flex;">
 							  <%#= check_box_tag "pages[#{@user_order.id}]", true %>
 								<%#= label_tag  %>
