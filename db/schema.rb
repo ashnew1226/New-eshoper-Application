@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_09_094951) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_13_095215) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_094951) do
     t.text "note_admin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
   create_table "content_management_systems", force: :cascade do |t|
@@ -224,7 +226,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_094951) do
     t.string "token"
     t.bigint "user_id", null: false
     t.integer "order_status"
+    t.bigint "user_address_id", null: false
     t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
+    t.index ["user_address_id"], name: "index_user_orders_on_user_address_id"
     t.index ["user_id"], name: "index_user_orders_on_user_id"
   end
 
@@ -264,6 +268,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_094951) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contacts", "users"
   add_foreign_key "coupons_useds", "coupons"
   add_foreign_key "coupons_useds", "users"
   add_foreign_key "order_details", "products"
@@ -276,6 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_094951) do
   add_foreign_key "product_images", "products"
   add_foreign_key "user_addresses", "users"
   add_foreign_key "user_orders", "coupons"
+  add_foreign_key "user_orders", "user_addresses"
   add_foreign_key "user_orders", "users"
   add_foreign_key "wishlists", "products"
   add_foreign_key "wishlists", "users"
