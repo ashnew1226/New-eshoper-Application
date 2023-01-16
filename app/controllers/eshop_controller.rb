@@ -103,29 +103,38 @@ class EshopController < ApplicationController
         # binding.pry
         # @checkout_amount = params[:price]
         # puts "*****************#{@checkout_amount}********************"
+        # @user_address = UserAddress.new
         @user_order = UserOrder.new
-        @user_addresses = current_user.user_addresses.last
-        binding.pry
+        # binding.pry        
+        if user_shipping_address.blank?
+            
+        else
+            @address = user_shipping_address.join(" ")
+        end
         # render "eshop/cash"
         # redirect_to cash_on_delivary_path
     end
     
     def user_order_information
-        @user_address = current_user.user_addresses.build(user_address_params)
-        # binding.pry
-        if @user_address.save
-            puts "################## data is saved #################"
-            redirect_to eshop_checkout_path
-        else
-            render 'eshop/checkout'
+        binding.pry
+        @user_address = current_user.user_addresses.new(user_address_params)
+        respond_to do |format|
+            if @user_address.save
+                format.html { redirect_to eshop_checkout_path, notice: 'Your responce submitted successfully' }   
+                format.json { render :checkout, status: :created, location: @user_addres }
+            else
+                format.html { render :checkout }   
+                format.json { render json: @user_address.errors, status: :unprocessable_entity }
+            end
         end
     end
     def contact
-          @contact_detail = Contact.all
+        @contact = Contact.new
+        @contact_detail = Contact.all
     end
     def contact_us
         @cms = ContentManagementSystem.last
-        @contact = Contact.new(contact_params)
+        @contact = current_user.contacts.build(contact_params)
         respond_to do |format|   
           if @contact.save
             ContactMailer.with(contact: @contact).contact_mail(current_user).deliver_now  
@@ -149,23 +158,27 @@ class EshopController < ApplicationController
                 email_address: params[:email],
                 status: "subscribed",
                 merge_fields: {
-                FNAME: params[:fname],
-                LNAME: params[:lname],
-                ADDRESS: {
-                addr1: params[:addr1],
-                city: params[:city],
-                state: params[:state],
-                zip: params[:zip],
+                    FNAME: params[:fname],
+                    LNAME: params[:lname],
+                    ADDRESS: {
+                        addr1: params[:addr1],
+                        city: params[:city],
+                        state: params[:state],
+                        zip: params[:zip],
+                    },
                 },
-            },
             }
-            redirect_to root_path
+            response = client.lists.get_list_members_info(list_id)
+            
             flash[:notice] = "subscribed !!!"
+            rescue MailchimpMarketing::ApiError => e
+            puts "Error: #{e}"
+            flash[:alert] = "please make sure that you enter the address or your email id is correct."
+            redirect_to root_path
     end
 
     def payment_success
         @cms = ContentManagementSystem.last
-        # binding.pry
         @user_order = current_user.user_orders.last
     end
 
@@ -209,20 +222,19 @@ class EshopController < ApplicationController
 
     end
     def cash_on_delivery
-        @cms = ContentManagementSystem.last
         @orders_products = @cart
         @total_amount = session[:total_amount]
         @newaddress = user_shipping_address
     end
     def success
-        @cms = ContentManagementSystem.last
         @user_order = UserOrder.new
         product_price_lists = []
         @total_amount = session[:total_amount]
         products = Product.where(id: @cart.map(&:id))
         status = @user_order.set_order
-		@user_order = UserOrder.create(user_id: current_user.id, order_status: status)
-        # binding.pry
+        user_address = current_user.user_addresses.last
+		@user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id)
+        binding.pry
         if @user_order.save
             products.each do |product|
                 @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
@@ -324,12 +336,18 @@ class EshopController < ApplicationController
         @user_address = current_user.user_addresses.last
         # binding.pry
         @address = []
-        @address << @user_address.shipping_address
-        @address << @user_address.city
-        @address << @user_address.state
-        @address << @user_address.country
-        @address << @user_address.zipcode
-        @newaddress = @address
+        
+        if @user_address.blank?
+            
+        else
+            @address << @user_address.shipping_address
+            @address << @user_address.city
+            @address << @user_address.state
+            @address << @user_address.country
+            @address << @user_address.zipcode
+            @newaddress = @address
+        end
+        
 
     end
     
