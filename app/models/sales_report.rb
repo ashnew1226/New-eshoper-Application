@@ -1,0 +1,2 @@
+class SalesReport < ApplicationRecord
+end
