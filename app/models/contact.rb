@@ -1,4 +1,5 @@
 class Contact < ApplicationRecord
+    belongs_to :user
     after_update :send_admin_responce
 
     validates :name, :email,:message, presence: true
