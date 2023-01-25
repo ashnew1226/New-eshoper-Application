@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post '/add_subscription_mailchimp', to: "eshop#add_subscription_mailchimp", as:"mailchimp_users"
   post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
   get 'eshop/product_details/:id', to: 'eshop#product_details', as: 'product_details'
+  get 'eshop/cat_prods/:id', to: 'eshop#cat_prods', as: 'cat_prods'
   get 'eshop/shop'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   post "eshop/add_to_cart/:id", to: "eshop#add_to_cart", as: "add_to_cart"
