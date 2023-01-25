@@ -19,21 +19,11 @@
 
         <table>
         <p class="total-price" style = "float: right;margin-right: 50px;">Total - <%= @total_amount %> </p>
-        <thead>
-            <tr>
-                <td>
-                    <div class="user_address" style="font-size: 22px;">
-                    <h3>Shipping Address</h3>
-                    <strong><%=current_user.email %></strong>
-                    <% @newaddress.each do |address| %>
-                    <% check_box( "select address", address, { multiple: true }, nil) %>
-                    <%= address %>
-                    <% end %>
-                    </div>
-                </td>
-            </tr>
-        </thead>
+        
     </table>
-    <%= link_to "Place Order", order_success_path %>
-                
+    <% if @coupon.present? %>
+        <%= link_to "Place Order", order_success_path(coupon: @coupon), class:"btn btn-primary" %>
+    <% else %>
+        <%= link_to "Place Order", order_success_path, class:"btn btn-primary" %>
+    <% end %>  
 <div>

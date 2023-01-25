@@ -86,7 +86,7 @@
 						<h4 class="mb-3">Address</h4>
 		
 						<%# <form class="needs-validation" novalidate=""> %>
-						<%= form_for @user_address,  url: eshop_user_order_information_path,turbo_method: :post,data: {turbo: false} do |form| %>
+						<%= form_for UserAddress.new,  url: eshop_user_order_information_path,turbo_method: :post,id:"address_form",remote: true,data: {turbo: false} do |form| %>
 							<div class="row" >
 								<% if form.object.errors.any? %>
 									<div class="alert alert-danger">
@@ -148,10 +148,18 @@
 									<%= form.submit "Save Address", class: "btn btn-primary" %>
 								<% end %>
 									<%= form.submit "Save Address", class: "btn btn-primary", id: "savebtn" %>
-									<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out float-right" %>
-									<%= link_to "Cash On Delivery", cash_on_delivery_path, class: 'btn btn-default check_out float-right' %>
-								
 
+									<% if @coupon.present? %>
+										<%= link_to "Checkout With Stripe", orders_index_path(coupon: @coupon), class: "btn btn-default check_out float-right" %>
+									<% else %>
+										<%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out float-right" %>
+									<% end %>
+									<% if @coupon.present? %>
+										<%= link_to "Cash On Delivery", cash_on_delivery_path(coupon: @coupon), class: 'btn btn-default check_out float-right' %>
+									<% else %>
+										<%= link_to "Cash On Delivery", cash_on_delivery_path, class: 'btn btn-default check_out float-right' %>
+									<% end %>
+									
 							</div>
 						<% end %>					
 						<div class="", style="margin-bottom: 30px;">
