@@ -1,14 +1,19 @@
 
 %div.container
-  %h1 List of products
+  %h1 Total amount 
+  %p ₹ #{@total_amount}
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
     %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'user_orders[payment_gateway]'}
+    - if @coupon.present?
+      - binding.pry
+      %input{id:'coupon_id', :type=>"hidden", :value=>@coupon.id, :name=>'user_orders[coupon_id]'}
+
     .form_row
       %h4 Charges/Payments
       - @products_purchase.each do |product|
         %div{'data-charges-and-payments-section': true}
           = radio_button_tag 'user_orders[product_id]', product.id, @products_purchase.first == product
-          %input{:id=>"hideid", :type=>"hidden", :value=>1+1, :name=>:order}
+          %input{:id=>"hideid", :type=>"hidden", :value=>1, :name=>:order}
           %span{id: "radioButtonName#{product.id}"} "Your Order"
           %span{id: "radioButtonPrice#{product.id}", :'data-price' => "#{@total_amount}"} #{humanized_money_with_symbol @total_amount}
         %br
