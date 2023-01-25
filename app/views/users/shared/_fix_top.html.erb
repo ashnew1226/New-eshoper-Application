@@ -7,20 +7,22 @@
     </div>
     <div class="row">
       <div class="col-lg-4">
-        <div class="card mb-4">
+        <div class="card mb-4 card-padding">
           <div class="card-body text-center">
 			      <%#= image_tag @user_profile_image,class:"rounded-circle img-fluid imgwidth" %>
             <h5 class="my-3"><%= current_user.firstname %> <%= current_user.lastname %></h5>
             <span class="text-muted mb-1 mr-4">Full Stack Developer</span><br>
             <span class="text-muted mb-4 mr-4">Bay Area, San Francisco, CA</span>
-            <%= link_to "Edit Profile",edit_user_registration_path %>
             <!--<div class="d-flex justify-content-center mb-2">
               <button type="button" class="btn btn-primary">Follow</button>
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
             </div>-->
           </div>
         </div>
+        <%= link_to "Edit Profile",edit_user_registration_path, class:"btn btn-info edit_btn" %>
       </div>
+                  
+
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">
