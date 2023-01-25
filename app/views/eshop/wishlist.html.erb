@@ -31,8 +31,10 @@
         </tbody>
     </table>
     <% else %>
-        <p class="text-center">You dont have product in wishlist add products to wishlist by clicking below link</p>
-        <%= link_to "Add products to wishlist >>", root_path, class: "btn btn-success" %>    
+        <div class="" style="margin-bottom: 30px;">
+            <p class="text-center" sty>You dont have product in wishlist add products to wishlist by clicking below link</p>
+            <%= link_to "Add products to wishlist ", root_path, class: "btn btn-info submit_btn" %>    
+        </div>
     <% end %>
 
 </div>
