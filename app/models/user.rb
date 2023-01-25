@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :coupons_useds
   has_many :coupons, through: :coupons_useds
   has_many :wishlists
+  has_many :contacts, dependent: :destroy
   has_many :products, through: :wishlists
   has_one_attached :image
 
