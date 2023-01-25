@@ -1,5 +1,5 @@
 class EshopController < ApplicationController
-    before_action :authenticate_user!
+    before_action :authenticate_admin, only: [:report]
     before_action :set_total_price, only: [:cart]
     before_action :price_with_coupon, only: [:cart,:checkout]
     before_action :final_price_checkout, only: [:checkout]
@@ -47,12 +47,19 @@ class EshopController < ApplicationController
             redirect_to eshop_wishlist_path
         end
     end
-    def product_details
+    def cat_prods
+        @category = Category.where(parent_id: nil)
         @cms = ContentManagementSystem.last
-        @category = Category.find(params[:id])
-        @products = @category.products
+        @categor = Category.find(params[:id])
+        @products = @categor.products
     end
-
+    def product_details
+        @product = Product.find(params[:id])
+        # binding.pry
+        @category = Category.where(parent_id: nil)
+        @cms = ContentManagementSystem.last
+        # @products = @categor.products
+    end
     def shop
         @category = Category.where(parent_id: nil)
         @products = Product.all
@@ -93,38 +100,40 @@ class EshopController < ApplicationController
             session[:total_amount] = @produts_price
         end
     end
-
+    def report
+        
+    end    
+    
     def apply_coupon
         redirect_to eshop_checkout_path(price: params[:price])
     end
     
     def checkout
-        @cms = ContentManagementSystem.last
         # binding.pry
-        # @checkout_amount = params[:price]
-        # puts "*****************#{@checkout_amount}********************"
-        # @user_address = UserAddress.new
+        if params[:coupon].present?
+            @coupon = Coupon.find(params[:coupon])
+        end
+        @cms = ContentManagementSystem.last
         @user_order = UserOrder.new
-        # binding.pry        
         if user_shipping_address.blank?
             
         else
             @address = user_shipping_address.join(" ")
         end
-        # render "eshop/cash"
-        # redirect_to cash_on_delivary_path
     end
     
     def user_order_information
-        binding.pry
         @user_address = current_user.user_addresses.new(user_address_params)
-        respond_to do |format|
-            if @user_address.save
-                format.html { redirect_to eshop_checkout_path, notice: 'Your responce submitted successfully' }   
-                format.json { render :checkout, status: :created, location: @user_addres }
-            else
-                format.html { render :checkout }   
-                format.json { render json: @user_address.errors, status: :unprocessable_entity }
+        if @user_address.save
+            respond_to do |format|
+                if @user_address.save
+                    binding.pry
+                    format.html { redirect_to eshop_checkout_path, notice: 'Your responce submitted successfully' }   
+                    format.json { render :checkout, status: :created, location: @user_addres }
+                else
+                    format.html { render :checkout }   
+                    format.json { render json: @user_address.errors, status: :unprocessable_entity }
+                end
             end
         end
     end
@@ -187,7 +196,6 @@ class EshopController < ApplicationController
         @category = Category.where(parent_id: nil)
         id = params[:id].to_i
         a = session[:cart] << id unless session[:cart].include?(id)
-        # binding.pry   @product_price_lists = [] 
         redirect_to root_path
         flash[:notice] = "product added successfully"
     end
@@ -212,37 +220,49 @@ class EshopController < ApplicationController
         @product_item = Product.find(params[:id])
         @product_item.quantity -= 1
         @product_item.save
+        redirect_to eshop_cart_path
     end
 
     def increase_quantity
         @product_item = Product.find(params[:id])
-        session[:quantity] = 0
-        @quantity = session[:quantity]
-        @quantity += 1
-
+        @product_item.quantity += 1
+        @product_item.save
+        redirect_to eshop_cart_path
     end
     def cash_on_delivery
+        binding.pry
+        if params[:coupon].present?
+            @coupon = Coupon.find(params[:coupon])
+        end
         @orders_products = @cart
         @total_amount = session[:total_amount]
         @newaddress = user_shipping_address
     end
     def success
+       
         @user_order = UserOrder.new
         product_price_lists = []
         @total_amount = session[:total_amount]
         products = Product.where(id: @cart.map(&:id))
         status = @user_order.set_order
         user_address = current_user.user_addresses.last
+        if params[:coupon].present?
+            @coupon = Coupon.find(params[:coupon])
+            @user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id,coupon_id: @coupon.id)
+        end
 		@user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id)
-        binding.pry
         if @user_order.save
             products.each do |product|
                 @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
                 total = (product.quantity)*(product.price)
                 product_price_lists << total
+                # binding.pry
+                product.quantity = 1
+                product.save
+
             end
+
             @product_prices = product_price_lists
-            # binding.pry
             UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
             session[:cart] = nil
 		end
@@ -270,7 +290,6 @@ class EshopController < ApplicationController
         end
         @tp = @cart_products.inject {|sum,price| sum + price}
         @max_total = @tp.to_i
-        # binding.pry
     end
  
     def cart_price_with_shipping
@@ -287,58 +306,40 @@ class EshopController < ApplicationController
     def price_with_coupon
         @user = current_user
         @used_coupon = params[:code]
-        cp = Coupon.find_by(code: @used_coupon)
-        # binding.pry
-        #    cp = Coupon.where(code: @used_coupon)
+        @cp = Coupon.find_by(code: @used_coupon)
         @coupons = Coupon.all
-        # coupons = []
         number_of_uses = 0
-        # "payment successfull with product creation , payment_mode creation and confirming the payment intent for stripe api & navbar links are added"
         @coupons.each do |coupon|
-            # binding.pry
-            # coupons << c.code
-            # coupons.each do |ele|
-            # binding.pry
             if @used_coupon == coupon.code
-                # binding.pry
-                if @user.coupons.include?(cp)
+                if @user.coupons.include?(@cp)
                     puts "*****coupn already used************************"
                     flash[:alert] = "Coupon already used"
 
                 else
                     @percent_off = coupon.percent_off
                     puts "******************valid coupon applied*******************************"
-                    # binding.pry
                     flash[:notice] = "Coupon applied successfully"
                     coupon.number_of_uses += 1
                     @total = cart_price_with_shipping - @percent_off
-                    # binding.pry
-                    # coupon.final_amount = @total
                     @user.coupons << coupon
                     return @total
-                    # binding.pry
                     
                 end
             end
-            # binding.pry
-            if @used_coupon != coupon.code && cp.blank?
-                cp
+            if @used_coupon != coupon.code && @cp.blank?
+                @cp
             end
         end 
     end
     def final_price_checkout
         a = set_total_price
         b = cart_price_with_shipping
-        # binding.pry
     end
 
     def user_shipping_address
         @user_address = current_user.user_addresses.last
-        # binding.pry
         @address = []
-        
         if @user_address.blank?
-            
         else
             @address << @user_address.shipping_address
             @address << @user_address.city
@@ -347,9 +348,5 @@ class EshopController < ApplicationController
             @address << @user_address.zipcode
             @newaddress = @address
         end
-        
-
     end
-    
-    
 end
