@@ -66,13 +66,15 @@
 									<div class="product-image-wrapper">
 										<div class="single-products">
 											<div class="productinfos text-center">
+												<%= link_to product_details_path(product) do%>
 												<%= image_tag product.ProductImage %>
+												<% end %>
 													<h2>₹<%= product.price %></h2>
 													<p><%= product.name.truncate(50) %></p>
 													<% if @cart.present? && @cart.include?(product) %>
-														<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart removecart", data: {turbo_method: :delete} %></i>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart removecart",remote: true, data: {turbo_method: :delete} %></i>
 													<% else %>
-														<i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart",data: {turbo_method: :post} %></i>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart",id:"add_btn",remote: true, data: {turbo_method: :post} %></i>
 													<% end %>
 											</div>
 										</div>
@@ -86,6 +88,9 @@
 							<% end %>
 						<% end %>
 						<%= link_to "More Products >>",eshop_shop_path, class:"btn btn-primary position_class" %>
+						<% if current_user.superadmin_role?%>
+							<%#= link_to "Reports >>",eshop_report_path, class:"btn btn-primary position_class" %>
+						<% end %>
 						<%# <button class="" style="float:right;">More Products</button> %>
 					</div><!--features_items-->					
 				</div>
