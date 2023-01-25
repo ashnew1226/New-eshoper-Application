@@ -7,7 +7,9 @@
 	};	
 		
 /*scroll to top*/
-
+// $(".element").on("click", function(){
+    
+// });
 // $(document).ready(function(){
 // 	$(function () {
 // 		$.scrollUp({
@@ -51,7 +53,10 @@ function buttonFunc() {
 	var x = document.getElementById("savebtn");
 	if (x.style.display === "none") {
 	  x.style.display = "block";
+	  console.log("display block");
 	} else {
 	  x.style.display = "none";
+	  console.log("display none");
+
 	}
   }
