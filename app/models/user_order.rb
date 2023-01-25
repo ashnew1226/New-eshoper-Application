@@ -1,6 +1,7 @@
 class UserOrder < ApplicationRecord
     has_many :order_details
-    has_many :products, through: :order_details
+    has_many :products, through: :order_details, dependent: :destroy
+    belongs_to :user_address
     belongs_to :coupon, optional: true
     belongs_to :user
     enum order_status: { pending: 0, failed: 1, paid: 2, stripe_executed: 3, ordered: 4}
