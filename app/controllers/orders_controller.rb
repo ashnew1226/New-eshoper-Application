@@ -4,6 +4,9 @@ class OrdersController < ApplicationController
     require 'stripe'
     Stripe.api_key = 'sk_test_51ME59WSDCO9rQieouDgPB589PVx9cdYWonNq11UlMzvKx3K2jpon9sLXMdwrrCTcpMEXFk25r9F1XBYo7LcfX0uc00DXuFAO1L'
     def index
+      if params[:coupon].present?
+        @coupon = Coupon.find(params[:coupon])
+    end
       products = Product.all
       @products_purchase = @cart
       @total_amount = session[:total_amount]
@@ -12,9 +15,15 @@ class OrdersController < ApplicationController
     end
   
     def submit
+      if params[:user_orders][:coupon_id].present?
+        @coupon = Coupon.find(params[:user_orders][:coupon_id])
+      end
       if order_params[:payment_gateway] == "stripe"
        @product = prepare_new_order
-        Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount, user_address: @address)
+       @orders_products = @cart
+       @total_amount = session[:total_amount]
+      #  binding.pry
+        Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount, user_address: @address, coupon: @coupon)
       end
     ensure
       if @user_order&.save
@@ -26,6 +35,8 @@ class OrdersController < ApplicationController
             @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
             total = (product.quantity)*(product.price)
             product_price_lists << total
+            product.quantity = 1
+            product.save
           end
           UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
           return render 'eshop/payment_success'
