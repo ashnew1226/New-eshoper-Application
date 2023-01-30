@@ -1,12 +1,11 @@
-  <%= render "users/shared/fix_top" %>
-    <hr>
     <div class="container">
       <div class="row">
-        <div class="col-sm-9 padding-right">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 padding-right">
           <div class="features_items"><!--fmy orders-->
             <h2 class="title text-center">My Orders</h2>
               <% @my_order.each do |myorder| %>
-              <span>Order Id : <strong><%= myorder.id %></strong></span>
+              <span><strong>Order Details </strong></span>
               <% product = myorder.products %>
               <% product.each do |order_product| %>
               <div class="product-image-wrapper">
@@ -22,6 +21,8 @@
               <% end %>
           </div><!--my orders-->
         </div>
+        <div class="col-sm-2"></div>
+
       </div>
     </div>
   </div>

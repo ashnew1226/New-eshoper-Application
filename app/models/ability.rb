@@ -29,11 +29,14 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
     user ||= User.new # guest user (not logged in)
-
+    # binding.pry
     if user.superadmin_role?
       can :manage, :all
       can :access, :rails_admin  # only admin can access Rails Admin
       can :manage, :dashboard    # allow access to dashboard
+    else
+      redirect_to root_path
+      flash[:alert] = "you are not authorised user to access this page"
     end
 
     if user.supervisor_role?

@@ -267,6 +267,29 @@ class EshopController < ApplicationController
             session[:cart] = nil
 		end
     end
+    def generate_report
+        orders = UserOrder.all
+        @products = []
+        @product_price = []
+        orders.each do |single|
+            single.products.each do|product|
+                @product_price << product.price
+                @id = product.id
+            end
+            @products << single.products
+
+        end
+        coupon = Coupon.all
+        coupons_used = CouponsUsed.all
+        customers_registered = User.all
+        neaa = @products
+
+        price = @product_price
+        price_total = @product_price.inject {|sum,price| sum + price}
+        sales_report = SalesReport.create(total_saled_products: neaa.size, products_total_price: price_total,total_coupons: coupon.size, coupons_used: coupons_used.size,customers_registered: customers_registered.size)
+        redirect_to eshop_report_path
+        flash[:notice] = "report generated successfully"
+    end
     private
 
     def user_address_params
@@ -281,7 +304,15 @@ class EshopController < ApplicationController
         params.require(:contact).permit(:name, :email, :contact_no, :message)
     end
     
-
+    def authenticate_admin
+        if current_user.superadmin_role?
+            redirect_to(eshop_report_path)
+        else
+            redirect_to root_path
+            flash[:alert] = "you are not authorized user to access this page"
+        end
+    end
+    
     def set_total_price
         @cart_products = []
         @cart.each do |product|

@@ -97,3 +97,4 @@ gem 'paypal-sdk-rest'
 gem 'pay'
 gem 'MailchimpMarketing'
 gem 'whenever'
+gem "mini_magick"

@@ -19,40 +19,47 @@
 						<td class="price">Price</td>
 						<td class="quantity">Quantity</td>
 						<td class="total">Total</td>
+						<td class="action"></td>
+					
 					</tr>
 				</thead>
 					<% @cart.each do |product| %>
-				<tbody>
-					<tr>
-						<td class="cart_product">
-							<a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
-						</td>
-						<td class="cart_description">
-							<h4><a href=""><%= product.name %></a></h4>
-							<p>Web ID: 1089772</p>
-						</td>
-						<td class="cart_price">
-							<p><%= product.price %></p>
-						</td>
-						<td class="cart_quantity">
-							<div class="cart_quantity_button flexclass">
-							<%= button_to '+',increase_quantity_path(product), turbo_method: :post,class:"cart_quantity_up", id: "addcart"  %>
+						<tbody>
+							<tr>
+								<td class="cart_product">
+								<%= link_to product_details_path(product) do%>
+									<%= image_tag product.ProductImage,class: "imgsize" %>
+								<% end %>
+								</td>
+								<td class="cart_description">
+									<h4><%= link_to product_details_path(product) do %>
+										<%= product.name %>
+										<% end %>
+									</h4>
+								</td>
+								<td class="cart_price">
+									<p><%= product.price %></p>
+								</td>
+								<td class="cart_quantity">
+									<div class="cart_quantity_button flexclass">
+									<%= button_to '+',increase_quantity_path(product), turbo_method: :post,class:"cart_quantity_up", id: "addcart"  %>
 
-								<input class="cart_quantity_input" type="text" name="quantity" value="<%= product.quantity %>" id="number" autocomplete="off" size="2">
-							<%= button_to '-', decrease_quantity_path(product), turbo_method: :post, class:"cart_quantity_down"  %>
-							</div>
-						</td>
-						<td class="cart_total">
-							<p class="cart_total_price"><%= tp = product.price*product.quantity %></p>
-						</td>
-						<td class="cart_delete" style="padding:11px;">
-							<%= link_to remove_from_cart1_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_quantity_delete" do %>
-								<i class="fa fa-times"></i>
-							<% end %>
-						</td>
-					</tr>
-				</tbody>
-			<% end %>
+										<input class="cart_quantity_input" type="text" name="quantity" value="<%= product.quantity %>" id="number" autocomplete="off" size="2">
+									<%= button_to '-', decrease_quantity_path(product), turbo_method: :post, class:"cart_quantity_down"  %>
+									</div>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price"><%= tp = product.price*product.quantity %></p>
+								</td>
+								<td class="cart_total">
+									<%= link_to remove_from_cart1_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_total_price1" do %>
+									<i class="fa fa-times"></i>
+									<% end %>
+								</td>
+								
+							</tr>
+						</tbody>
+					<% end %>
 			</table>
 		</div>
 	</div>
