@@ -55,7 +55,8 @@ class EshopController < ApplicationController
     end
     def product_details
         @product = Product.find(params[:id])
-        # binding.pry
+
+        binding.pry
         @category = Category.where(parent_id: nil)
         @cms = ContentManagementSystem.last
         # @products = @categor.products
@@ -69,12 +70,9 @@ class EshopController < ApplicationController
     def blog
         @category = Category.where(parent_id: nil)
         @cms = ContentManagementSystem.last
+        @blog = Blog.all
+    end
 
-    end
-    def blog_single
-        @category = Category.where(parent_id: nil)
-        @cms = ContentManagementSystem.last
-    end
     def add_user_address
         @user_address = UserAddress.new(user_address_params)
         user_address_params.each do |item|
