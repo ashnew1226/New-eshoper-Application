@@ -30,7 +30,7 @@
 												<%= link_to product_details_path do%>
 												<%= image_tag product.ProductImage %>
 												<% end %>
-												<h2><%= product.price %></h2>
+												<h2>₹<%= product.price %></h2>
 												<p><%= product.name.truncate(70) %></p>
 												<% if @cart.present? && @cart.include?(product) %>
 													<i class="fa fa-shopping-cart newfa"></i><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart",id:"cart_id", data: {turbo_method: :delete} %>

@@ -9,7 +9,6 @@
 							<li data-target="#slider-carousel" data-slide-to="1"></li>
 							<li data-target="#slider-carousel" data-slide-to="2"></li>
 						</ol>
-						
 						<div class="carousel-inner">
 						<% if @banners.present? %>
 							<% @banners.each_with_index do |banner, i| %>
@@ -28,7 +27,6 @@
 							<% end %>
 						<% end %>  
 						</div>
-						
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
 							<i class="fa fa-angle-left"></i>
 						</a>
@@ -48,15 +46,11 @@
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						<%= render partial: "eshop/shared/sidebar"%>		
-						
-						
 						<div class="shipping text-center"><!--shipping-->
 							<%= image_tag "home/shipping.jpg" %>
-						</div>
-						
+						</div>						
 					</div>
 				</div>
-				
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Features Items</h2>

@@ -15,6 +15,4 @@ class Product < ApplicationRecord
 
     has_one_attached :ProductImage
     validates :quantity, numericality: { greater_than_or_equal_to: 1 }
-
-    
 end

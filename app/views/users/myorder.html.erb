@@ -2,22 +2,22 @@
       <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8 padding-right">
-          <div class="features_items"><!--fmy orders-->
+          <div class="features_items"><!--my orders-->
             <h2 class="title text-center">My Orders</h2>
               <% @my_order.each do |myorder| %>
               <span><strong>Order Details </strong></span>
               <% product = myorder.products %>
-              <% product.each do |order_product| %>
-              <div class="product-image-wrapper">
-                <div class="single-products">
-                  <div class="productinfo text-center">
-                  <%= image_tag order_product.ProductImage, style: 'height:200px;width:auto;' %>
-                    <h2><%= order_product.price %></h2>
-                    <p><%= order_product.name%></p>
+                <% product.each do |order_product| %>
+                <div class="product-image-wrapper">
+                  <div class="single-products">
+                    <div class="productinfo text-center">
+                    <%= image_tag order_product.ProductImage, style: 'height:200px;width:auto;' %>
+                      <h2><%= order_product.price %></h2>
+                      <p><%= order_product.name %></p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <% end %>
+                <% end %>
               <% end %>
           </div><!--my orders-->
         </div>
