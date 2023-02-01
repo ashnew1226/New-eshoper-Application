@@ -98,3 +98,5 @@ gem 'pay'
 gem 'MailchimpMarketing'
 gem 'whenever'
 gem "mini_magick"
+gem 'image_processing', '~> 1.2'
+gem "ruby-vips"
