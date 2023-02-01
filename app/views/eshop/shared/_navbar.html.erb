@@ -91,12 +91,12 @@
 							<ul class="nav navbar-nav">
 								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", eshop_wishlist_path ,id: 'cart_id' %></li>
 								<!--<li><i class="fa fa-shopping-cart"></i> <%#= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>-->
-								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path, id: 'cart_id' %><span id='number',class="badge badge-secondary badge-pill"><%#= @cart_quantity %></span></li>
+								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path, id: 'cart_id' %> <span class="badge badge-light badge-pill" style="padding: 2px 5px;"><%=@cart.size rescue nil %></span><span id='number',class="badge badge-secondary badge-pill"><%#= @cart_quantity %></span></li>
 								<%if user_signed_in? %>
 								<% else %>
 								<li><%= link_to 'Sign Up', new_user_registration_path,id: 'cart_id' %></li>
 								<% end %>
-								<li class="dropdown"><i class="fa fa-user"></i> <%= link_to "Account", users_index_path,id: 'cart_id' %><i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a><i class="fa fa-user"></i> Account<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><%= link_to 'My Order',myorder_path %></li>
 										<li><%= link_to 'Track Order',users_track_order_path %></li> 
@@ -137,16 +137,13 @@
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><%= link_to 'Products', eshop_shop_path %></li>
-										<li><%#= link_to "Product-Details",eshop_product_details_path %></li> 
 										<li><%= link_to "Checkout",eshop_checkout_path %></li> 
 										<li><%= link_to "Cart", eshop_cart_path %></li> 
-										<li><%#= link_to "Login",eshop_login_path %></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><%= link_to 'Blog List',eshop_blog_path %></li>
-                                        <li><%= link_to 'Blog Single',eshop_blog_single_path %></li>
+                                        <li><%= link_to 'Blog List',blogs_path %></li>
                                     </ul>
                                 </li> 
                                         <li><%= link_to 'Contact',eshop_contact_path %></li>

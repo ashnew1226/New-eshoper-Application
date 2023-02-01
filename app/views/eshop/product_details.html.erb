@@ -15,7 +15,7 @@
 							<div class="view-product">
 								<%#= image_tag("product-details/1.jpg", alt:"") %>
 								<%#= image_tag @product.ProductImage %>
-								<%= link_to image_tag(@product.ProductImage), @product.ProductImage %>
+								<%= link_to image_tag(@product.ProductImage.variant(resize_to_limit: [318, 378])), @product.ProductImage,target: :_blank %>
 							</div>
 						</div>
 						<div class="col-sm-7">
@@ -34,7 +34,7 @@
 										Add to cart
 									</button> %>
 								</span>
-
+								<p><b>Description : </b><%=@product.long_description %></p>
 							</div><!--/product-information-->
 						</div>
 						<% end %>
