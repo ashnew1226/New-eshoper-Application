@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :categories, only: [:index, :show]
+  get 'wishlist/index'
+  get 'wishlist/create/:id', to: "wishlist#create", as:"wishlist_create"
+  delete 'wishlist/destroy/:id',to: 'wishlist#destroy', as: "wishlist_destroy"
+  get 'product/index'
+  get 'product/show/:id', to: "product#show", as: 'product_show'
   
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
 
@@ -47,7 +53,7 @@ Rails.application.routes.draw do
   get 'eshop/cash_on_delivery', to: 'eshop#cash_on_delivery', as: 'cash_on_delivery'
   get 'eshop/success', to: 'eshop#success', as: 'order_success'
 
-  get 'eshop/add_to_wishlist/:id', to: 'eshop#add_to_wishlist', as: 'wishlist'
+  get 'eshop/add_to_wishlist/:id', to: 'eshop#add_to_wishlist'
   delete 'eshop/remove_from_wishlist/:id', to: 'eshop#remove_from_wishlist', as: 'remove_from_wishlist'
 
   resources :blogs
