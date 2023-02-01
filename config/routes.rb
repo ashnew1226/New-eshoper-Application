@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  get 'home/index'
+  root 'home#index'
   get 'users/myorder', to: 'users#myorder', as: 'myorder'
   get 'users/track_order'
   post 'users/track_order'
-  root 'eshop#index'
+  get 'eshop/index', to: 'eshop#index'
   get 'eshop/login'
   # get 'eshop/blog_single'
   get 'eshop/blog'

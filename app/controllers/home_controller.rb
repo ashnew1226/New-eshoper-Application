@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
-  skip_before_action :authenticate_user!, only: :index
-  def index
-  end
+  before_action :authenticate_user!
+    def index
+      @banners = BannerManagement.all
+      @products = Product.all.limit(6)
+      @category = Category.where(parent_id: nil)
+      @cms = ContentManagementSystem.last
+    end
 end

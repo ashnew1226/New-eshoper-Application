@@ -1,3 +1,101 @@
+
+
+	<section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#slider-carousel" data-slide-to="1"></li>
+							<li data-target="#slider-carousel" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
+						<% if @banners.present? %>
+							<% @banners.each_with_index do |banner, i| %>
+							<div class="item <%= i == 0 ? "active" : ""%>">
+								<div class="col-sm-6">
+								<h1><span>E</span>-SHOPPER</h1>
+								<h2>Free E-Commerce Template</h2>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+								<button type="button" class="btn btn-default get">Get it now</button>
+								</div>
+								<div class="col-sm-6">
+									<%= image_tag banner.picture[0], class: "girl img-responsive" %>
+									<%= image_tag("home/pricing.png",class:"pricing") %>
+								</div>
+							</div>
+							<% end %>
+						<% end %>  
+						</div>
+						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+							<i class="fa fa-angle-left"></i>
+						</a>
+						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+							<i class="fa fa-angle-right"></i>
+						</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section><!--/slider-->
+	
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<%= render partial: "eshop/shared/sidebar"%>		
+						<div class="shipping text-center"><!--shipping-->
+							<%= image_tag "home/shipping.jpg" %>
+						</div>						
+					</div>
+				</div>
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Features Items</h2>
+						<% if @products.present? %>
+							<% @products.each do |product| %>
+								<div class="col-sm-4">
+									<div class="product-image-wrapper">
+										<div class="single-products">
+											<div class="productinfos text-center">
+												<%= link_to product_details_path(product) do%>
+												<%= image_tag product.ProductImage %>
+												<% end %>
+													<h2>₹<%= product.price %></h2>
+													<p><%= product.name.truncate(50) %></p>
+													<% if @cart.present? && @cart.include?(product) %>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart removecart",remote: true, data: {turbo_method: :delete} %></i>
+													<% else %>
+														<i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart",id:"add_btn",remote: true, data: {turbo_method: :post} %></i>
+													<% end %>
+											</div>
+										</div>
+										<div class="choose">
+											<ul class="nav nav-pills nav-justified">
+												<li><i class="fa fa-plus-square"></i><%= link_to 'Add to wishlist', wishlist_path(product) %></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							<% end %>
+						<% end %>
+						<%= link_to "More Products >>",eshop_shop_path, class:"btn btn-primary position_class" %>
+						<% if current_user.superadmin_role?%>
+							<%#= link_to "Reports >>",eshop_report_path, class:"btn btn-primary position_class" %>
+						<% end %>
+						<%# <button class="" style="float:right;">More Products</button> %>
+					</div><!--features_items-->					
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
 <% if user_signed_in? %>
   <%= link_to('Edit registration', edit_user_registration_path) %>
   <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
