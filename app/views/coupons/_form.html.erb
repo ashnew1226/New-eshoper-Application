@@ -1,0 +1,19 @@
+<div class="col-sm-6">
+    <div class="chose_area">
+    <%= form_with model: @coupon, url: coupons_path,  local: true,data: { turbo: false } do |form| %>
+        <ul class="user_option">
+            <li>
+            <div class="mb-3">
+                <%= form.label :coupon_code %>
+                <%= form.text_field :code, class: "form-control" , placeholder: "enter coupon code" %>
+            </div>
+            </li>
+            <li>
+            <div class="mb-3">
+                <%= form.submit "Apply", class: "btn btn-primary" %>
+            </div>
+            </li>
+        </ul>
+        <% end %>
+    </div>
+</div>
