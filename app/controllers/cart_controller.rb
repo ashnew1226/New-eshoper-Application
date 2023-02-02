@@ -3,12 +3,11 @@ class CartController < ApplicationController
   end
 
   def create
-    binding.pry
     id = params[:id].to_i
     a = session[:cart] << id unless session[:cart].include?(id)
     respond_to do |format|
       if a != nil
-        format.html { redirect_to cart_index_url(@cart), notice: "Post was successfully created." }
+        format.html { redirect_to product_index_url(@product), notice: "Product added successfully." }
         format.json { render :index, status: :created, location: @cart }
       else
         format.html { render :index, status: :unprocessable_entity }
