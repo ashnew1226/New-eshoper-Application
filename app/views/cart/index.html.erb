@@ -72,28 +72,7 @@
 			<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
 		</div>
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="chose_area">
-
-				<%= form_with model: @coupon, url: coupons_path,  local: true,data: { turbo: false } do |form| %>
-					<ul class="user_option">
-						<li>
-						<div class="mb-3">
-							<%= form.label :coupon_code %>
-							<%= form.text_field :code, class: "form-control" , placeholder: "enter coupon code" %>
-						</div>
-						</li>
-						<li>
-						<div class="mb-3">
-							<%= form.submit "Apply", class: "btn btn-primary" %>
-						</div>
-						</li>
-					</ul>
-					<% end %>
-				
-					
-				</div>
-			</div>
+		<%= render "coupons/form"%>
 			<div class="col-sm-6">
 				<div class="total_area">
 					<ul>
@@ -117,15 +96,6 @@
 
 						<% end %>
 					</ul>
-					<%#= form_with  url: apply_coupon_path, method: :post do |f| %>
-						<%# if @total.present? %>
-							<%#= f.hidden_field :price,:value=>@total, autocomplete: 'off' %>
-						<%# else %>	
-						<%# <%= @total %>
-							<%#= f.hidden_field :price,:value=>@products_price, autocomplete: 'off' %>
-						<%# end %>
-						<%#= f.submit "Checkout",class:"btn btn-default check_out" %>
-					<%# end %>
 					<% if @cp.present? %>
 						<%= link_to "Checkout", eshop_checkout_path(coupon: @cp), class:"btn btn-default check_out"%>
 					<% else %>
