@@ -13,9 +13,9 @@
                                     <h2>₹<%= product.price %></h2>
                                     <p><%= product.name.truncate(50) %></p>
                                     <% if @cart.present? && @cart.include?(product) %>
-                                        <i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart removecart",remote: true, data: {turbo_method: :delete} %></i>
+                                        <i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart",    cart_destroy_path(product),class:"btn btn-default add-to-cart removecart",remote: true, data: {turbo_method: :delete} %></i>
                                     <% else %>
-                                        <i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart",id:"add_btn",remote: true, data: {turbo_method: :post} %></i>
+                                        <i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", cart_create_path(product),class:"btn btn-default add-to-cart",id:"add_btn",remote: true, data: {turbo_method: :post} %></i>
                                     <% end %>
                             </div>
                         </div>
