@@ -91,7 +91,12 @@
 							<ul class="nav navbar-nav">
 								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", eshop_wishlist_path ,id: 'cart_id' %></li>
 								<!--<li><i class="fa fa-shopping-cart"></i> <%#= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>-->
-								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path, id: 'cart_id' %> <span class="badge badge-light badge-pill" style="padding: 2px 5px;"><%=@cart.size rescue nil %></span><span id='number',class="badge badge-secondary badge-pill"><%#= @cart_quantity %></span></li>
+								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", eshop_cart_path, id: 'cart_id' %>
+								<%if @cart.size == 0 || nil %>
+								<% else %>
+								<span class="badge badge-light badge-pill" style="padding: 2px 5px;"><%=@cart.size rescue nil %></span>
+								<% end %>
+								</li>
 								<%if user_signed_in? %>
 								<% else %>
 								<li><%= link_to 'Sign Up', new_user_registration_path,id: 'cart_id' %></li>

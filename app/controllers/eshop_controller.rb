@@ -330,7 +330,7 @@ class EshopController < ApplicationController
         end
         @applied_shipping_charge = @shipping_charge
         @products_price = @cart_product_price + @shipping_charge
-        
+
     end
     def price_with_coupon
         @user = current_user
