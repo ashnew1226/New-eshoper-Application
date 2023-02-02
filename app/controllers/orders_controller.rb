@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
     require 'stripe'
     Stripe.api_key = 'sk_test_51ME59WSDCO9rQieouDgPB589PVx9cdYWonNq11UlMzvKx3K2jpon9sLXMdwrrCTcpMEXFk25r9F1XBYo7LcfX0uc00DXuFAO1L'
     def index
+      binding.pry
       if params[:coupon].present?
         @coupon = Coupon.find(params[:coupon])
     end

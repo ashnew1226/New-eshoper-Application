@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  get 'checkout/index'
   resources :categories, only: [:index, :show]
   resources :coupons
+  resources :user_addresses
   get 'cart/index'
   post "cart/create/:id", to: "cart#create", as: "cart_create"
   delete 'cart/destroy/:id',to: 'cart#destroy', as: "cart_destroy"
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
   get 'eshop/payment_success'
   get 'eshop/wishlist'
   post '/add_subscription_mailchimp', to: "eshop#add_subscription_mailchimp", as:"mailchimp_users"
-  post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
+  # post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
   get 'eshop/product_details/:id', to: 'eshop#product_details', as: 'product_details'
   get 'eshop/cat_prods/:id', to: 'eshop#cat_prods', as: 'cat_prods'
   get 'eshop/shop'

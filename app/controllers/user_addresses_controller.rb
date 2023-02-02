@@ -19,10 +19,10 @@ class UserAddressesController < ApplicationController
       # POST /user_addresses or /user_addresses.json
       def create
         @user_address = current_user.user_addresses.build(user_address_params)
-        binding.pry
+        # binding.pry
         respond_to do |format|
           if @user_address.save
-            format.html { redirect_to user_address_url(@user_address), notice: "User address was successfully created." }
+            format.html { redirect_to checkout_index_path(@user_address), notice: "User address was successfully created." }
             format.json { render :show, status: :created, location: @user_address }
           else
             format.html { render :new, status: :unprocessable_entity }
