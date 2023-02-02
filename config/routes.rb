@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :categories, only: [:index, :show]
+  resources :coupons
+  get 'cart/index'
+  post "cart/create/:id", to: "cart#create", as: "cart_create"
+  delete 'cart/destroy/:id',to: 'cart#destroy', as: "cart_destroy"
   get 'wishlist/index'
   get 'wishlist/create/:id', to: "wishlist#create", as:"wishlist_create"
   delete 'wishlist/destroy/:id',to: 'wishlist#destroy', as: "wishlist_destroy"
@@ -18,7 +22,7 @@ Rails.application.routes.draw do
   # get 'eshop/blog_single'
   get 'eshop/blog'
   get 'eshop/cart'
-  post 'eshop/cart', to: 'eshop#cart', as: 'coupons'
+  post 'eshop/cart', to: 'eshop#cart'
   post 'eshop/apply_coupon', to: 'eshop#apply_coupon', as: 'apply_coupon'
   # patch 'eshop/cart', to: 'eshop#cart', as: 'coupons'
   get 'eshop/checkout'
