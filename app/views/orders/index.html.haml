@@ -8,7 +8,7 @@
       - binding.pry
       %input{id:'coupon_id', :type=>"hidden", :value=>@coupon.id, :name=>'user_orders[coupon_id]'}
 
-    .form_row
+    .form_row1
       %h4 Charges/Payments
       - @products_purchase.each do |product|
         %div{'data-charges-and-payments-section': true}
@@ -30,6 +30,10 @@
         = radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();"
         %span Stripe
       %br
+      %div
+        = radio_button_tag 'payment-selection', 'COD', false, onclick: "changeTab();"
+        %span COD
+    %br
     %br
     %br
     %div{id:'tab-stripe', class:'paymentSelectionTab active'}
@@ -38,18 +42,19 @@
       %br
       %br
       = submit_tag "Buy it!", id: "submit-stripe"
-    %div{id:'tab-paypal', class:'paymentSelectionTab'}
-      %div{id: "submit-paypal"}
+    %div{id:'tab-COD', class:'paymentSelectionTab'}
+      %div{id: "submit-COD"}
     %br
     %br
     %hr
 :javascript
   function changeTab() {
     var newActiveTabID = $('input[name="payment-selection"]:checked').val();
+    console.log(newActiveTabID);
     $('.paymentSelectionTab').removeClass('active');
     $('#tab-' + newActiveTabID).addClass('active');
   }
-  
+
   (function setupStripe() {
     //Initialize stripe with publishable key
     var stripe = Stripe("pk_test_51ME59WSDCO9rQieo0T1HospsE9qT68whtGjZlHTAGzVUCuqy0h4ZQ4mZV6tM64K6zOzxBOuVNZxXRaDm1gUxnWEW00m2cFhzbH");
