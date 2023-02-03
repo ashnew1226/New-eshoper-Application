@@ -1,11 +1,13 @@
 <div class="col-sm-6">
     <div class="chose_area">
-    <%= form_with model: @coupon, url: coupons_path,  local: true,data: { turbo: false } do |form| %>
+    <%= form_with url: coupons_apply_coupon_path, method: :post, local: true, data: { turbo: false } do |form| %>
+
         <ul class="user_option">
             <li>
             <div class="mb-3">
                 <%= form.label :coupon_code %>
                 <%= form.text_field :code, class: "form-control" , placeholder: "enter coupon code" %>
+                <%= form.hidden_field :cart_sub_total, :value => @cart_product_price %>
             </div>
             </li>
             <li>
