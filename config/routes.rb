@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  get 'checkout/index'
+
   resources :categories, only: [:index, :show]
-  resources :coupons
+  resources :contacts
   resources :user_addresses
+  get 'coupons/new'
+  post 'coupons/apply_coupon'
+  get 'checkout/index'
   get 'cart/index'
   post "cart/create/:id", to: "cart#create", as: "cart_create"
   delete 'cart/destroy/:id',to: 'cart#destroy', as: "cart_destroy"
@@ -11,7 +14,8 @@ Rails.application.routes.draw do
   delete 'wishlist/destroy/:id',to: 'wishlist#destroy', as: "wishlist_destroy"
   get 'product/index'
   get 'product/show/:id', to: "product#show", as: 'product_show'
-  
+  post "cart/increase_quantity/:id", to: "cart#increase_quantity", as: "increase_quantity"
+  post "cart/decrease_quantity/:id", to: "cart#decrease_quantity", as: "decrease_quantity"
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -25,7 +29,7 @@ Rails.application.routes.draw do
   get 'eshop/blog'
   get 'eshop/cart'
   post 'eshop/cart', to: 'eshop#cart'
-  post 'eshop/apply_coupon', to: 'eshop#apply_coupon', as: 'apply_coupon'
+  # post 'eshop/apply_coupon', to: 'eshop#apply_coupon', as: 'apply_coupon'
   # patch 'eshop/cart', to: 'eshop#cart', as: 'coupons'
   get 'eshop/checkout'
   get 'eshop/contact'
@@ -45,8 +49,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   # Increasing decreasing quantity of product
-  post "eshop/increase_quantity/:id", to: "eshop#increase_quantity", as: "increase_quantity"
-  post "eshop/decrease_quantity/:id", to: "eshop#decrease_quantity", as: "decrease_quantity"
+  # post "eshop/increase_quantity/:id", to: "eshop#increase_quantity", as: "increase_quantity"
+  # post "eshop/decrease_quantity/:id", to: "eshop#decrease_quantity", as: "decrease_quantity"
 
   # checkout routes
   # get "eshop/user_order_information", to: "eshop#user_order_information"
