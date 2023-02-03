@@ -76,24 +76,23 @@
 			<div class="col-sm-6">
 				<div class="total_area">
 					<ul>
-						<li>Cart Sub Total <span><%= @produts_price %></span></li>
+						<li>Cart Sub Total <span><%= @cart_product_price %></span></li>
 						<% if @percent_off.present? %>
-							<li>Coupon Off <span>-<%= @percent_off %></span></li>
+							<li>Coupon Off <span><%= @percent_off %></span></li>
 						<% else %>
 							<li>Coupon Off <span><%= @percent_off = 0 %></span></li>
 						<% end %>
-						<% if @applied_shipping_charge.present? && @produts_price > 0 %>
-							<li>Shipping Charge <span><%= @shipping_charge %></span></li>
 
+						<% if @applied_shipping_charge.present? %>
+							<li>Shipping Charge <span><%= @applied_shipping_charge %></span></li>
 						<% else %>
 							<li>Shipping Charge <span>Free</span></li>
 						<% end %>
-						<% if @total.present? && @total > 25 %>
-							<li>Total <span><%= @total  %></span></li>
-						
-						<% else @products_price.present? && @products_price > 25 %>
+						<% binding.pry %>
+						<% if @total_price_with_coupon < @products_price && @total_price_with_coupon != 0 %>
+						<li>Total <span><%= @total_price_with_coupon %></span></li>
+						<% else %>
 						<li>Total <span><%= @products_price %></span></li>
-
 						<% end %>
 					</ul>
 					<% if @cp.present? %>
