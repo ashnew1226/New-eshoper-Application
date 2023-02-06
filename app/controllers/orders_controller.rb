@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
       # binding.pry
       if params[:coupon].present?
         @coupon = Coupon.find(params[:coupon])
-    end
+      end
       products = Product.all
       @products_purchase = @cart
       @total_amount = session[:total_amount]
@@ -16,40 +16,49 @@ class OrdersController < ApplicationController
     end
   
     def submit
-      if params[:user_orders][:coupon_id].present?
-        @coupon = Coupon.find(params[:user_orders][:coupon_id])
-      end
-      if order_params[:payment_gateway] == "stripe"
-       @product = prepare_new_order
-       @orders_products = @cart
-       @total_amount = session[:total_amount]
-      #  binding.pry
-        Orders::Stripe.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount, user_address: @address, coupon: @coupon)
-      elsif order_params[:payment_gateway] == "COD"
-        Orders::COD.execute(user_order: @user_order, user: current_user, product: @product, amount: total_amount, user_address: @address, coupon: @coupon)
-      end
-    ensure
-      if @user_order&.save
-        if @user_order.paid?
-          product_price_lists = []
-          @total_amount = session[:total_amount]
-          products = Product.where(id: @cart.map(&:id))
-          products.each do |product|
-            @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
-            total = (product.quantity)*(product.price)
-            product_price_lists << total
-            product.quantity = 1
-            product.save
-          end
-          UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
-          return render 'eshop/payment_success'
-        elsif @user_order.failed? && !@user_order.error_message.blank?
-          return render html: @user_order.error_message
-        end
-      end
-      render html: 'Error'
-    end
-  
+      binding.pry
+		if params[:payment_method].present?
+			cash_on_delivary
+		else
+			if order_params[:payment_gateway] == "stripe"
+				@product = prepare_new_order
+				@orders_products = @cart
+				@total_amount = session[:total_amount]
+				#  binding.pry
+				Orders::Stripe.execute(
+									user_order: @user_order, user: current_user,
+									product: @product, amount: total_amount,
+									user_address: @address, coupon: @coupon)
+			end
+		end
+		ensure
+			binding.pry
+			if  params[:payment_method] == "COD"
+				return render 'eshop/payment_success'
+			else
+			
+			if @user_order&.save
+				if @user_order.paid?
+					product_price_lists = []
+					@total_amount = session[:total_amount]
+					products = Product.where(id: @cart.map(&:id))
+					products.each do |product|
+						@user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
+						total = (product.quantity)*(product.price)
+						product_price_lists << total
+						product.quantity = 1
+						product.save
+					end
+					binding.pry
+					UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
+					return render 'eshop/payment_success'
+				elsif @user_order.failed? && !@user_order.error_message.blank?
+					return render html: @user_order.error_message
+				end
+			end
+		end
+	end
+
     private
     # Initialize a new order and and set its user, product and price.
     def prepare_new_order
@@ -73,5 +82,29 @@ class OrdersController < ApplicationController
         @tp = @cart_products.inject {|sum,price| sum + price}
         @max_total = @tp.to_i
     end
-    
-  end
+    def cash_on_delivary
+      @user_order = UserOrder.new
+      product_price_lists = []
+      @total_amount = session[:total_amount]
+      products = Product.where(id: @cart.map(&:id))
+      status = @user_order.set_order
+      user_address = current_user.user_addresses.last
+      if params[:coupon].present?
+          @coupon = Coupon.find(params[:coupon])
+          @user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id,coupon_id: @coupon.id)
+      end
+        @user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id)
+        if @user_order.save
+          products.each do |product|
+              @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
+              total = (product.quantity)*(product.price)
+              product_price_lists << total
+              product.quantity = 1
+              product.save
+          end
+          @product_prices = product_price_lists
+          UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
+          session[:cart] = nil
+        end
+    end
+end
