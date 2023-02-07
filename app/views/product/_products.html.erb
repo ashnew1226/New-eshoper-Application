@@ -1,5 +1,5 @@
 <div class="col-sm-9 padding-right">
-    <div class="features_items"><!--features_items-->
+    <div class="features_items"><!--products-->
         <h2 class="title text-center">Features Items</h2>
         <% if @products.present? %>
             <% @products.each do |product| %>
@@ -28,10 +28,6 @@
                 </div>
             <% end %>
         <% end %>
-        <%= link_to "More Products >>",eshop_shop_path, class:"btn btn-primary position_class" %>
-        <% if current_user.superadmin_role?%>
-            <%#= link_to "Reports >>",eshop_report_path, class:"btn btn-primary position_class" %>
-        <% end %>
-        <%# <button class="" style="float:right;">More Products</button> %>
-    </div><!--features_items-->					
+       
+    </div><!--products-->					
 </div>
