@@ -4,8 +4,8 @@
   %p ₹ #{@total_amount}
   = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
     %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'user_orders[payment_gateway]'}
+      %input{id:'final_price', :type=>"hidden", :value=>@total_amount, :name=>'user_orders[total]'}
     - if @coupon.present?
-      - binding.pry
       %input{id:'coupon_id', :type=>"hidden", :value=>@coupon.id, :name=>'user_orders[coupon_id]'}
 
     .form_row1
@@ -30,10 +30,9 @@
         = radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();"
         %span Stripe
       %br
-      %div
-        = radio_button_tag 'payment-selection', 'COD', false, onclick: "changeTab();"
-        %span COD
-    %br
+      %br
+
+
     %br
     %br
     %div{id:'tab-stripe', class:'paymentSelectionTab active'}
@@ -41,11 +40,13 @@
       %div{id:'card-errors', role:"alert"}
       %br
       %br
-      = submit_tag "Buy it!", id: "submit-stripe"
+      = submit_tag "Buy it!", id: "submit-COD"
     %div{id:'tab-COD', class:'paymentSelectionTab'}
       %div{id: "submit-COD"}
     %br
     %br
+    .form_btn
+      %input#submit-COD{"data-disable-with" => "Buy it!", :name => "commit", :type => "submit", :value => "Buy it!"}/
     %hr
 :javascript
   function changeTab() {
@@ -53,6 +54,10 @@
     console.log(newActiveTabID);
     $('.paymentSelectionTab').removeClass('active');
     $('#tab-' + newActiveTabID).addClass('active');
+    if (newActiveTabID == "COD"){
+      console.log("inside loop",newActiveTabID);
+
+    }
   }
 
   (function setupStripe() {
@@ -112,5 +117,11 @@
     display: none;
   }
   .paymentSelectionTab.active {
+    display: block !important;
+  }
+  .form_btn {
+    display: none;
+  }
+    .form_btn.active{
     display: block !important;
   }
