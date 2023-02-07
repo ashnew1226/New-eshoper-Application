@@ -37,10 +37,10 @@ class CartController < ApplicationController
   end
 
   def increase_quantity
-      @product_item = Product.find(params[:id])
-      @product_item.quantity += 1
-      @product_item.save
-      redirect_to request.referrer
+    @product_item = Product.find(params[:id])
+    @product_item.quantity += 1
+    @product_item.save
+    redirect_to request.referrer
   end
 
   private

@@ -5,7 +5,6 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.where(parent_id: nil)
-    # binding.pry
     @parent_category = Category.find(params[:id])
     @products = @parent_category.products
   end

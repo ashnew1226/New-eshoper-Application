@@ -8,8 +8,6 @@ class ContactsController < ApplicationController
     @contact = Contact.new
   end
 
-
-
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.contacts.build(contact_params)

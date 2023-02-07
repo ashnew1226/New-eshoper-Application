@@ -352,7 +352,6 @@ class EshopController < ApplicationController
                     @total = cart_price_with_shipping - @percent_off
                     @user.coupons << coupon
                     return @total
-                    
                 end
             end
             if @used_coupon != coupon.code && @cp.blank?
