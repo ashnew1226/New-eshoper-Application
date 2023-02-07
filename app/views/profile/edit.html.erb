@@ -8,9 +8,7 @@
 
         <h2 class="title text-center">Edit Profile</h2>
 
-        <%= form_with(model: @user) do |f| %>
-          <% binding.pry %>
-          <%#= render "devise/shared/error_messages", resource: resource %>
+        <%= form_with(model: @profile, url: profile_path(@profile), method: "patch") do |f|%>
 
           <div class="form-group col-md-12">
             <%= f.label :first_name %><br />
