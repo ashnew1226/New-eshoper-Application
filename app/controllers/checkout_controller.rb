@@ -1,5 +1,9 @@
 class CheckoutController < ApplicationController
   def index
+    @final_price = params[:final_price]
+    if params[:coupon].present?
+      @coupon  = Coupon.find(params[:coupon])
+    end
     if user_shipping_address.blank?
     else
         @address = user_shipping_address.join(" ")
