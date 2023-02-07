@@ -28,26 +28,7 @@
 		<div class="header_top"><!--header_top-->
 			<div class="container">
 				<div class="row">
-					<!--<div class="col-sm-6">
-						<div class="contactinfo">
-							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> dedmo@gmail.com</a></li>
-							</ul>
-						</div>
-					</div>-->
-					<!--<div class="col-sm-6">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-							</ul>
-
-							
-						</div>-->
+					
 					</div>
 				</div>
 			</div>
@@ -63,34 +44,13 @@
                         <% end %>
 						</div>
 						<div class="btn-group pull-right">
-							<!--<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>-->
 							
-							<!--<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>-->
 						</div>
 					</div>
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", eshop_wishlist_path ,id: 'cart_id' %></li>
-								<!--<li><i class="fa fa-shopping-cart"></i> <%#= link_to "Checkout", eshop_checkout_path,id: 'cart_id' %></li>-->
+								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", wishlist_index_path ,id: 'cart_id' %></li>
 								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", cart_index_path, id: 'cart_id' %>
 								<%if @cart.size == 0 || nil %>
 								<% else %>
@@ -103,9 +63,9 @@
 								<% end %>
 								<li class="dropdown"><a><i class="fa fa-user"></i> Account<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><%= link_to 'My Order',myorder_path %></li>
-										<li><%= link_to 'Track Order',users_track_order_path %></li> 
-										<li><%= link_to "Edit Profile",edit_user_registration_path %></li>
+                                        <li><%= link_to 'My Order',profile_myorder_path %></li>
+										<li><%= link_to 'Track Order',profile_track_order_path %></li> 
+										<li><%= link_to "Edit Profile",edit_profile_path(current_user.id) %></li>
                                     </ul>
                                 </li> 
 								<li><i class="fa fa-lock"></i>
@@ -114,9 +74,7 @@
 										<% else %>
 										<%= link_to 'Sign In', new_user_session_path,id: 'cart_id' %>
 									<% end %>
-									
 								</li>
-							
 							</ul>
 						</div>
 					</div>
@@ -141,9 +99,8 @@
 								<li><%= link_to "Home",root_path %></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><%= link_to 'Products', eshop_shop_path %></li>
-										<li><%= link_to "Checkout",eshop_checkout_path %></li> 
-										<li><%= link_to "Cart", eshop_cart_path %></li> 
+                                        <li><%= link_to 'Products', product_index_path %></li>
+										<li><%= link_to "Cart", cart_index_path %></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -151,7 +108,7 @@
                                         <li><%= link_to 'Blog List',blogs_path %></li>
                                     </ul>
                                 </li> 
-                                        <li><%= link_to 'Contact',eshop_contact_path %></li>
+                                        <li><%= link_to 'Contact',new_contact_path %></li>
 							</ul>
 						</div>
 					</div>
