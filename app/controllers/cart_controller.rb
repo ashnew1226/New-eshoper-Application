@@ -2,7 +2,9 @@ class CartController < ApplicationController
   before_action :cart_price_with_shipping
   def index
     @total_price_with_coupon = params[:total].to_i
-    @percent_off = params[:coupon_off].to_i
+    if params[:coupon].present?
+      @coupon = Coupon.find(params[:coupon])
+    end
   end
 
   def create
