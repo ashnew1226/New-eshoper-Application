@@ -63,20 +63,11 @@
             <%= form.submit "Save Address", class: "btn btn-primary", id: "savebtn" %>
 
             <% if @coupon.present? %>
-                <%= link_to "Checkout With Stripe", orders_index_path(coupon: @coupon), class: "btn btn-default check_out float-right" %>
+                <%= link_to "Checkout With Stripe", orders_index_path(final_price: @final_price, coupon: @coupon), class: "btn btn-default check_out float-right" %>
+                <%= link_to "Checkout With COD", submit_order_path(payment_method: "COD",coupon: @coupon, final_price: @final_price), class: "btn btn-default check_out float-right" %>
             <% else %>
-                <%= link_to "Checkout With COD", orders_index_path(payment_method: "COD"), class: "btn btn-default check_out float-right" %>
-                <%= link_to "Checkout With Stripe", orders_index_path, class: "btn btn-default check_out float-right" %>
+                <%= link_to "Checkout With Stripe", orders_index_path(final_price: @final_price), class: "btn btn-default check_out float-right" %>
+                <%= link_to "Checkout With COD", submit_order_path(final_price: @final_price, payment_method: "COD"), class: "btn btn-default check_out float-right" %>
             <% end %>
-            <% if @coupon.present? %>
-                <%= link_to "Checkout With COD", orders_index_path(payment_method: "COD"), class: "btn btn-default check_out float-right" %>
-
-                <%= link_to "Cash On Delivery", cash_on_delivery_path(coupon: @coupon), class: 'btn btn-default check_out float-right' %>
-            <% else %>
-
-                <%= link_to "Cash On Delivery", cash_on_delivery_path, class: 'btn btn-default check_out float-right' %>
-            <% end %>
-            
-                <%= link_to "Checkout With COD", orders_index_path(payment_method: "COD"), class: "btn btn-default check_out float-right" %>
     </div>
 <% end %>
