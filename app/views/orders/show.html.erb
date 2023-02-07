@@ -1,0 +1,9 @@
+<div class="container alert alert-success" role="alert" style="margin-bottom: 240px;">
+  <h4 class="alert-heading text-center">Order Placed successfully!</h4>
+  <% if @user_order.present? %>
+  <p class="text-center">hello!<strong><%= current_user.email %></strong>your transation processed successfully. with amount <strong><%= @total_amount%></strong> </p>
+  <hr>
+  <p class="mb-0 text-center">Your Order id is <%= @user_order.id %></p>
+  <% end %>
+</div>
+ 
