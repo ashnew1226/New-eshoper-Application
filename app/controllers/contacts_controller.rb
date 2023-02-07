@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
   def show
+    @contact_detail = current_user.contacts
   end
 
   # GET /contacts/new
