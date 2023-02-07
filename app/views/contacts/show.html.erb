@@ -38,13 +38,15 @@
 	    			<div class="contact-info">
 	    				<h2 class="title text-center">Customer Queries</h2>
 						<%# binding.pry %>
-						<% if current_user.present? && @contact_detail.present? %>
-							<p style="padding: 6px 0px 0px 81px;"><strong><%=@contact_detail.last.name%></strong>: <%= @contact_detail.last.message %></p>
-							<% if @contact_detail.last.note_admin %>
+						<% if current_user.contacts.present?  %>
+							<p style="padding: 6px 0px 0px 81px;"><strong>Me</strong>: <%= @contact_detail.last.message %></p>
+							<% if @contact_detail.last.note_admin.present? %>
 							<p><strong>Admin</strong>: <%= @contact_detail.last.note_admin %></p>
+							<% else %>
+							<p style="padding: 6px 0px 0px 81px;">Waiting for admin responce.....</p>
 							<% end %>
 						<% end %>
-	    				<div class="social-networks">
+	    				<div class="social-networks" style="margin-top: 50px;">
 	    					<h2 class="title text-center">Social Networking</h2>
 							<ul>
 								<li>
