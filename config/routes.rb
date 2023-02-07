@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-
+  
   resources :categories, only: [:index, :show]
   resources :contacts
+  resources :profile, only: [:edit, :update]
   resources :user_addresses
   get 'coupons/new'
   post 'coupons/apply_coupon'
@@ -17,18 +18,21 @@ Rails.application.routes.draw do
   post "cart/increase_quantity/:id", to: "cart#increase_quantity", as: "increase_quantity"
   post "cart/decrease_quantity/:id", to: "cart#decrease_quantity", as: "decrease_quantity"
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
+  post '/add_subscription_mailchimp', to: "home#add_subscription_mailchimp", as:"mailchimp_users"
+  get 'orders/index', to: 'orders#index'
+  post 'orders/submit', to: 'orders#submit'
+  get 'orders/submit', to: 'orders#submit', as: 'submit_order'
 
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root 'home#index'
-  get 'users/myorder', to: 'users#myorder', as: 'myorder'
-  get 'users/track_order'
-  post 'users/track_order'
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  get "profile/myorder"
+  get "profile/track_order"
   get 'eshop/index', to: 'eshop#index'
+  post 'eshop/cart', to: 'eshop#cart'
   get 'eshop/login'
   # get 'eshop/blog_single'
   get 'eshop/blog'
   get 'eshop/cart'
-  post 'eshop/cart', to: 'eshop#cart'
   # post 'eshop/apply_coupon', to: 'eshop#apply_coupon', as: 'apply_coupon'
   # patch 'eshop/cart', to: 'eshop#cart', as: 'coupons'
   get 'eshop/checkout'
@@ -37,7 +41,6 @@ Rails.application.routes.draw do
   get 'eshop/error404'
   get 'eshop/payment_success'
   get 'eshop/wishlist'
-  post '/add_subscription_mailchimp', to: "eshop#add_subscription_mailchimp", as:"mailchimp_users"
   # post 'eshop/add_user_address', to: 'eshop#add_user_address', as: 'user_address'
   get 'eshop/product_details/:id', to: 'eshop#product_details', as: 'product_details'
   get 'eshop/cat_prods/:id', to: 'eshop#cat_prods', as: 'cat_prods'
@@ -57,8 +60,6 @@ Rails.application.routes.draw do
   post "eshop/user_order_information", to: "eshop#user_order_information"
   
   # resources :billings
-  get 'orders/index', to: 'orders#index'
-  post 'orders/submit', to: 'orders#submit'
 
   get 'eshop/cash_on_delivery', to: 'eshop#cash_on_delivery', as: 'cash_on_delivery'
   get 'eshop/success', to: 'eshop#success', as: 'order_success'
