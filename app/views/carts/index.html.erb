@@ -1,0 +1,106 @@
+
+<section id="cart_items">
+	<div class="container">
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+				<li><a href="#">Home</a></li>
+				<li class="active">Shopping Cart</li>
+			</ol>
+		</div>
+		<%if session[:cart].empty?%>
+		<%= image_tag "home/empty_cart.png" %>
+		<p>Please add product...<%= link_to "click here",root_path %> to add products</p>
+		<% else %>
+		<div class="table-responsive cart_info">
+			<table class="table table-condensed">
+				<thead>
+					<tr class="cart_menu">
+						<td class="image">Item</td>
+						<td class="description">Description</td>
+						<td class="price">Price</td>
+						<td class="quantity">Quantity</td>
+						<td class="total">Total</td>
+						<td class="action"></td>
+					</tr>
+				</thead>
+					<% @cart.each do |product| %>
+						<tbody>
+							<tr>
+								<td class="cart_product">
+								<%= link_to product_details_path(product) do%>
+									<%= image_tag product.ProductImage,class: "imgsize" %>
+								<% end %>
+								</td>
+								<td class="cart_description">
+									<h4><%= link_to product_details_path(product) do %>
+										<%= product.name %>
+										<% end %>
+									</h4>
+								</td>
+								<td class="cart_price">
+									<p><%= product.price %></p>
+								</td>
+								<td class="cart_quantity">
+									<div class="cart_quantity_button flexclass">
+									<%= button_to '+',increase_quantity_cart_path(product), turbo_method: :post,class:"cart_quantity_up", id: "addcart"  %>
+
+										<input class="cart_quantity_input" type="text" name="quantity" value="<%= product.quantity %>" id="number" autocomplete="off" size="2">
+									<%= button_to '-', decrease_quantity_cart_path(product), turbo_method: :post, class:"cart_quantity_down"  %>
+									</div>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price"><%= tp = product.price*product.quantity %></p>
+								</td>
+								<td class="cart_total">
+									<%= link_to cart_path(product),data: {:remote => true, turbo_method: :delete}, class:"cart_total_price1" do %>
+									<i class="fa fa-times"></i>
+									<% end %>
+								</td>
+								
+							</tr>
+						</tbody>
+					<% end %>
+			</table>
+		</div>
+	</div>
+</section> <!--/#cart_items-->
+
+<section id="do_action">
+	<div class="container">
+		<div class="heading">
+			<h3>What would you like to do next?</h3>
+			<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+		</div>
+		<div class="row">
+		<%= render "coupons/form"%>
+			<div class="col-sm-6">
+				<div class="total_area">
+					<ul>
+						<li>Cart Sub Total <span><%= @cart_prices[:cart_product_price] %></span></li>
+						<% if @coupon.present? %>
+							<li>Coupon Off <span><%= @coupon.percent_off %></span></li>
+						<% else %>
+							<li>Coupon Off <span><%= @percent_off = 0 %></span></li>
+						<% end %>
+						<% if @cart_prices[:applied_shipping_charge].present? %>
+							<li>Shipping Charge <span><%= @cart_prices[:applied_shipping_charge] %></span></li>
+
+						<% else %>
+							<li>Shipping Charge <span>Free</span></li>
+						<% end %>
+						<% if @total_price_with_coupon < @cart_prices[:products_price] && @total_price_with_coupon != 0 %>
+						<li>Total <span id="total_price_with_coupon"><%= @total_price_with_coupon %></span></li>
+
+						<% else %>
+						<li>Total <span id="total_price_with_coupon"><%= @cart_prices[:products_price] %></span></li>
+						<% end %>
+					</ul>
+						<%= link_to "Checkout", checkout_index_path, class:"btn btn-default check_out"%>
+				</div>
+			</div>
+		</div>
+	</div>
+</section><!--/#do_action-->
+
+<% end %>
+			

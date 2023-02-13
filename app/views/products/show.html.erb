@@ -1,0 +1,35 @@
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="left-sidebar">
+				</div>
+			</div>
+			<div class="col-sm-9 padding-right">
+				<div class="product-details"><!--product-details-->
+				<%if @product.present? %>
+					<div class="col-sm-5">
+						<div class="view-product">
+							<%= link_to image_tag(@product.ProductImage.variant(resize_to_limit: [318, 378])), @product.ProductImage,target: :_blank %>
+						</div>
+					</div>
+					<div class="col-sm-7">
+						<div class="product-information"><!--/product-information-->
+							<%= image_tag("product-details/new.jpg", class:"newarrival", alt:"") %>
+							<h2><%= @product.name %></h2>
+							<%= image_tag("product-details/rating.png", alt:"") %>
+							<span>
+								<span>₹<%= @product.price %></span>
+								<label>Quantity:</label>
+								<input type="text" value="1" />
+								<i class="fa fa-shopping-cart"></i><%= link_to "Add to cart", cart_path(@product),remote: true, data: {turbo_method: :post}, class: "btn btn-fefault cart"%>
+							</span>
+							<p><b>Description : </b><%=@product.long_description %></p>
+						</div><!--/product-information-->
+					</div>
+					<% end %>
+				</div><!--/product-details-->
+			</div>
+		</div>
+	</div>
+</section>
