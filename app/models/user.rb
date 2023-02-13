@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:google_oauth2, :facebook, :github]
@@ -19,21 +18,19 @@ class User < ApplicationRecord
   validates :lastname, presence: { message: "last name is required." }
 
   def self.from_omniauth(auth)
-
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user_email = auth.info.email.present? ? auth.info.email : "user.#{auth.uid}@gmail.com"
       user.email = user_email
       user.password = Devise.friendly_token[0, 20]
-      
     end
   end
 
   def user_email
-    UserMailer.new_user_email(self).deliver_now
+    # UserMailer.new_user_email(self).deliver_now
   end
   
   def admin_email
-    UserMailer.new_user_admin_email.deliver_now
+    # UserMailer.new_user_admin_email.deliver_now
   end
 
 
