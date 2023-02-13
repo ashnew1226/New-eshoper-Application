@@ -4,10 +4,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:google_oauth2, :facebook, :github]
   has_many :user_orders, dependent: :destroy
-  has_many :user_addresses
-  has_many :coupons_useds
+  has_many :user_addresses, dependent: :destroy
+  has_many :coupons_useds, dependent: :destroy
   has_many :coupons, through: :coupons_useds
-  has_many :wishlists
+  has_many :wishlists, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :products, through: :wishlists
   has_one_attached :image
