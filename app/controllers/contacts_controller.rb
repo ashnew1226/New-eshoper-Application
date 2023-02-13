@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+  
   def show
     @contact_detail = current_user.contacts
   end
@@ -11,7 +12,6 @@ class ContactsController < ApplicationController
   # POST /contacts or /contacts.json
   def create
     @contact = current_user.contacts.build(contact_params)
-
     respond_to do |format|
       if @contact.save
         format.html { redirect_to contact_url(@contact), notice: "Contact was successfully created." }
@@ -28,4 +28,5 @@ class ContactsController < ApplicationController
   def contact_params
     params.require(:contact).permit(:name, :email, :contact_no, :message )
   end
+
 end 
