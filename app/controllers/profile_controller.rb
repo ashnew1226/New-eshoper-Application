@@ -31,7 +31,7 @@ class ProfileController < ApplicationController
       flash[:notice] = "Please enter correct order id."
     end
   end
-  
+
   private
   
   def user_params
