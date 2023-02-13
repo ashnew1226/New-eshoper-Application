@@ -1,5 +1,4 @@
 class Mailchimp
-	
 	def self.execute(email:, fname:, lname:, addr1:, city:, state:, zip:)
 		client = MailchimpMarketing::Client.new()
 		client.set_config({
@@ -19,12 +18,8 @@ class Mailchimp
 													zip: zip,
 												},
 						},
-		},
-		flash[:notice] = "subscribed !!!"
-		rescue MailchimpMarketing::ApiError => e
-		puts "Error: #{e}"
-		flash[:alert] = "Please make sure that you enter the address or your email id is correct."
-		redirect_to root_path
+		}
+
 	end
 
 end
