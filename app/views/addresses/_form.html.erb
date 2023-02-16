@@ -1,0 +1,57 @@
+<div class="container">
+<%= form_with url: addresses_path, method: :post do |form| %>
+	<div class="row" >
+			<% if @address.present? %>
+				<div class="form-check">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+						<%# radio_button_tag 'color', "green", true, class: "color_input" %>
+							<%= radio_button_tag(:address,@address,true) %>
+							<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
+							<label class="form-check-label" for="flexRadioDefault2">
+							<%= @address%>
+							</label>
+						</ol>
+					</nav>
+						<button class="btn btn-primary" id="display_btn" onclick="buttonFunc()">Click Here to add new address</button>
+				</div>
+			<% else %>
+				<p>Please add your address........</p>
+			<% end %>
+			<div class="mb-3">
+				<%= form.label :Local_address,class:"form-margin" %>
+				<%= form.text_field :shipping_address, class:"form-control" %>
+			</div>
+			<div class="row" style="margin-bottom: 50px;">
+				<div class="col-md-6 mb-3">
+					<label  class="form-margin" for="country">City</label>
+					<%= form.text_field :city, class: "form-control" %>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="state" class="form-margin">State</label>
+					<%= form.text_field :state, class: "form-control" %>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label class="form-margin" for="state">Country</label>
+					<%= form.text_field :country, class: "form-control" %>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label class="form-margin" for="zip">Zip</label>
+					<%= form.text_field :zipcode, class: "form-control" %>
+				</div>	
+			</div>
+	</div>
+	<div class="address_info">
+	</div>
+	<div class="payment-options" style="margin-top: 30px; display: inline-flex;">
+			<%#= check_box_tag "pages[#{@user_order.id}]", true %>
+			<%#= label_tag  %>
+			<% if @address.present? %>
+
+			<% else %>
+					<%= form.submit "Save Address", class: "btn btn-primary" %>
+			<% end %>
+					<%= form.submit "Save Address", class: "btn btn-primary", id: "savebtn" %>		
+	</div>
+<% end %>
+</div>

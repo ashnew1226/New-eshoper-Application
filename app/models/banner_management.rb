@@ -1,3 +1,3 @@
 class BannerManagement < ApplicationRecord
-    has_many_attached :picture
+  has_many_attached :picture
 end

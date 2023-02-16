@@ -1,0 +1,83 @@
+
+<section id="cart_items">
+<div class="container">
+	<div class="breadcrumbs">
+		<ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li class="active">Check out</li>
+		</ol>
+	</div><!--/breadcrums-->
+
+	<div class="register-req">
+		<p>Please use Register And Checkout to easily get access to your order history.</p>
+	</div><!--/register-req-->
+	    <%if session[:cart].empty?%>
+    
+    <% else %>
+    <div class="table-responsive cart_info">
+			<table class="table table-condensed">
+				<thead>
+					<tr class="cart_menu">
+						<td class="image">Item</td>
+						<td class="description"></td>
+						<td class="price">Price</td>
+						<td class="quantity">Quantity</td>
+						<td class="total">Total</td>
+					</tr>
+				</thead>
+					<tbody>
+						<% @cart.each do |product| %>
+							<tr>
+								<td class="cart_product">
+									<a href=""><%= image_tag product.ProductImage,class: "imgsize" %></a>
+								</td>
+								<td class="cart_description">
+									<h4><a href=""><%= product.name %></a></h4>
+									<p>Web ID: 1089772</p>
+								</td>
+								<td class="cart_price">
+									<p><%= product.price %></p>
+								</td>
+								<td class="cart_quantity">
+									<div class="cart_quantity_button flexclass">
+										<input class="cart_quantity_input" type="text" name="quantity" value="<%= product.quantity %>" autocomplete="off" size="2">
+									</div>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price"><%= product.price %></p>
+								</td>
+							</tr>
+							<% end %>
+					</tbody>
+			</table>  
+    </div>
+  <% end %>
+	<div class="shopper-informations">
+		<div class="row">
+			
+			<div class="col-md-12 order-md-3">
+				<h4>Address</h4>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<%if @address.present? %>
+						<%# radio_button_tag 'color', "green", true, class: "color_input" %>
+							<%= radio_button_tag(:address,@address,true) %> 
+							<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
+							<label class="form-check-label" for="flexRadioDefault2">
+							<%= @address%> <%= link_to "Change",new_address_path, class: "change_class"%>
+							</label>
+						<% else %>
+							<%= link_to "Add Address",new_user_address_path, class: "change_class"%>
+						<% end %>
+					</ol>
+                </nav>
+				<%#= render "user_addresses/form"%>		
+				<%= render "orders/form" %>		
+				<div class="", style="margin-bottom: 30px;">
+				</div>	
+			</div>
+			
+		</div>
+	</div>
+</section> <!--/#cart_items-->
+						

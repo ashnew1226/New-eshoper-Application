@@ -73,19 +73,15 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries= true
   # config.action_mailer.default_options = { :host => 'localhost:3000'}
 
-  config.action_mailer.default_options = {from: 'ashnew1226@gmail.com'}
+  config.action_mailer.default_options = {from: ENV['gmail_user_name']}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'gmail.com',
-  user_name:            'ashnew1226@gmail.com',
-  password:             'qjdgvcerbhhxriye',
+  user_name:            ENV['gmail_user_name'],
+  password:             ENV['gmail_app_password'],
   authentication:       'plain'
   }
-  # binding.pry
-  
-  config.stripe.secret_key = Rails.application.credentials.stripe[:secret_key]
-  config.stripe.publishable_key = Rails.application.credentials.stripe[:publishable_key]  
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

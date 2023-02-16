@@ -2642,7 +2642,7 @@ p {
   display: none;
 }
 
-.form_row {
+.form_row1 {
   display: none;
 }
 
@@ -2658,4 +2658,23 @@ p {
   margin-left: 38%;
   margin-right: 30%;
   width: 174px;
+}
+.change_class{
+  padding-left: 120px;
+}
+
+#card-element {
+  width:500px;
+}
+.paymentSelectionTab {
+  display: none;
+}
+.paymentSelectionTab.active {
+  display: block !important;
+}
+.form_btn {
+  display: block;
+}
+  .form_btn.active{
+  display: block !important;
 }
