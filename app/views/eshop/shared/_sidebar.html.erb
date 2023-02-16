@@ -1,5 +1,5 @@
-	<h2>Category</h2>
-	<% @category.each do |category| %>
+<h2>Category</h2>
+<% @category.each do |category| %>
 	<% sub_categories = category.subcategories rescue nil%>
 	<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 		<div class="panel panel-default">
@@ -23,4 +23,4 @@
 			</div>
 		</div>
 	</div><!--/category-products-->
-	<% end %>
+<% end %>

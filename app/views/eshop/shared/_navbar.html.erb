@@ -50,8 +50,8 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", wishlist_index_path ,id: 'cart_id' %></li>
-								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", cart_index_path, id: 'cart_id' %>
+								<li><i class="fa fa-star"></i> <%= link_to "Wishlist", wishlists_path ,id: 'cart_id' %></li>
+								<li><i class="fa fa-shopping-cart"></i> <%= link_to "Cart", carts_path, id: 'cart_id' %>
 								<%if @cart.size == 0 || nil %>
 								<% else %>
 								<span class="badge badge-light badge-pill" style="padding: 2px 5px;"><%=@cart.size rescue nil %></span>
@@ -62,12 +62,14 @@
 								<li><%= link_to 'Sign Up', new_user_registration_path,id: 'cart_id' %></li>
 								<% end %>
 								<li class="dropdown"><a><i class="fa fa-user"></i> Account<i class="fa fa-angle-down"></i></a>
-                                    <ul role="menu" class="sub-menu">
-                                        <li><%= link_to 'My Order',profile_myorder_path %></li>
-										<li><%= link_to 'Track Order',profile_track_order_path %></li> 
-										<li><%= link_to "Edit Profile",edit_profile_path(current_user.id) %></li>
-                                    </ul>
-                                </li> 
+									<ul role="menu" class="sub-menu">
+											<li><%= link_to 'My Order',myorder_profile_index_path %></li>
+											<li><%= link_to 'Track Order',track_order_profile_index_path %></li> 
+											<%if user_signed_in? %>
+												<li><%= link_to "Edit Profile",edit_profile_path(current_user.id) %></li>
+											<% end %>
+									</ul>
+								</li> 
 								<li><i class="fa fa-lock"></i>
 									<% if user_signed_in? %>
 										<%= link_to 'Sign Out', destroy_user_session_path, data: {:turbo_method => :delete},id: 'cart_id' %>
@@ -99,8 +101,8 @@
 								<li><%= link_to "Home",root_path %></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><%= link_to 'Products', product_index_path %></li>
-										<li><%= link_to "Cart", cart_index_path %></li> 
+                                        <li><%= link_to 'Products', products_path %></li>
+										<li><%= link_to "Cart", carts_path %></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
