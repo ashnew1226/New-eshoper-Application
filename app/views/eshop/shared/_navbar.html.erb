@@ -63,8 +63,8 @@
 								<% end %>
 								<li class="dropdown"><a><i class="fa fa-user"></i> Account<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
-											<li><%= link_to 'My Order',myorder_profile_index_path %></li>
-											<li><%= link_to 'Track Order',track_order_profile_index_path %></li> 
+											<li><%= link_to 'My Order',profile_myorder_path %></li>
+											<li><%= link_to 'Track Order',profile_track_order_path %></li> 
 											<%if user_signed_in? %>
 												<li><%= link_to "Edit Profile",edit_profile_path(current_user.id) %></li>
 											<% end %>

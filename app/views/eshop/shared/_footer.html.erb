@@ -137,7 +137,7 @@
 						<div class="single-widget">
 							<h2>Subscribe Here</h2>
 							<% if user_signed_in? %>
-								<%=form_with url: add_subscription_mailchimp_home_index_path, local: true,class:"searchform" do |form| %>
+								<%=form_with url: mailchimp_users_path, local: true,class:"searchform" do |form| %>
 									<% address = current_user.user_addresses.last%>
 									<%= form.hidden_field :email,value: current_user.email %>
 									<%= form.hidden_field :fname,value: current_user.firstname %>
