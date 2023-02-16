@@ -27,12 +27,12 @@
 						<tbody>
 							<tr>
 								<td class="cart_product">
-								<%= link_to product_details_path(product) do%>
+								<%= link_to product_path(product) do%>
 									<%= image_tag product.ProductImage,class: "imgsize" %>
 								<% end %>
 								</td>
 								<td class="cart_description">
-									<h4><%= link_to product_details_path(product) do %>
+									<h4><%= link_to product_path(product) do %>
 										<%= product.name %>
 										<% end %>
 									</h4>
