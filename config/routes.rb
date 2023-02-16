@@ -1,23 +1,18 @@
 Rails.application.routes.draw do
-  root 'home#index'
-  resources :home do
-    collection do 
-      post 'add_subscription_mailchimp'
-    end
-  end
+  
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
   resources :categories, only: [:index, :show]
   resources :contacts
-  resources :profile, only: [:edit, :update] do
-    collection do
-      get "track_order"
-      get "myorder"
-    end 
-    member do
-      post "track_order"
-    end
-  end
+  resources :profile, only: [:edit, :update]  
+  #   collection do
+  #     get "profile/track_order"
+  #     get "profile/myorder"
+  #   end 
+  #   member do
+  #     post "profile/order_tracking"
+  #   end
+  # end
   resources :addresses
   resources :coupons, only: [:new] do
     collection do
@@ -34,11 +29,15 @@ Rails.application.routes.draw do
   resources :wishlists, only: [:index, :create, :destroy]
   resources :products, only: [:index, :show]
   resources :orders, only: [:index] do
-    collection do
+    member do
       post 'submit'
     end
   end
   resources :blogs
-
+  post '/add_subscription_mailchimp', to: "home#add_subscription_mailchimp", as:"mailchimp_users"
+  root 'home#index'
+  get "profile/myorder"
+  get "profile/track_order"
+  post "profile/track_order"
 end
 
