@@ -25,21 +25,21 @@
 								<div class="product-image-wrapper">
 									<div class="single-products">
 										<div class="productinfo text-center">
-											<%= link_to product_details_path do%>
+											<%= link_to product_path(product) do%>
 											<%= image_tag product.ProductImage %>
 											<% end %>
 											<h2>₹<%= product.price %></h2>
 											<p><%= product.name.truncate(70) %></p>
 											<% if @cart.present? && @cart.include?(product) %>
-												<i class="fa fa-shopping-cart newfa"></i><%= link_to "Remove from cart", remove_from_cart_path(product),class:"btn btn-default add-to-cart",id:"cart_id", data: {turbo_method: :delete} %>
+												<i class="fa fa-shopping-cart newfa"></i><%= link_to "Remove from cart", cart_path(product),class:"btn btn-default add-to-cart",id:"cart_id", data: {turbo_method: :delete} %>
 											<% else %>
-												<i class="fa fa-shopping-cart newfa"></i><%= link_to "Add to cart", add_to_cart_path(product),class:"btn btn-default add-to-cart",id:"cart_id", data: {turbo_method: :post} %>
+												<i class="fa fa-shopping-cart newfa"></i><%= link_to "Add to cart", carts_path(product),class:"btn btn-default add-to-cart",id:"cart_id", data: {turbo_method: :post} %>
 											<% end %>											
 										</div>
 									</div>
 									<div class="choose">
 										<ul class="nav nav-pills nav-justified">
-											<li><i class="fa fa-plus-square"></i><%= link_to 'Add to wishlist', wishlist_index_path(product) %></li>
+											<li><i class="fa fa-plus-square"></i><%= link_to 'Add to wishlist', wishlists_path(id: product), method: :post %></li>
 										</ul>
 									</div>
 								</div>
