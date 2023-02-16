@@ -24,10 +24,10 @@ class ProfileController < ApplicationController
 
   def track_order
     order = current_user.user_orders.all
-    order_id = params[:user_order_id].to_i
-    if (order.ids).include?(order_id)
-      @user_order = current_user.user_orders.find_by(id: order_id)
-    elsif order_id != 0 && (order.ids).include?(order_id) == false
+    @order_id = params[:user_order_id].to_i
+    if (order.ids).include?(@order_id)
+      @user_order = current_user.user_orders.find_by(id: @order_id)
+    elsif @order_id != 0 && (order.ids).include?(@order_id) == false
       flash[:notice] = "Please enter correct order id."
     end
   end
