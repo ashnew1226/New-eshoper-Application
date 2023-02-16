@@ -9,7 +9,13 @@
         <h2 class="title text-center">Edit Profile</h2>
 
         <%= form_with(model: @profile, url: profile_path(@profile), method: "patch") do |f|%>
-
+            <% if f.object.errors.any? %>
+              <div class="alert alert-danger">
+                <% f.object.errors.full_messages.each do |msg| %>
+                <div><%= msg %></div>
+                <% end %>
+              </div>
+            <% end %>
           <div class="form-group col-md-12">
             <%= f.label :first_name %><br />
             <%= f.text_field :firstname, autofocus: true,class:"form-control", autocomplete: "firstname",value:current_user.firstname  %>
