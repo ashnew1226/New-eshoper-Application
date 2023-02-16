@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :prepare_new_order, only: [:stripe_create_payment]
   require 'stripe'
-  Stripe.api_key = 'sk_test_51ME59WSDCO9rQieouDgPB589PVx9cdYWonNq11UlMzvKx3K2jpon9sLXMdwrrCTcpMEXFk25r9F1XBYo7LcfX0uc00DXuFAO1L'
+  Stripe.api_key = ENV['stripe_secret_key']
    
   def index
     products = Product.all
@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
         @product = prepare_new_order
         @orders_products = @cart
         @total_amount = params[:user_orders][:total].to_i
-        Stripe.execute(
+        Stripes.execute(
                       user_order: @user_order, user: current_user,
                       product: @product, amount: @total_amount,
                       user_address: @address, coupon: @coupon
@@ -87,11 +87,11 @@ class OrdersController < ApplicationController
       @user_order = UserOrder.create(user_id: current_user.id, order_status: status, user_address_id: user_address.id)
     end
     products.each do |product|
-        @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
-        total = (product.quantity)*(product.price)
-        product_price_lists << total
-        product.quantity = 1
-        product.save
+      @user_order.order_details.create(product_id: product.id,amount: product.price,quantity: product.quantity)
+      total = (product.quantity)*(product.price)
+      product_price_lists << total
+      product.quantity = 1
+      product.save
     end
     @product_prices = product_price_lists
     UserOrderMailer.with(order: @user_order,product: products, amount: @total_amount).new_order(current_user).deliver_now
