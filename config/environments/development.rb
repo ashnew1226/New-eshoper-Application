@@ -73,7 +73,7 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries= true
   # config.action_mailer.default_options = { :host => 'localhost:3000'}
 
-  config.action_mailer.default_options = {from: 'ashnew1226@gmail.com'}
+  config.action_mailer.default_options = {from: ENV['gmail_user_name']}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
