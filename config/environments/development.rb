@@ -79,13 +79,9 @@ Rails.application.configure do
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'gmail.com',
-  user_name:            'ashnew1226@gmail.com',
-  password:             'qjdgvcerbhhxriye',
+  user_name:            ENV['gmail_user_name'],
+  password:             ENV['gmail_app_password'],
   authentication:       'plain'
   }
-  # binding.pry
-  
-  config.stripe.secret_key = Rails.application.credentials.stripe[:secret_key]
-  config.stripe.publishable_key = Rails.application.credentials.stripe[:publishable_key]  
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
