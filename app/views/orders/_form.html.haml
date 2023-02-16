@@ -2,7 +2,7 @@
 %div.container
   %h4 Total amount 
   %p ₹ #{@total_amount}
-  = form_tag({:controller => "orders", :action => "submit" }, {:id => 'order-details'}) do
+  = form_tag({:controller => "orders", :action => "submit"}, {:id => 'order-details'}) do
     %input{id:'order-type', :type=>"hidden", :value=>"stripe", :name=>'user_orders[payment_gateway]'}
       %input{id:'final_price', :type=>"hidden", :value=>@total_amount, :name=>'user_orders[total]'}
     - if @coupon.present?
@@ -56,16 +56,13 @@
 :javascript
   function changeTab() {
     var newActiveTabID = $('input[name="payment-selection"]:checked').val();
-    console.log(newActiveTabID);
     $('.paymentSelectionTab').removeClass('active');
     $('#tab-' + newActiveTabID).addClass('active');
-        console.log("new tab id : ",newActiveTabID);
   }
 
   (function setupStripe() {
     //Initialize stripe with publishable key
-    var stripe = Stripe("pk_test_51ME59WSDCO9rQieo0T1HospsE9qT68whtGjZlHTAGzVUCuqy0h4ZQ4mZV6tM64K6zOzxBOuVNZxXRaDm1gUxnWEW00m2cFhzbH");
-    console.log("stripe is"+stripe);
+    var stripe = Stripe("#{ENV['stripe_public_key']}");
     //Create Stripe credit card elements.
     var elements = stripe.elements();
     var card = elements.create('card');
