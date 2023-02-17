@@ -1,6 +1,6 @@
 class Stripes
   require 'stripe'
-  Stripe.api_key = ENV['stripe_secret_key']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     INVALID_STRIPE_OPERATION = 'Invalid Stripe Operation'
     def self.execute(user_order:, user:, product:, amount:, user_address:, coupon:)
       if product.stripe_plan_name.blank?
