@@ -1,4 +1,4 @@
-app/views/products/show.html.erb# PostgreSQL. Versions 9.3 and up are supported.
+# app/views/products/show.html.erb# PostgreSQL. Versions 9.3 and up are supported.
 #
 # Install the pg driver:
 #   gem install pg
@@ -26,8 +26,8 @@ development:
   database: eshop_development
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST']  || 'localhost' %>
-  port: <%= ENV['DB_PORT']  || '5432' %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
@@ -63,8 +63,8 @@ test:
   database: eshop_test
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST']  || 'localhost' %>
-  port: <%= ENV['DB_PORT']  || '5432' %>
+  host: <%= ENV['DB_HOST'] %>
+  port: <%= ENV['DB_PORT'] %>
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.

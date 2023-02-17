@@ -69,18 +69,19 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.perform_deliveries= true
+  # config.action_mailer.perform_deliveries= true
   # config.action_mailer.default_options = { :host => 'localhost:3000'}
 
-  config.action_mailer.default_options = {from: ENV['gmail_user_name']}
+  config.action_mailer.default_options = {from: ENV['GMAIL_USER_NAME']}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'gmail.com',
-  user_name:            ENV['gmail_user_name'],
-  password:             ENV['gmail_app_password'],
+  user_name:            ENV['GMAIL_USER_NAME'],
+  password:             ENV['GMAIL_APP_PASSWORD'],
   authentication:       'plain'
   }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
