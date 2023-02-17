@@ -22,7 +22,11 @@
 								<span>₹<%= @product.price %></span>
 								<label>Quantity:</label>
 								<input type="text" value="1" />
-								<i class="fa fa-shopping-cart"></i><%= link_to "Add to cart", cart_path(@product),remote: true, data: {turbo_method: :post}, class: "btn btn-fefault cart"%>
+								<% if @cart.present? && @cart.include?(@product) %>
+									<i class="fa fa-shopping-cart newfa"><%= link_to "Remove from cart", cart_path(@product),class:"btn btn-default add-to-cart removecart",remote: true, data: {turbo_method: :delete} %></i>
+								<% else %>
+									<i class="fa fa-shopping-cart newfa"><%= link_to "Add to cart", carts_path(id: @product),class:"btn btn-default add-to-cart",id:"add_btn",remote: true, data: {turbo_method: :post} %></i>
+								<% end %>
 							</span>
 							<p><b>Description : </b><%=@product.long_description %></p>
 						</div><!--/product-information-->

@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :prepare_new_order, only: [:stripe_create_payment]
   require 'stripe'
-  Stripe.api_key = ENV['stripe_secret_key']
+  Stripe.api_key = ENV['STRIPE_SECRET_KEY']
    
   def index
     products = Product.all

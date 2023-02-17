@@ -62,7 +62,7 @@
 
   (function setupStripe() {
     //Initialize stripe with publishable key
-    var stripe = Stripe("#{ENV['stripe_public_key']}");
+    var stripe = Stripe("#{ENV['STRIPE_PUBLIC_KEY']}");
     //Create Stripe credit card elements.
     var elements = stripe.elements();
     var card = elements.create('card');

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   resources :wishlists, only: [:index, :create, :destroy]
   resources :products, only: [:index, :show]
   resources :orders, only: [:index] do
-    member do
+    collection do
       post 'submit'
     end
   end
