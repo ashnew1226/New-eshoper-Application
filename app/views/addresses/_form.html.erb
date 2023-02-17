@@ -1,5 +1,12 @@
 <div class="container">
-<%= form_with url: addresses_path, method: :post do |form| %>
+<%= form_with model: @user_address, url: addresses_path, method: :post do |form| %>
+	<% if form.object.errors.any? %>
+		<div class="alert alert-danger">
+			<% form.object.errors.full_messages.each do |msg| %>
+			<div><%= msg %></div>
+			<% end %>
+		</div>
+	<% end %>
 	<div class="row" >
 			<% if @address.present? %>
 				<div class="form-check">
