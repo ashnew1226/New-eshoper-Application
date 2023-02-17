@@ -16,6 +16,7 @@ class AddressesController < ApplicationController
   # POST /user_addresses or /user_addresses.json
   def create
     @user_address = current_user.user_addresses.build(user_address_params)
+    binding.pry
     respond_to do |format|
       if @user_address.save
         format.html { redirect_to checkout_index_path, notice: "User address was successfully created." }
@@ -58,7 +59,7 @@ class AddressesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_address_params
-    params.permit(:shipping_address, :country, :billing_address, :city, :state, :zipcode)
+    params.require(:user_address).permit(:shipping_address, :country, :billing_address, :city, :state, :zipcode)
   end
 
 end
