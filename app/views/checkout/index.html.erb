@@ -58,20 +58,21 @@
 			<div class="col-md-12 order-md-3">
 				<h4>Address</h4>
 				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<%if @address.present? %>
+					<%# <ol class="breadcrumb"> %>
+						<%#if @address.present? %>
 						<%# radio_button_tag 'color', "green", true, class: "color_input" %>
-							<%= radio_button_tag(:address,@address,true) %> 
+							<%#= radio_button_tag(:address,@address,true) %> 
 							<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
-							<label class="form-check-label" for="flexRadioDefault2">
-							<%= @address%> <%= link_to "Change",new_address_path, class: "change_class"%>
-							</label>
-						<% else %>
-							<%= link_to "Add Address",new_user_address_path, class: "change_class"%>
-						<% end %>
-					</ol>
+							<%# <label class="form-check-label" for="flexRadioDefault2"> %>
+							<%#= @address%> <%#= link_to "Change",new_address_path, class: "change_class"%>
+							<%# </label> %>
+						<%# else %>
+							<%#~= link_to "Add Address",new_user_address_path, class: "change_class"%>
+						<%#end %>
+					<%# </ol> %>
                 </nav>
-				<%#= render "user_addresses/form"%>		
+				<%#= render "user_addresses/form" %>
+
 				<%= render "orders/form" %>		
 				<div class="", style="margin-bottom: 30px;">
 				</div>	
