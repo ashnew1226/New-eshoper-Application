@@ -1,0 +1,169 @@
+
+<div class="container">
+<h4 style="margin-bottom: 30px;"> Total Amount <h4>
+  <p style="margin-bottom: 30px;">₹ <%= @total_amount %><p>
+<hr>
+  <%= form_tag({:controller => "orders", :action => "submit"}, {:id => 'order-details'}) do |form| %>
+  <input id="order-type" name="user_orders[payment_gateway]" type="hidden" value="stripe">
+    <input id="final_price" name="user_orders[total]" type="hidden" value="<%= @total_amount %>">
+  <% if @coupon.present? %>
+    <input id="coupon_id" name="user_orders[coupon_id]" type="hidden" value="<%= @coupon.id %>">
+  <% end %>
+    <div class="mb-3" style="margin-bottom: 30px">
+    <% if @addr_hashs.present?%>
+      <%# binding.pry %>
+        <%#= select_tag :new_locale, options_for_select(I18n.available_locales, I18n.locale), :onchange => "this.form.submit();" %>
+          <%# <h4 style="margin-bottom: 30px">Select Address / Add new address</h4> %>
+          <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+              Select Address
+            </a>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <%= select_tag "address", options_for_select(@addr_hashs.collect {|p| [ p[:address], p[:id] ] }, @addr_hashs.last[:id]), include_blank: true %>
+            </div>
+					</div>
+          <br>
+          <br>
+          <br>
+          <%= link_to "Add new address", new_address_path, class:"bottom-space"%>
+    <% else %>
+          <%= link_to "Add Your address", new_address_path%>
+    <% end %>
+      <%#= form.select :id, @addr_hashs.collect { |p| [  p[:address], p[:id] ] }, include_blank: true %>
+    </div>
+    <div class="form_row1">
+      <h4>Charges/Payments</h4>
+        <% @products_purchase.each do |product| %>
+          <div class="data-charges-and-payments-section">
+          <%= radio_button_tag 'user_orders[product_id]', product.id, @products_purchase.first == product %>
+          <input id="hideid" name="<%= :order %>" type="hidden" value="1">
+          <span id="radioButtonName<%= product.id %>">"Your Order"</span>
+          <span data-price="<%= product.price %>" id="radioButtonPrice<%= product.id %>">#{humanized_money_with_symbol product.price}</span>
+
+          </div>
+      <% end %>
+    </div>
+      <% @products_subscription.each do |product| %>
+      <%= radio_button_tag 'user_orders[product_id]', product.id, false %>
+      <span id="radioButtonName<%= product.id %>">#{product.name}</span>
+      <span data-price="<%= product.price %>" id="radioButtonPrice<%= product.id %>">#{humanized_money_with_symbol product.price}</span>
+
+      <% end %>
+      <h4 style="margin-bottom: 30px;">Payment Method</h4>
+      <div class="form_row">
+        <div style="margin-bottom: 30px;">
+          <%= radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();" %>
+          <span>Stripe</span>
+        </div>
+        <div style="margin-bottom: 30px;">
+          <%= radio_button_tag 'payment-selection', 'COD', false, onclick: "changeTab();" %>
+          <span>COD</span>
+        </div>
+
+      </div>
+      <div class="paymentSelectionTab active" id="tab-stripe" style="margin-bottom: 30px;">
+        <div id="card-element"></div>
+        <div id="card-errors" role="alert"></div>
+        <br/>
+      </div>
+  <%= submit_tag "Buy it!", id: "submit-stripe" %>
+
+<% end %>
+</div>
+ 
+<script>
+function changeTab() {
+    var newActiveTabID = $('input[name="payment-selection"]:checked').val();
+    $('.paymentSelectionTab').removeClass('active');
+    $('#tab-' + newActiveTabID).addClass('active');
+  }
+
+  (function setupStripe() {
+    //Initialize stripe with publishable key
+    var stripe = Stripe("<%=ENV['STRIPE_PUBLIC_KEY']%>");
+    //Create Stripe credit card elements.
+    var elements = stripe.elements();
+    var card = elements.create('card');
+
+    //Add a listener in order to check if
+    card.addEventListener('change', function(event) {
+      //the div card-errors contains error details if any
+      var displayError = document.getElementById('card-errors');
+      document.getElementById('submit-stripe').disabled = false;
+      if (event.error) {
+        // Display error
+        displayError.textContent = event.error.message;
+      } else {
+        // Clear error
+        displayError.textContent = '';
+      }
+    });
+
+    // Mount Stripe card element in the #card-element div.
+    card.mount('#card-element');
+    var form = document.getElementById('order-details');
+    // This will be called when the #submit-stripe button is clicked by the user.
+    form.addEventListener('submit', function(event) {
+      $('#submit-stripe').prop('disabled', true);
+      event.preventDefault();
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          // Inform that there was an error.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+        // Now we submit the form. We also add a hidden input storing 
+    // the token. So our back-end can consume it.
+          var $form = $("#order-details");
+          // Add a hidden input orders[token]
+          $form.append($('<input type="hidden" name="user_orders[token]"/>').val(result.token.id));
+          // Set order type
+          $('#order-type').val('stripe');
+          $form.submit();
+        }
+      });
+      return false;
+    });
+  }());
+
+    (function setupCOD() {
+      console.log("inside COD method");
+    function isPayment() {
+      return p = $('[data-charges-and-payments-section] input[name="orders[product_id]"]:checked').length
+    }
+
+    function submitOrderCOD(chargeID) {
+      var $form = $("#order-details");
+      // Add a hidden input orders[charge_id]
+      $form.append($('<input type="hidden" name="orders[charge_id]"/>').val(chargeID));
+      // Set order type
+      $('#order-type').val('COD');
+      $form.submit();
+    }
+
+  }())  
+
+</script>
+  
+<style>
+  #card-element {
+    width:500px;
+  }
+  .paymentSelectionTab {
+    display: none;
+  }
+  .paymentSelectionTab.active {
+    display: block !important;
+  }
+  .form_btn {
+    display: block;
+  }
+    .form_btn.active{
+    display: block !important;
+  }
+  .bottom-space{
+    margin-bottom: 30px;
+  }
+  </style>
