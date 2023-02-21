@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div class="container">
+        <p>Your Order Placed successfully <br>
+        --------------------------
+        </p>
+        <p>Order details.</p>
+        <p>Order ID: <%= @order.id %></p>
+        <% if @order.payment_gateway.present? %>
+            <p>Payment successfully done with <strong><%= @order.payment_gateway %></strong> payment gateway</p>
+            <p>Your payment id : <strong><%= @order.payment_id %></strong></p>
+        <% end %>
+        <strong> Products: </strong>
+        <% @products.each do |product| %>
+        <ul>
+            <li><p><%= product.name %></p>
+            </li>
+            <li><p>₹<%= product.price %></p>
+            </li>
+        </ul>
+        <% end %>
+        <p>total amount with charges: <%= @amount %></p>
+
+    </div>
+  </body>
+</html>
