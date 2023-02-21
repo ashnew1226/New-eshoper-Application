@@ -1,33 +1,40 @@
+
+
 <div class="container">
 <%= form_with model: @user_address, url: addresses_path, method: :post do |form| %>
-	<% if form.object.errors.any? %>
-		<div class="alert alert-danger">
-			<% form.object.errors.full_messages.each do |msg| %>
-			<div><%= msg %></div>
-			<% end %>
-		</div>
-	<% end %>
 	<div class="row" >
-			<% if @address.present? %>
-				<div class="form-check">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb">
-						<%# radio_button_tag 'color', "green", true, class: "color_input" %>
-							<%= radio_button_tag(:address,@address,true) %>
-							<%#= form.radio_button :billing_address, :value=> @address, checked:true %>
-							<label class="form-check-label" for="flexRadioDefault2">
-							<%= @address%>
-							</label>
-						</ol>
-					</nav>
-						<button class="btn btn-primary" id="display_btn" onclick="buttonFunc()">Click Here to add new address</button>
-				</div>
-			<% else %>
+		
+
+					<% if @addresses.present? %>
+						<p>
+							<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+								Select Address
+							</a>
+
+						</p>
+						<div class="collapse" id="collapseExample">
+							<div class="card card-body">
+							<%= select_tag "address", options_for_select(@addr_hashs.collect {|p| [ p[:address], p[:id] ] }, @addr_hashs.last[:id]), include_blank: true %>
+							</div>
+						</div>
+					<% else %>
 				<p>Please add your address........</p>
 			<% end %>
 			<div class="mb-3">
 				<%= form.label :Local_address,class:"form-margin" %>
 				<%= form.text_field :shipping_address, class:"form-control" %>
+			</div>
+			<div class="mb-3">
+			<%# @address.each do |a|%>
+			<%#= select_tag "count", raw("<option>a</option>") %>
+			<%# end %>
+				<%#= select_tag 'address', options_for_select(@address.collect{ |u| [u.city, u.state] }) %>
+				<%# <% binding.pry %>
+				<%#= collection_select('id', 'address', @addr_hashs, :first, :last) %>
+
+  			<%#= form.select :id, @addr_hashs.collect { |p| [  p[:address], p[:id] ] }, include_blank: true %>
+				<%#= collection_select(:user_address,:user_address_id, @addresses, :shipping_address, prompt: true)%>
+				<%#= select_tag "people", options_from_collection_for_select(@addresses, '@address') %>
 			</div>
 			<div class="row" style="margin-bottom: 50px;">
 				<div class="col-md-6 mb-3">
