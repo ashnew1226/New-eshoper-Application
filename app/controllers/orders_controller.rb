@@ -8,6 +8,18 @@ class OrdersController < ApplicationController
     @products_purchase = @cart
     @total_amount = session[:cart_hash]["products_price"].to_i
     @products_subscription = products.where(name:nil, name:nil)
+    @address = UserAddress.select(:id,:shipping_address,:city,:state,:zipcode).last(5)
+    @addr_hashs = []
+    @address.each do |add|
+      my_address = "#{add.shipping_address}, #{add.city}, #{add.state} - #{add.zipcode}"
+
+    # p add.shipping_address
+    # p my_address
+    # @address_string << add.id
+    # @address_string << my_address
+       @addr_hashs << {id: add.id , address: my_address}
+    end
+    binding.pry
   end
 
   def submit
@@ -16,6 +28,8 @@ class OrdersController < ApplicationController
     else
       if order_params[:payment_gateway] == "stripe"
         @product = prepare_new_order
+        binding.pry
+        @address = UserAddress.find(params[:address])
         @orders_products = @cart
         @total_amount = params[:user_orders][:total].to_i
         Stripes.execute(
@@ -30,6 +44,7 @@ class OrdersController < ApplicationController
       return render 'orders/show'
       session[:cart_hash] = nil
     else
+      binding.pry
       if @user_order&.save
         if @user_order.paid?
           product_price_lists = []
