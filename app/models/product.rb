@@ -11,5 +11,6 @@ class Product < ApplicationRecord
 
 	has_one_attached :ProductImage
 	validates :quantity, numericality: { greater_than_or_equal_to: 1 }
+  scope :costs_less_than, ->(price) { where("price < ?", price) }
 
 end
