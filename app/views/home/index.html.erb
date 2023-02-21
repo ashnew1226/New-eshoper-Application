@@ -45,6 +45,11 @@
 					<%= render partial: "categories/categories"%>		
 					<div class="shipping text-center"><!--shipping-->
 						<%= image_tag "home/shipping.jpg" %>
+						<%= form_with url: filter_products_path, method: :get do |form| %>
+						<%#= form.select :option, options_for_select(:option, options_for_select([['below - 500', 500], ['below - 1000', 1000], ['below - 3000', 3000], ['below - 5000', 5000], ['below - 10000', 10000]], selected: :option )) %>
+							<%= form.select(:option, options_for_select([['below - 500', 500], ['below - 1000', 1000], ['below - 3000', 3000], ['below - 5000', 5000], ['below - 10000', 10000]], selected: :option )) %>
+							<%= form.submit "Apply-Filter"%>
+						<% end %>
 					</div>						
 				</div>
 			</div>
