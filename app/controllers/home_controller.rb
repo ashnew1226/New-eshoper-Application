@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!
-   
+
   def index
     @banners = BannerManagement.all
     @products = Product.all.limit(6)

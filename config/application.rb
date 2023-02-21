@@ -12,9 +12,9 @@ module Eshoper
     # config_file = Rails.application.config_for(:application)
 
     # Load dotenv only in development or test environment
-    if ['development', 'test'].include? ENV['RAILS_ENV']
-      Dotenv::Railtie.load
-    end
+    # if ['development'].include? ENV['RAILS_ENV']
+    #   Dotenv::Railtie.load
+    # end
     # Configuration for the application, engines, and railties goes here.
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.

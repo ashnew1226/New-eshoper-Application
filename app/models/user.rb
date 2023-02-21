@@ -26,11 +26,11 @@ class User < ApplicationRecord
   end
 
   def user_email
-    # UserMailer.new_user_email(self).deliver_now
+    UserMailer.new_user_email(self).deliver_now
   end
   
   def admin_email
-    # UserMailer.new_user_admin_email.deliver_now
+    UserMailer.new_user_admin_email.deliver_now
   end
 
 
