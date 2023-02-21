@@ -1,5 +1,20 @@
 class AddressesController < ApplicationController
 
+  def index
+    @addresses = UserAddress.all
+    @address = UserAddress.select(:id,:shipping_address,:city,:state,:zipcode).last(5)
+    @addr_hashs = []
+    @address.each do |add|
+      my_address = "#{add.shipping_address}, #{add.city}, #{add.state} -  #{add.zipcode}"
+
+    # p add.shipping_address
+    # p my_address
+    # @address_string << add.id
+    # @address_string << my_address
+       @addr_hashs << {id: add.id , address: my_address}
+    end
+
+  end
   # GET /user_addresses/1 or /user_addresses/1.json
   def show
   end
@@ -15,8 +30,8 @@ class AddressesController < ApplicationController
 
   # POST /user_addresses or /user_addresses.json
   def create
+    # binding.pry
     @user_address = current_user.user_addresses.build(user_address_params)
-    binding.pry
     respond_to do |format|
       if @user_address.save
         format.html { redirect_to checkout_index_path, notice: "User address was successfully created." }
