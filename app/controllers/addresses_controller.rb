@@ -1,19 +1,7 @@
 class AddressesController < ApplicationController
 
   def index
-    @addresses = UserAddress.all
-    @address = UserAddress.select(:id,:shipping_address,:city,:state,:zipcode).last(5)
-    @addr_hashs = []
-    @address.each do |add|
-      my_address = "#{add.shipping_address}, #{add.city}, #{add.state} -  #{add.zipcode}"
-
-    # p add.shipping_address
-    # p my_address
-    # @address_string << add.id
-    # @address_string << my_address
-       @addr_hashs << {id: add.id , address: my_address}
-    end
-
+    @addresses = Address.all
   end
   # GET /user_addresses/1 or /user_addresses/1.json
   def show
@@ -21,7 +9,7 @@ class AddressesController < ApplicationController
 
   # GET /user_addresses/new
   def new
-    @user_address = UserAddress.new
+    @address = Address.new
   end
 
   # GET /user_addresses/1/edit
@@ -30,15 +18,14 @@ class AddressesController < ApplicationController
 
   # POST /user_addresses or /user_addresses.json
   def create
-    # binding.pry
-    @user_address = current_user.user_addresses.build(user_address_params)
+    @address = current_user.addresses.build(address_params)
     respond_to do |format|
-      if @user_address.save
+      if @address.save
         format.html { redirect_to checkout_index_path, notice: "User address was successfully created." }
-        format.json { render :show, status: :created, location: @user_address }
+        format.json { render :show, status: :created, location: @address }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user_address.errors, status: :unprocessable_entity }
+        format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,35 +33,35 @@ class AddressesController < ApplicationController
   # PATCH/PUT /user_addresses/1 or /user_addresses/1.json
   def update
     respond_to do |format|
-      if @user_address.update(user_address_params)
-        format.html { redirect_to user_address_url(@user_address), notice: "User address was successfully updated." }
-        format.json { render :show, status: :ok, location: @user_address }
+      if @address.update(address_params)
+        format.html { redirect_to address_url(@address), notice: "User address was successfully updated." }
+        format.json { render :show, status: :ok, location: @address }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user_address.errors, status: :unprocessable_entity }
+        format.json { render json: @address.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /user_addresses/1 or /user_addresses/1.json
   def destroy
-    @user_address.destroy
+    @address.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_addresses_url, notice: "User address was successfully destroyed." }
+      format.html { redirect_to addresses_url, notice: "User address was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
   # Use callbacks to share common setup or constraints between actions.
-  def set_user_address
-    @user_address = UserAddress.find(params[:id])
+  def set_address
+    @address = Address.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
-  def user_address_params
-    params.require(:user_address).permit(:shipping_address, :country, :billing_address, :city, :state, :zipcode)
+  def address_params
+    params.require(:address).permit(:shipping_address, :country, :billing_address, :city, :state, :zipcode)
   end
 
 end
