@@ -58,7 +58,6 @@ class OrdersController < ApplicationController
   end
   
   def show
-    @order = current_user.orders.last
   end
 
   private
@@ -71,7 +70,7 @@ class OrdersController < ApplicationController
     end
     
   def order_params
-      params.require(:orders).permit(:token, :payment_gateway, :charge_id, :amount, :status)
+    params.require(:orders).permit(:token, :payment_gateway, :charge_id, :amount, :status)
   end
 
   def cash_on_delivery
@@ -82,8 +81,8 @@ class OrdersController < ApplicationController
     status = @order.set_order
     address = current_user.addresses.last
     if params[:coupon].present?
-        @coupon = Coupon.find(params[:coupon])
-        @order = Order.create(id: current_user.id, order_status: status, address_id: address.id,coupon_id: @coupon.id)
+      @coupon = Coupon.find(params[:coupon])
+      @order = Order.create(id: current_user.id, order_status: status, address_id: address.id,coupon_id: @coupon.id)
     else
       @order = Order.create(id: current_user.id, order_status: status, address_id: address.id)
     end
