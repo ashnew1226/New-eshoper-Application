@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div class="container">
+      <p>Daily Queries of customers <br>
+          --------------------------
+      </p>
+      <%@queries.each do |query|%>
+        <p><%= query.name %></p>
+        <p><%= query.email %></p>
+        <p><%= query.contact_no %></p>
+        <p><%= query.message %></p>
+      <% end %>
+
+      <p>Customer Replied queries <br>
+      -----------------------------
+      </p>
+      <%@replied_queries.each do |query|%>
+        <p><%= query.name %></p>
+        <p><%= query.email %></p>
+        <p><%= query.contact_no %></p>
+        <p><%= query.note_admin %></p>
+        <p><%= query.message %></p>
+      <% end %>
+    </div>
+  </body>
+</html>
