@@ -3,8 +3,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers=> [:google_oauth2, :facebook, :github]
-  has_many :user_orders, dependent: :destroy
-  has_many :user_addresses, dependent: :destroy
+  has_many :orders, dependent: :destroy
+  has_many :addresses, dependent: :destroy
   has_many :coupons_useds, dependent: :destroy
   has_many :coupons, through: :coupons_useds
   has_many :wishlists, dependent: :destroy
