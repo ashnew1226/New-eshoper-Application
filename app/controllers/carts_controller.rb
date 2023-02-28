@@ -21,7 +21,6 @@ class CartsController < ApplicationController
   end
 
   def destroy
-    # product_id = params[:id].to_i if params[:id].present?
     session[:cart].delete(@product.id)
     respond_to do |format|
       format.html { redirect_to request.referrer, notice: "Product removed successfully." }

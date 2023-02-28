@@ -5,9 +5,7 @@ class ProfileController < ApplicationController
   end
   
   def myorder
-    @profile_image = current_user.image
     @my_order = current_user.orders
-    @order_details = OrderDetail.all   
   end
 
   def update
