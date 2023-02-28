@@ -12,7 +12,7 @@
 				</h4>
 			</div>
 		</div>
-		<% id = @categor.id rescue 0 %>
+		<% id = @parent_category.id rescue 0 %>
 		<div id="<%= category.id %>" class="panel-collapse <%= sub_categories.map(&:id).include?(id) ? "in" : "collapse" %>">
 			<div class="panel-body">
 				<ul>

@@ -10,19 +10,19 @@ class Order < ApplicationRecord
   after_update :sent_status_mail
 
   def set_paid
-    self.order_status = UserOrder.order_statuses[:paid]
+    self.order_status = Order.order_statuses[:paid]
   end
   def set_order
-    self.order_status = UserOrder.order_statuses[:ordered]
+    self.order_status = Order.order_statuses[:ordered]
   end
   def set_failed
-    self.order_status = UserOrder.order_statuses[:failed]
+    self.order_status = Order.order_statuses[:failed]
   end
   def set_stripe_executed
-    self.order_status = UserOrder.order_statuses[:stripe_executed]
+    self.order_status = Order.order_statuses[:stripe_executed]
   end
 
   def sent_status_mail
-    UserOrderMailer.send_order_status(self).deliver_now
+    OrderMailer.send_order_status(self).deliver_now
   end
 end

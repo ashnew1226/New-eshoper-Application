@@ -1,7 +1,7 @@
 
 
 <div class="container">
-<%= form_with model: @user_address, url: addresses_path, method: :post do |form| %>
+<%= form_with model: @address, url: addresses_path, method: :post do |form| %>
 	<div class="row" >
 		
 
@@ -14,7 +14,22 @@
 						</p>
 						<div class="collapse" id="collapseExample">
 							<div class="card card-body">
-							<%= select_tag "address", options_for_select(@addr_hashs.collect {|p| [ p[:address], p[:id] ] }, @addr_hashs.last[:id]), include_blank: true %>
+							<%#= select_tag "address", options_for_select(@addr_hashs.collect {|p| [ p[:address], p[:id] ] }, @addr_hashs.last[:id]), include_blank: true %>
+							<%# <%= radio_button_tag :price_option, 'no_price', checked: model.no_price? %>
+							<%# <%= radio_button_tag :price_option, 'fixed_amount', checked: model.fixed_amount? %>
+							<%#= form.radio_button :plan_id, @addresses, onclick: "alert('Hello world!');" %>
+							
+							<%#= form.radio_button_tag 'address',@addr_hashs[:id], @addr_hashs[:address], true %>
+
+							<%# form.radio_button(@addr_hashs, @addr_hashs[:address], @addr_hashs[:id].to_i) %>
+  						<%#= form.collection_radio_buttons :address, @addr_hashs.collect {|p| [ p[:address], p[:id] ] }, :name_with_initial %>
+							<%# [[true, 'Yes'] ,[false, 'No']] %>
+							<%= form.collection_radio_buttons :address, set_address.collect {|p| [p[:address], p[:id]]}, :last, :first do |b| %>
+								<div class="form-check-input">
+									<%= b.radio_button %>
+									<%= b.label %>
+								</div>
+							<% end %>
 							</div>
 						</div>
 					<% else %>
@@ -33,7 +48,7 @@
 				<%#= collection_select('id', 'address', @addr_hashs, :first, :last) %>
 
   			<%#= form.select :id, @addr_hashs.collect { |p| [  p[:address], p[:id] ] }, include_blank: true %>
-				<%#= collection_select(:user_address,:user_address_id, @addresses, :shipping_address, prompt: true)%>
+				<%#= collection_select(:address,:address_id, @addresses, :shipping_address, prompt: true)%>
 				<%#= select_tag "people", options_from_collection_for_select(@addresses, '@address') %>
 			</div>
 			<div class="row" style="margin-bottom: 50px;">
@@ -53,19 +68,14 @@
 					<label class="form-margin" for="zip">Zip</label>
 					<%= form.text_field :zipcode, class: "form-control" %>
 				</div>	
+	<%= form.submit "Save Address", class: "btn btn-primary", id: "" %>		
 			</div>
 	</div>
 	<div class="address_info">
 	</div>
 	<div class="payment-options" style="margin-top: 30px; display: inline-flex;">
-			<%#= check_box_tag "pages[#{@user_order.id}]", true %>
+			<%#= check_box_tag "pages[#{@order.id}]", true %>
 			<%#= label_tag  %>
-			<% if @address.present? %>
-
-			<% else %>
-					<%= form.submit "Save Address", class: "btn btn-primary" %>
-			<% end %>
-					<%= form.submit "Save Address", class: "btn btn-primary", id: "savebtn" %>		
 	</div>
 <% end %>
 </div>

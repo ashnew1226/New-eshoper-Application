@@ -1,2 +1,2 @@
-module CheckoutHelper
+module CheckoutHelper  
 end

@@ -2,23 +2,23 @@ class Stripes
   require 'stripe'
   Stripe.api_key = ENV['STRIPE_SECRET_KEY']
     INVALID_STRIPE_OPERATION = 'Invalid Stripe Operation'
-    def self.execute(user_order:, user:, product:, amount:, user_address:, coupon:)
+    def self.execute(order:, user:, product:, amount:, address:, coupon:)
       if product.stripe_plan_name.blank?
         charge = self.execute_payment_intent(price: amount,
                                     description: product.name)
       end
       unless charge&.id.blank?
         # If there is a charge with id, set order paid.
-        user_order.payment_id = charge.id
-        user_order.user_address_id = user_address.id
+        order.payment_id = charge.id
+        order.address_id = address.id
         if coupon.present?
-          user_order.coupon_id = coupon.id
+          order.coupon_id = coupon.id
         end 
-        user_order.set_paid
+        order.set_paid
       end
       rescue Stripe::StripeError => e
-        user_order.error_message = INVALID_STRIPE_OPERATION
-        user_order.set_failed
+        order.error_message = INVALID_STRIPE_OPERATION
+        order.set_failed
         
       end
       private

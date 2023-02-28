@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_30_074301) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_21_104123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_074301) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "billing_address"
+    t.string "shipping_address"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.string "zipcode"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "banner_managements", force: :cascade do |t|
@@ -128,9 +141,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_074301) do
     t.integer "quantity"
     t.decimal "amount"
     t.bigint "product_id", null: false
-    t.bigint "user_order_id", null: false
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_order_details_on_order_id"
     t.index ["product_id"], name: "index_order_details_on_product_id"
-    t.index ["user_order_id"], name: "index_order_details_on_user_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "coupon_id"
+    t.string "email"
+    t.string "payment_id"
+    t.string "error_message"
+    t.string "customer_id"
+    t.integer "payment_gateway"
+    t.string "token"
+    t.bigint "user_id", null: false
+    t.integer "order_status"
+    t.bigint "address_id", null: false
+    t.index ["address_id"], name: "index_orders_on_address_id"
+    t.index ["coupon_id"], name: "index_orders_on_coupon_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "product_attribute_values", force: :cascade do |t|
@@ -219,37 +250,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_074301) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_addresses", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "billing_address"
-    t.string "shipping_address"
-    t.string "city"
-    t.string "state"
-    t.string "country"
-    t.string "zipcode"
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_user_addresses_on_user_id"
-  end
-
-  create_table "user_orders", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "coupon_id"
-    t.string "email"
-    t.string "payment_id"
-    t.string "error_message"
-    t.string "customer_id"
-    t.integer "payment_gateway"
-    t.string "token"
-    t.bigint "user_id", null: false
-    t.integer "order_status"
-    t.bigint "user_address_id", null: false
-    t.index ["coupon_id"], name: "index_user_orders_on_coupon_id"
-    t.index ["user_address_id"], name: "index_user_orders_on_user_address_id"
-    t.index ["user_id"], name: "index_user_orders_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -286,21 +286,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_074301) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "users"
   add_foreign_key "contacts", "users"
   add_foreign_key "coupons_useds", "coupons"
   add_foreign_key "coupons_useds", "users"
+  add_foreign_key "order_details", "orders"
   add_foreign_key "order_details", "products"
-  add_foreign_key "order_details", "user_orders"
+  add_foreign_key "orders", "addresses"
+  add_foreign_key "orders", "coupons"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_attribute_values", "product_attributes", column: "product_attributes_id"
   add_foreign_key "product_attributes_assocs", "product_attributes", column: "product_attributes_id"
   add_foreign_key "product_attributes_assocs", "products"
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
   add_foreign_key "product_images", "products"
-  add_foreign_key "user_addresses", "users"
-  add_foreign_key "user_orders", "coupons"
-  add_foreign_key "user_orders", "user_addresses"
-  add_foreign_key "user_orders", "users"
   add_foreign_key "wishlists", "products"
   add_foreign_key "wishlists", "users"
 end

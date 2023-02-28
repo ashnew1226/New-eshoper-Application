@@ -30,11 +30,7 @@ Rails.application.routes.draw do
     end
   end
   resources :wishlists, only: [:index, :create, :destroy]
-  resources :products, only: [:index, :show] do
-    collection do 
-      get 'filter'
-    end
-  end
+  resources :products, only: [:index, :show] 
   resources :orders, only: [:index] do
     collection do
       post 'submit'
