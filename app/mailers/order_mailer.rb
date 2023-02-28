@@ -1,4 +1,4 @@
-app/helpers/wishlists_helper.rbclass OrderMailer < ApplicationMailer
+class OrderMailer < ApplicationMailer
     def new_order(current_user)
         @products = params[:product]
         @order = params[:order]
