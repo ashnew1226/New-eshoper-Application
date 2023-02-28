@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   validates :firstname, presence: { message: "first name is required." }
   validates :lastname, presence: { message: "last name is required." }
+  scope :admin, ->{find_by(superadmin_role: true, supervisor_role: true)}
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -32,6 +33,5 @@ class User < ApplicationRecord
   def admin_email
     UserMailer.new_user_admin_email.deliver_now
   end
-
 
 end
