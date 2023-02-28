@@ -1,13 +1,13 @@
 class CategoriesController < ApplicationController
 
   def index
-    @category = Category.where(parent_id: nil)
+    @category = Category.with_subcategory
   end
 
   def show
-    @category = Category.where(parent_id: nil)
-    parent_category = Category.find(params[:id])
-    @products = parent_category.products
+    @category = Category.with_subcategory
+    @parent_category = Category.find(params[:id])
+    @products = @parent_category.products
   end
   
 end

@@ -10,7 +10,6 @@ class CartsController < ApplicationController
   end
 
   def create
-    # product_id = params[:id].to_i if params[:id].present?
     cart = session[:cart] << @product.id unless session[:cart].include?(@product.id)
     respond_to do |format|
       if cart.exclude?(@cart)
