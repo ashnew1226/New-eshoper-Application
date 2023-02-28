@@ -49,7 +49,6 @@ class OrdersController < ApplicationController
           end
           OrderMailer.with(order: @order,product: products, amount: @total_amount).new_order(current_user).deliver_now
           session[:cart] = nil
-          # session[:cart_hash = nil]
           return render "orders/show"
         elsif @order.failed? && !@order.error_message.blank?
           return render html: @order.error_message
@@ -67,7 +66,7 @@ class OrdersController < ApplicationController
   def prepare_new_order
     @address = current_user.addresses.last
     @order = Order.new(order_params)
-    @order.id = current_user.id
+    @order.user_id = current_user.id
     @product = Product.find(params[:orders][:product_id])
     end
     
