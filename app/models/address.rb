@@ -4,5 +4,6 @@ class Address < ApplicationRecord
 
 	validates :shipping_address,:city,:country,:state,:zipcode, presence: true
 	validates :zipcode, numericality: { only_integer: true }
+	scope :recent, ->(value) {last(value)}
 
 end
