@@ -10,5 +10,12 @@ class ContactMailer < ApplicationMailer
 		@contact = contact
 		mail(to: @contact.email, subject: "Your response sent successfully.")
 	end
+
+	def daily_queries
+		admin_user = User.admin
+		@queries = Contact.recent_customer_queries
+		@replied_queries = Contact.recent_replied_queries
+		mail(to: admin_user.email, subject: "daily contacted customers")
+	end
 	
 end
