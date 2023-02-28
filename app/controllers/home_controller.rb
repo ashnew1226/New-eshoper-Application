@@ -2,8 +2,8 @@ class HomeController < ApplicationController
 
   def index
     @banners = BannerManagement.all
-    @products = Product.all.limit(6)
-    @category = Category.where(parent_id: nil)
+    @products = Product.all.take(6)
+    @category = Category.with_subcategories
   end
 
   def add_subscription_mailchimp
