@@ -18,6 +18,9 @@ every 1.day do
   rake 'batch:send_messages'
 end
 
+every 1.day do
+  rake 'batch:daily_queries'
+end
 every 7.day do
     rake 'batch:week_wishlist'
 end
