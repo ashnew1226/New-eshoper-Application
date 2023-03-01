@@ -1,18 +1,11 @@
 class ProductsController < ApplicationController
 
   def index
-
-    if params[:filter].present? && params[:filter][:option].present? && params[:filter][:dec_option].present?
-      cost = {option: params[:filter][:option], dec_option: params[:filter][:dec_option]}
-      @products = Product.filter(cost)
-    elsif params[:filter].present? && params[:filter][:option].present?
-      cost = {option: params[:filter][:option]}
-      @products = Product.filter(cost)
-      a = "option"
-    elsif params[:filter].present? && params[:filter][:dec_option].present?
-      cost = {dec_option: params[:filter][:dec_option]}
-      @products = Product.filter(cost)
-      b = 'dec_option'
+    if params[:filter].present? && params[:filter][:amount].present?
+      @products = Product.costs_less_than(params[:filter][:amount])
+    elsif params[:search].present? && params[:search][:key].present?
+      key = "%#{params[:search][:key]}%"
+      @products = Product.search(key)
     else
       @products = Product.all
     end
@@ -21,5 +14,5 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
   end
-
+  
 end
