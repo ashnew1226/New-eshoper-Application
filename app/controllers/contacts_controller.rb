@@ -16,6 +16,7 @@ class ContactsController < ApplicationController
       if @contact.save
         format.html { redirect_to contact_url(@contact), notice: "Your response sent successfully." }
         format.json { render :show, status: :created, location: @contact }
+        ContactMailer.with(contact: @contact).contact_mail(current_user).deliver_now
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
@@ -26,7 +27,7 @@ class ContactsController < ApplicationController
   private
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :contact_no, :message )
+    params.require(:contact).permit(:contact_no, :message )
   end
 
 end 
