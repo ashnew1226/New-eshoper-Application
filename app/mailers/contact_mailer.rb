@@ -4,13 +4,8 @@ class ContactMailer < ApplicationMailer
 		@user = current_user
 		@contact = params[:contact]
 		mail(to: @user.email, subject: "Your response sent successfully.")
+		mail(to: @admin.email, subject: "Your response sent successfully.")
 	end
-
-	def contact_admin_mail(contact)
-		@contact = contact
-		mail(to: @contact.email, subject: "Your response sent successfully.")
-	end
-
 	def daily_queries
 		admin_user = User.admin
 		@queries = Contact.recent_customer_queries
