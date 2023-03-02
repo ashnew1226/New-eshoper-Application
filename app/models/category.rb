@@ -4,8 +4,7 @@ class Category < ApplicationRecord
 	has_many :subcategories, class_name: "Category", foreign_key: "parent_id", dependent: :destroy
 	belongs_to :parent, class_name: "Category", optional: true
 	enum :status, [ :active, :inactive]
-
-	scope :with_subcategories, -> {joins(:subcategories).where(parent_id: nil).distinct}
-
+	
+	scope :with_subcategories, -> {where("parent_id = id")}
 
 end
