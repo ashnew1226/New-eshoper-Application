@@ -8,8 +8,7 @@
           --------------------------
       </p>
       <%@queries.each do |query|%>
-        <p><%= query.name %></p>
-        <p><%= query.email %></p>
+
         <p><%= query.contact_no %></p>
         <p><%= query.message %></p>
       <% end %>
@@ -18,10 +17,9 @@
       -----------------------------
       </p>
       <%@replied_queries.each do |query|%>
-        <p><%= query.name %></p>
-        <p><%= query.email %></p>
+
         <p><%= query.contact_no %></p>
-        <p><%= query.note_admin %></p>
+        <p><%= query.replies %></p>
         <p><%= query.message %></p>
       <% end %>
     </div>
