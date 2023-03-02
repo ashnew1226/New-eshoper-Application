@@ -1,7 +1,7 @@
 <h2>Category</h2>
 <% @category.each do |category| %>
-<% sub_categories = category.subcategories rescue nil%>
-<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+<% sub_categories = category.subcategories.where("parent_id <> id") rescue nil%>
+<div class="panel-group category-products" id="accordian"><!--category-products-->
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
