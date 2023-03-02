@@ -9,19 +9,12 @@
 			</div>
 		</div>			 		
 	</div>    	
-		<div class="row" style="margin-top: 50px;">  	
+		<div class="row" style="margin-top: 50px;">
 			<div class="col-sm-8">
 				<div class="contact-form">
 					<h2 class="title text-center">Get In Touch</h2>
 					<div class="status alert alert-success" style="display: none"></div>
 				<%= form_with model: @contact, turbo_method: :post, remote: true,data: {turbo: false},class:"contact-form row" do |form| %>
-					
-								<div class="form-group col-md-6">
-						<%= form.text_field :name, class:"form-control",placeholder:"Name", value: ""%>
-								</div>
-								<div class="form-group col-md-6">
-						<%= form.text_field :email, class:"form-control",placeholder:"Email" %>
-								</div>
 								<div class="form-group col-md-12">
 										<%= form.number_field :contact_no, class:"form-control",placeholder:"Contact Number", pattern: "[1-9]{1}[0-9]{9}" %>
 								</div>
@@ -37,11 +30,10 @@
 			<div class="col-sm-4">
 				<div class="contact-info">
 					<h2 class="title text-center">Customer Queries</h2>
-				<%# binding.pry %>
 				<% if current_user.contacts.present?  %>
 					<p style="padding: 6px 0px 0px 81px;"><strong>Me</strong>: <%= @contact_detail.last.message %></p>
-					<% if @contact_detail.last.note_admin.present? %>
-					<p><strong>Admin</strong>: <%= @contact_detail.last.note_admin %></p>
+					<% if @contact_detail.last.replies.present? %>
+					<p><strong>Admin</strong>: <%= @contact_detail.last.replies %></p>
 					<% else %>
 					<p style="padding: 6px 0px 0px 81px;">Waiting for admin responce.....</p>
 					<% end %>
