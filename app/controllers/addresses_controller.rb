@@ -3,20 +3,17 @@ class AddressesController < ApplicationController
   def index
     @addresses = Address.all
   end
-  # GET /user_addresses/1 or /user_addresses/1.json
+
   def show
   end
 
-  # GET /user_addresses/new
   def new
     @address = Address.new
   end
 
-  # GET /user_addresses/1/edit
   def edit
   end
 
-  # POST /user_addresses or /user_addresses.json
   def create
     @address = current_user.addresses.build(address_params)
     respond_to do |format|
@@ -30,7 +27,6 @@ class AddressesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /user_addresses/1 or /user_addresses/1.json
   def update
     respond_to do |format|
       if @address.update(address_params)
@@ -43,7 +39,6 @@ class AddressesController < ApplicationController
     end
   end
 
-  # DELETE /user_addresses/1 or /user_addresses/1.json
   def destroy
     @address.destroy
 
@@ -54,12 +49,10 @@ class AddressesController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
   def set_address
     @address = Address.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def address_params
     params.require(:address).permit(:shipping_address, :country, :billing_address, :city, :state, :zipcode)
   end
