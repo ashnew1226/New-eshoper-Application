@@ -7,7 +7,8 @@ class HomeController < ApplicationController
   end
 
   def add_subscription_mailchimp
-    service = Mailchimp.execute(email: params[:email], fname: params[:fname], lname: params[:lname],addr1: params[:addr1],city: params[:city],state: params[:state],zip: params[:zip]) 
+    user_params = {email: params[:email], fname: params[:fname], lname: params[:lname],addr1: params[:addr1],city: params[:city],state: params[:state],zip: params[:zip]}
+    service = Mailchimp.execute(user_params: user_params) 
     flash[:notice] = "subscribed !!!"
     rescue MailchimpMarketing::ApiError => e
     puts "Error: #{e}"

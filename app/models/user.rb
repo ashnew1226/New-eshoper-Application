@@ -1,8 +1,10 @@
-class User < ApplicationRecord
+# frozen_string_literal: true
 
+# products
+class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, :omniauth_providers=> [:google_oauth2, :facebook, :github]
+         :omniauthable, omniauth_providers: %i[google_oauth2 facebook github]
   has_many :orders, dependent: :destroy
   has_many :addresses, dependent: :destroy
   has_many :coupons_useds, dependent: :destroy
@@ -11,12 +13,10 @@ class User < ApplicationRecord
   has_many :contacts, dependent: :destroy
   has_many :products, through: :wishlists
   has_one_attached :image
-
   after_create :user_email, :admin_email
-
-  validates :firstname, presence: { message: "first name is required." }
-  validates :lastname, presence: { message: "last name is required." }
-  scope :admin, ->{find_by(superadmin_role: true, supervisor_role: true)}
+  validates :firstname, presence: { message: 'first name is required.' }
+  validates :lastname, presence: { message: 'last name is required.' }
+  scope :admin, -> { find_by(superadmin_role: true, supervisor_role: true) }
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -29,9 +29,8 @@ class User < ApplicationRecord
   def user_email
     UserMailer.new_user_email(self).deliver_now
   end
-  
+
   def admin_email
     UserMailer.new_user_admin_email.deliver_now
   end
-
 end
