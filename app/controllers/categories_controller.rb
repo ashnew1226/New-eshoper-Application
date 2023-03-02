@@ -11,4 +11,3 @@ class CategoriesController < ApplicationController
   end
   
 end
-e
