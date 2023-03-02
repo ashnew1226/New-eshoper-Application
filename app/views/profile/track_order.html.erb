@@ -153,7 +153,7 @@ p {
         <div class="features_items"><!--fmy orders-->
           <h2 class="title text-center">Track Order</h2>
           <div class="col-md-12">
-            <%= form_with  url: track_order_profile_path(@order_id),  local: true,data: { turbo: false } do |form| %>
+            <%= form_with  url: track_order_profile_index_path(@order_id),  local: true,data: { turbo: false } do |form| %>
                 <ul class="user_option">
                     <li>
                     <div class="form-group col-md-6">
