@@ -6,13 +6,12 @@ class CouponsController < ApplicationController
 
   def apply_coupon
     user = current_user
-    used_coupon = params[:code]
-    available_coupon = Coupon.find_by(code: used_coupon)
+    available_coupon = Coupon.find_by(code: params[:code])
     coupons = Coupon.all
     number_of_uses = 0
     cart_price = params[:cart_sub_total].to_i
     coupons.each do |coupon|
-      if used_coupon == coupon.code
+      if params[:code] == coupon.code
         if user.coupons.exclude(available_coupon)
           coupon_off = coupon.percent_off
           coupon.number_of_uses += 1
