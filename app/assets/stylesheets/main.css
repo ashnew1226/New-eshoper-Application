@@ -2719,3 +2719,7 @@ input[type="range"]::-webkit-slider-thumb {
   input[type="range"]::-webkit-slider-thumb:active {
     transform: scale(1.6);
   }
+
+  .bottom-space {
+    margin-bottom: 30px;
+  }
