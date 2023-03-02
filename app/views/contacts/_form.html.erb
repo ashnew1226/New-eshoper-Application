@@ -22,12 +22,7 @@
 								<% end %>
 							</div>
 						<% end %>
-						<div class="form-group col-md-6">
-							<%= form.text_field :name, class:"form-control",placeholder:"Name", value: ""%>
-						</div>
-						<div class="form-group col-md-6">
-							<%= form.text_field :email, class:"form-control",placeholder:"Email" %>
-						</div>
+
 						<div class="form-group col-md-12">
 							<%= form.number_field :contact_no, class:"form-control",placeholder:"Contact Number", pattern: "[1-9]{1}[0-9]{9}" %>
 						</div>
@@ -46,7 +41,7 @@
 					<% if current_user.present? && @contact_detail.present? %>
 						<p><strong><%=@contact_detail.last.name%></strong>: <%= @contact_detail.last.message %></p>
 						<% if @contact_detail.last.note_admin %>
-						<p><strong>Admin</strong>: <%= @contact_detail.last.note_admin %></p>
+						<p><strong>Admin</strong>: <%= @contact_detail.last.replies %></p>
 						<% end %>
 					<% end %>
 					<div class="social-networks">
