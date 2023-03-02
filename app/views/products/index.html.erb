@@ -5,23 +5,7 @@
 				<div class="left-sidebar">
 					<div class="shipping text-center"><!--shipping-->
 						<%= image_tag "home/shipping.jpg" %>
-						<%= form_for :filter, url: products_path, method: :get do |form| %>
-						<%#= form.select :option, options_for_select(:option, options_for_select([['below - 500', 500], ['below - 1000', 1000], ['below - 3000', 3000], ['below - 5000', 5000], ['below - 10000', 10000]], selected: :option )) %>
-							<label>Select Price Below - </label>
-							<%= form.select(:option, options_for_select([['select', nil],['below - 500', 500], ['below - 1000', 1000], ['below - 3000', 3000], ['below - 5000', 5000], ['below - 10000', 10000]], selected: :option )) %>
-							<label>Select Price Above -</label>
-							<%= form.select(:dec_option, options_for_select([['select', nil],['above - 500', 500], ['above - 1000', 1000], ['above - 3000', 3000], ['above - 5000', 5000], ['above - 10000', 10000]], selected: :dec_option )) %>
-							<%# <label for="customRange2" class="form-label">Example range</label> %>
-							<%#= form.range_field :w1, :min=>0, :max=>200, :class=>"slide", :id=>"slider1"%>
-
-							<%#= form.text_field :price, id: 'ex8', type: 'text',
-                 data: {'slider-id' => 'ex1Slider',
-                        'slider-min' => '50000',
-                        'slider-max' => '100000',
-                        'slider-step' => '100',
-                        'slider-value' => '50' } %>
-							<%= form.submit "Apply-Filter"%>
-						<% end %>
+						<%= render "search_form" %>
 					</div>						
 				</div>
 			</div>
