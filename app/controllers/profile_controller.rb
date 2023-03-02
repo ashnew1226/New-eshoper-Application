@@ -10,7 +10,7 @@ class ProfileController < ApplicationController
 
   def update
     respond_to do |format|
-      if @profile.update(params)
+      if @profile.update(profile_params)
         format.html { redirect_to profile_url(@profile), notice: "Profile successfully updated." }
         format.json { render :show, status: :ok, location: @profile }
       else
@@ -32,7 +32,7 @@ class ProfileController < ApplicationController
 
   private
   
-  def params
+  def profile_params
     params.require(:user).permit( :firstname, :email, :lastname)    
   end
 
