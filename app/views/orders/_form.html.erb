@@ -1,78 +1,76 @@
 
 <div class="container">
-<h4 style="margin-bottom: 30px;"> Total Amount <h4>
-  <p style="margin-bottom: 30px;">₹ <%= @total_amount %><p>
-<hr>
-  <%= form_with url:submit_orders_path, :id => 'order-details' do |form| %>
-  <input id="order-type" name="orders[payment_gateway]" type="hidden" value="stripe">
-    <input id="final_price" name="orders[total]" type="hidden" value="<%= @total_amount %>">
-  <% if @coupon.present? %>
-    <input id="coupon_id" name="orders[coupon_id]" type="hidden" value="<%= @coupon.id %>">
-  <% end %>
-    <div class="mb-3" style="margin-bottom: 30px">
-    <% if set_address.present?%>
-      <%# binding.pry %>
-        <%#= select_tag :new_locale, options_for_select(I18n.available_locales, I18n.locale), :onchange => "this.form.submit();" %>
-          <%# <h4 style="margin-bottom: 30px">Select Address / Add new address</h4> %>
-          <p>
-            <a class="" data-toggle="collapse" href="#collapseExample"  aria-expanded="false" aria-controls="collapseExample">
-              Select address
-            </a>
-          </p>
-          <%# Dynamic Radio button for addresses %>
-          <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-            	<%= form.collection_radio_buttons :address, set_address.collect {|p| [p[:address], p[:id]]}, :last, :first do |b| %>
-								<div class="form-check-input">
-									<%= b.radio_button %>
-									<%= b.label %>
-								</div>
-							<% end %>
-            </div>
-					</div>
-              <%#= select_tag "address", options_for_select(set_address.collect {|p| [ p[:address], p[:id] ] }, set_address.last[:id]), include_blank: true %>
-          <br>
-          <br>
-          <br>
-          <%= link_to "Add new address", new_address_path, class:"bottom-space"%>
-    <% else %>
-          <%= link_to "Add Your address", new_address_path%>
-    <% end %>
-      <%#= form.select :id, @addr_hashs.collect { |p| [  p[:address], p[:id] ] }, include_blank: true %>
-    </div>
-    <div class="form_row1">
-      <h4>Charges/Payments</h4>
-        <% @products_purchase.each do |product| %>
-          <div class="data-charges-and-payments-section">
-          <%= radio_button_tag 'orders[product_id]', product.id, @products_purchase.first == product %>
-          <input id="hideid" name="<%= :order %>" type="hidden" value="1">
-          <span id="radioButtonName<%= product.id %>">"Your Order"</span>
-          <span data-price="<%= product.price %>" id="radioButtonPrice<%= product.id %>">#{humanized_money_with_symbol product.price}</span>
-
-          </div>
+  <h4 style="margin-bottom: 30px;"> Total Amount <h4>
+    <p style="margin-bottom: 30px;">₹ <%= @total_amount %><p>
+    <hr>
+    <%= form_with url:submit_orders_path, :id => 'order-details' do |form| %>
+      <input id="order-type" name="orders[payment_gateway]" type="hidden" value="stripe">
+      <input id="final_price" name="orders[total]" type="hidden" value="<%= @total_amount %>">
+      <% if @coupon.present? %>
+        <input id="coupon_id" name="orders[coupon_id]" type="hidden" value="<%= @coupon.id %>">
       <% end %>
-    </div>
-      
-      <h4 style="margin-bottom: 30px;">Payment Method</h4>
-      <div class="form_row">
-        <div style="margin-bottom: 30px;">
-          <%= radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();" %>
-          <span>Stripe</span>
-        </div>
-        <div style="margin-bottom: 30px;">
-          <%= radio_button_tag 'payment-selection', 'COD', false, onclick: "changeTab();" %>
-          <span>COD</span>
-        </div>
-
+      <div class="mb-3" style="margin-bottom: 30px">
+        <% if set_address.present?%>
+          <%# binding.pry %>
+            <%#= select_tag :new_locale, options_for_select(I18n.available_locales, I18n.locale), :onchange => "this.form.submit();" %>
+              <%# <h4 style="margin-bottom: 30px">Select Address / Add new address</h4> %>
+              <p>
+                <a class="" data-toggle="collapse" href="#collapseExample"  aria-expanded="false" aria-controls="collapseExample">
+                  Select address
+                </a>
+              </p>
+              <%# Dynamic Radio button for addresses %>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  <%= form.collection_radio_buttons :address, set_address.collect {|p| [p[:address], p[:id]]}, :last, :first do |b| %>
+                    <div class="form-check-input">
+                      <%= b.radio_button %>
+                      <%= b.label %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+                  <%#= select_tag "address", options_for_select(set_address.collect {|p| [ p[:address], p[:id] ] }, set_address.last[:id]), include_blank: true %>
+              <br>
+              <br>
+              <br>
+              <%= link_to "Add new address", new_address_path, class:"bottom-space"%>
+        <% else %>
+              <%= link_to "Add Your address", new_address_path%>
+        <% end %>
+        <%#= form.select :id, @addr_hashs.collect { |p| [  p[:address], p[:id] ] }, include_blank: true %>
       </div>
-      <div class="paymentSelectionTab active" id="tab-stripe" style="margin-bottom: 30px;">
-        <div id="card-element"></div>
-        <div id="card-errors" role="alert"></div>
-        <br/>
-      </div>
-  <%= submit_tag "Buy it!", id: "submit-stripe" %>
+      <div class="form_row1">
+        <h4>Charges/Payments</h4>
+          <% @products_purchase.each do |product| %>
+            <div class="data-charges-and-payments-section">
+              <%= radio_button_tag 'orders[product_id]', product.id, @products_purchase.first == product %>
+              <input id="hideid" name="<%= :order %>" type="hidden" value="1">
+              <span id="radioButtonName<%= product.id %>">"Your Order"</span>
+              <span data-price="<%= product.price %>" id="radioButtonPrice<%= product.id %>">#{humanized_money_with_symbol product.price}</span>
 
-<% end %>
+            </div>
+          <% end %>
+      </div>
+        
+        <h4 class="bottom-space">Payment Method</h4>
+        <div class="form_row">
+          <div class="bottom-space">
+            <%= radio_button_tag 'payment-selection', 'stripe', true, onclick: "changeTab();" %>
+            <span>Stripe</span>
+          </div>
+          <div class="bottom-space">
+            <%= radio_button_tag 'payment-selection', 'COD', false, onclick: "changeTab();" %>
+            <span>COD</span>
+          </div>
+        </div>
+        <div class="paymentSelectionTab active" id="tab-stripe" class="bottom-space">
+          <div id="card-element"></div>
+          <div id="card-errors" role="alert"></div>
+          <br/>
+          <%= submit_tag "Buy it!", id: "submit-stripe" %>
+        </div>
+  <% end %>
 </div>
  
 <script>
