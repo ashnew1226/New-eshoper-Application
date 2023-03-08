@@ -3,12 +3,11 @@ class OrdersController < ApplicationController
   require 'stripe'
   Stripe.api_key = ENV['STRIPE_SECRET_KEY']
   include AddressesHelper
+  include CartsHelper
 
   def index
     products = Product.all
     @products_purchase = @cart
-    @total_amount = session[:cart_hash]["products_price"].to_i
-   
   end
 
   def submit
@@ -18,6 +17,7 @@ class OrdersController < ApplicationController
       if order_params[:payment_gateway] == "stripe"
         @product = prepare_new_order
         @address = Address.find(params[:address])
+        @coupon = Coupon.find(params[:orders][:coupon_id].to_i) if session[:coupon].present?
         @orders_products = @cart
         @total_amount = params[:orders][:total].to_i
         Stripes.execute(
@@ -49,6 +49,8 @@ class OrdersController < ApplicationController
           end
           OrderMailer.with(order: @order,product: products, amount: @total_amount).new_order(current_user).deliver_now
           session[:cart] = nil
+          session[:cart_hash] = nil
+          session[:coupon] = nil
           return render "orders/show"
         elsif @order.failed? && !@order.error_message.blank?
           return render html: @order.error_message
