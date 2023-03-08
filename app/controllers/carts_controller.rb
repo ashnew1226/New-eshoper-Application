@@ -3,7 +3,6 @@ class CartsController < ApplicationController
   before_action :set_cart_product, except: [:index]
 
   def index
-    @total_price_with_coupon = params[:total].to_i
     if params[:coupon].present?
       @coupon = Coupon.find(params[:coupon])
     end
@@ -53,11 +52,12 @@ class CartsController < ApplicationController
     products_price = cart_product_price + shipping_charge
     @cart_prices = {cart_product_price: cart_product_price, applied_shipping_charge: applied_shipping_charge, products_price: products_price }
     if session[:coupon].present?
-      coupon = session[:coupon].to_i
+      coupon = session[:coupon]
       coupon_id = {coupon: coupon}
       session[:cart_hash] = @cart_prices.merge(coupon) 
+    else
+      session[:cart_hash] = @cart_prices
     end
-    session[:cart_hash] = @cart_prices
   end
   
   def set_cart_product
