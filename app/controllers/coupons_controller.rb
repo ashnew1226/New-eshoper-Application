@@ -12,18 +12,18 @@ class CouponsController < ApplicationController
     cart_price = params[:cart_sub_total].to_i
     coupons.each do |coupon|
       if params[:code] == coupon.code
-        if user.coupons.exclude(available_coupon)
+        if user.coupons.where(:code => available_coupon.code).present?
+          redirect_to carts_path, alert: "Coupon allready used"                        
+        else
           coupon_off = coupon.percent_off
           coupon.number_of_uses += 1
           total = cart_price - coupon_off
           user.coupons << coupon
           session[:coupon] = coupon
-          redirect_to cart_index_path, notice: "Coupon applied successfully." 
-        else
-          redirect_to cart_index_path, alert: "Coupon allready used"                        
+          redirect_to carts_path, notice: "Coupon applied successfully." 
         end
       else
-        flash[:alert] = "Invalid coupon"                        
+        flash[:alert] = "Invalid coupon"        
       end
     end
   end
