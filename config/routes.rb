@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   root 'home#index'
-  resources :home do
-    collection do 
-      post 'add_subscription_mailchimp'
-    end
-  end
+  resources :home
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_scope :users do
+    post 'subscribe', to: 'users#subscribe'
+  end
   resources :categories, only: [:index, :show]
   resources :contacts
   resources :profile, only: [:edit, :update] do
