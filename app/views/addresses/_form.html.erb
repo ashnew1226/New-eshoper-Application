@@ -1,7 +1,7 @@
 
 
 <div class="container">
-<%= form_with model: @address, url: addresses_path, method: :post do |form| %>
+<%= form_with model: @address, method: :post do |form| %>
 	<div class="row" >
 		
 
@@ -74,8 +74,6 @@
 	<div class="address_info">
 	</div>
 	<div class="payment-options" style="margin-top: 30px; display: inline-flex;">
-			<%#= check_box_tag "pages[#{@order.id}]", true %>
-			<%#= label_tag  %>
 	</div>
 <% end %>
 </div>
