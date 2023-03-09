@@ -77,8 +77,8 @@
 				<div class="total_area">
 					<ul>
 						<li>Cart Sub Total <span><%= @cart_prices[:cart_product_price] %></span></li>
-						<% if @coupon.present? %>
-							<li>Coupon Off <span><%= @coupon.percent_off %></span></li>
+						<% if session[:coupon].present? %>
+							<li>Coupon Off <span><%= session[:coupon]["percent_off"] %></span></li>
 						<% else %>
 							<li>Coupon Off <span><%= @percent_off = 0 %></span></li>
 						<% end %>
@@ -88,11 +88,11 @@
 						<% else %>
 							<li>Shipping Charge <span>Free</span></li>
 						<% end %>
-						<% if @total_price_with_coupon < @cart_prices[:products_price] && @total_price_with_coupon != 0 %>
-						<li>Total <span id="total_price_with_coupon"><%= @total_price_with_coupon %></span></li>
+						<% if coupons_price != nil %>
+							<li>Total <span id="total_price_with_coupon"><%=  coupons_price  %></span></li>
 
 						<% else %>
-						<li>Total <span id="total_price_with_coupon"><%= @cart_prices[:products_price] %></span></li>
+							<li>Total <span id="total_price_with_coupon"><%= @cart_prices[:products_price] %></span></li>
 						<% end %>
 					</ul>
 						<%= link_to "Checkout", checkout_index_path, class:"btn btn-default check_out"%>
