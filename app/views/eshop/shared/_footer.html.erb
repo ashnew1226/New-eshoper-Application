@@ -136,24 +136,15 @@
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
 							<h2>Subscribe Here</h2>
-							<% if user_signed_in? %>
-								<%=form_with url: add_subscription_mailchimp_home_index_path, local: true,class:"searchform" do |form| %>
-									<% address = current_user.addresses.last%>
-									<%= form.hidden_field :email,value: current_user.email %>
-									<%= form.hidden_field :fname,value: current_user.firstname %>
-									<%= form.hidden_field :lname,value: current_user.lastname %>
-									<% if address.present? %>
-										<%= form.hidden_field :addr1,value: address.shipping_address %>
-										<%= form.hidden_field :city,value: address.city %>
-										<%= form.hidden_field :state,value: address.state %>
-										<%= form.hidden_field :zip,value: address.zipcode %>
-									<% end %>
-									<%= form.submit "Subscribe Now!", class:"btn btn-warning btn-rounded" %>
-								<% end %>
+							<% if user_signed_in? && user_address.present? && !current_user.subscription %>
+								<%= link_to "Subscribe Now!", subscribe_path,method: :post, class:"btn btn-warning btn-rounded"%>
+								<% elsif user_signed_in? && !current_user.subscription %>
+								<%= link_to "Please add your address and subscribe us...", new_address_path %>
+								<% elsif user_signed_in? && current_user.subscription%>
+									<p>Allready subscribed to mailchimp.</p>
 							<% end %>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 		</div>
