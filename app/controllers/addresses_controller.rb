@@ -18,7 +18,7 @@ class AddressesController < ApplicationController
     @address = current_user.addresses.build(address_params)
     respond_to do |format|
       if @address.save
-        format.html { redirect_to checkout_index_path, notice: "User address was successfully created." }
+        format.html { redirect_to request.referrer, notice: "User address was successfully created." }
         format.json { render :show, status: :created, location: @address }
       else
         format.html { render :new, status: :unprocessable_entity }
