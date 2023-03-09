@@ -1,6 +1,6 @@
 <div class="col-sm-6">
 	<div class="chose_area">
-		<%= form_with url: apply_coupon_coupons_path, method: :post do |form| %>
+		<%= form_with url: apply_coupon_coupons_path, method: :post,data:{turbo: false} do |form| %>
 			<ul class="user_option">
 				<li>
 					<div class="mb-3">
