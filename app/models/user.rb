@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# products
+# user model
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -24,6 +24,10 @@ class User < ApplicationRecord
       user.email = user_email
       user.password = Devise.friendly_token[0, 20]
     end
+  end
+
+  def subscribe(status)
+    update_column( :subscription, status)
   end
 
   def user_email
