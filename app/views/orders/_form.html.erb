@@ -1,13 +1,20 @@
 
 <div class="container">
   <h4 style="margin-bottom: 30px;"> Total Amount <h4>
-    <p style="margin-bottom: 30px;">₹ <%= @total_amount %><p>
+    <% if session[:coupon].present? %>
+      <p style="margin-bottom: 30px;">₹ <%= price_with_coupon %><p>
+    <% else %>
+      <p style="margin-bottom: 30px;">₹ <%= @total_amount %><p>
+    <% end %>
     <hr>
     <%= form_with url:submit_orders_path, :id => 'order-details' do |form| %>
       <input id="order-type" name="orders[payment_gateway]" type="hidden" value="stripe">
-      <input id="final_price" name="orders[total]" type="hidden" value="<%= @total_amount %>">
-      <% if @coupon.present? %>
-        <input id="coupon_id" name="orders[coupon_id]" type="hidden" value="<%= @coupon.id %>">
+      <% binding.pry %>
+      <% if session[:coupon].present? %>
+        <input id="coupon_id" name="orders[coupon_id]" type="hidden" value="<%= session[:coupon]["id"].to_i %>">
+        <input id="final_price" name="orders[total]" type="hidden" value="<%= price_with_coupon %>">
+      <% else %>
+        <input id="final_price" name="orders[total]" type="hidden" value="<%= @total_amount %>">
       <% end %>
       <div class="mb-3" style="margin-bottom: 30px">
         <% if set_address.present?%>
