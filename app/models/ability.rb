@@ -35,8 +35,7 @@ class Ability
       can :access, :rails_admin  # only admin can access Rails Admin
       can :manage, :dashboard    # allow access to dashboard
     else
-      redirect_to root_path
-      flash[:alert] = "you are not authorised user to access this page"
+      raise AccessDenied.new(message, action, subject, args)
     end
 
     if user.supervisor_role?

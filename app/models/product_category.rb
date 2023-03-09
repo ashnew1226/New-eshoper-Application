@@ -1,4 +1,4 @@
-app/models/product_attributes_assoc.rb# frozen_string_literal: true
+# frozen_string_literal: true
 
 # Blogs
 class ProductCategory < ApplicationRecord
