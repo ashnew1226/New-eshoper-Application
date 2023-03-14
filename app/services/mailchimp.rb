@@ -19,10 +19,15 @@ class Mailchimp
           ADDRESS: { addr1: @user_details[:addr1], city: @user_details[:city], state: @user_details[:state], zip: @user_details[:zip] }
         }
         })
-      {success: true, status: response["status"]}
+
+      get_response( true, response["status"])
     rescue MailchimpMarketing::ApiError => e
-      {success: false, error: 'something went wrong'}
+      get_response( false, e.status)
     end
   end
 
+  def get_response(success, status)
+    response_hash = {success: success, status: status}
+  end
+  
 end

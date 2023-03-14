@@ -135,6 +135,7 @@
 					</div>
 					<div class="col-sm-3 col-sm-offset-1">
 						<div class="single-widget">
+
 							<h2>Subscribe Here</h2>
 							<% if user_signed_in? && user_address.present? && !current_user.subscription %>
 								<%= link_to "Subscribe Now!", subscribe_path,method: :post, class:"btn btn-warning btn-rounded"%>

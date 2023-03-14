@@ -27,7 +27,8 @@ class User < ApplicationRecord
   end
 
   def subscribe(status)
-    update_column( :subscription, status)
+      subscription_status = status == "subscribed"
+      update_column( :subscription, subscription_status)
   end
 
   def user_email

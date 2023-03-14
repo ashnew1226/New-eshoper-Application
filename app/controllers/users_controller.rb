@@ -3,11 +3,15 @@ class UsersController < ApplicationController
   def subscribe  
     service = Mailchimp.new(@user_details)
     response = service.execute 
-    if response[:success]
-      current_user.subscribe(response[:status])
-      flash[:notice] = "subscribed to mailchimp !!!"
+    binding.pry
+    if response[:success] 
+      if current_user.subscribe(response[:status])
+        flash[:notice] = "Subscribed to mailchimp!"
+      else
+        flash[:alert] = "Subscription failed"
+      end
     else
-      flash[:notice] = response[:error]
+      flash[:alert] = "Please make sure that you enter the address or your email id is correct."
     end
     redirect_to root_path
   end 
