@@ -101,5 +101,5 @@ gem 'MailchimpMarketing'
 gem 'whenever'
 gem "mini_magick"
 gem 'image_processing', '~> 1.2'
-gem "ruby-vips"
+# gem "ruby-vips"
 gem 'rubocop-rails', require: false
