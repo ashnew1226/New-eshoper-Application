@@ -18,5 +18,5 @@ services:
   - type: redis
     name: redis
     ipAllowList: []
-    plam: free
+    plan: free
     maxmemoryPolicy: noeviction
