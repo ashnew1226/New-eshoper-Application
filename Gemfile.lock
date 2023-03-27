@@ -412,7 +412,6 @@ DEPENDENCIES
   rails (~> 7.0.4)
   rails_admin
   rubocop-rails
-  ruby-vips
   sassc-rails
   selenium-webdriver
   sprockets-rails

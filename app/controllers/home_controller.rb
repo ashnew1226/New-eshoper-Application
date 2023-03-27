@@ -4,6 +4,7 @@ class HomeController < ApplicationController
     @banners = BannerManagement.all
     @products = Product.all.take(6)
     @category = Category.with_subcategories
+    puts "#{ENV['DB_USERNAME']}"
   end
 
   def add_subscription_mailchimp

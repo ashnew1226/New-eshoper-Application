@@ -60,7 +60,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: eshop_test
+  database: eshop_development
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
@@ -87,7 +87,5 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
-  database: eshop_production
-  username: eshop
-  password: <%= ENV["ESHOPER_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] || "postgres://postgres:12345678@railway.app:3000/eshop_production" %>
+  pool: <%= ENV['DB_POOL'] || 5 %>
