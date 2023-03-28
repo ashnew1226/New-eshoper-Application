@@ -87,5 +87,5 @@ test:
 #
 production:
   <<: *default
-  host: <%= ENV.fetch('DATABASE_HOST', 'https://new-eshoper-application-production.up.railway.app') %>
+  host: <%= ENV.fetch('DATABASE_HOST', 'new-eshoper-application-production.up.railway.app') %>
   port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
