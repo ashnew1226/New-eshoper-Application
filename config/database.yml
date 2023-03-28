@@ -86,4 +86,5 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= URI.encode(ENV['DATABASE_URL'] )%>
+  # url: <%= ENV['DATABASE_URL'] %>
