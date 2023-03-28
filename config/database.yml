@@ -87,5 +87,4 @@ test:
 #
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] || "postgres://postgres:12345678@railway.app:3000/eshop_production" %>
-  pool: <%= ENV['DB_POOL'] || 5 %>
+  url: <%= ENV["DATABASE_URL"] %>

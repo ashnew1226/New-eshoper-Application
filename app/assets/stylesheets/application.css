@@ -14,10 +14,9 @@
  *= require_self
  */
 
- @import 'css/animate';
- @import 'css/bootstrap.min';
- @import 'css/font-awesome.min';
- @import 'css/main';
- @import 'css/prettyPhoto';
- @import 'css/price-range';
- @import 'css/responsive';
+ @import 'bootstrap.min.css';
+ @import 'font-awesome.min.css';
+ @import 'main.css';
+ @import 'prettyPhoto.css';
+ @import 'price-range.css';
+ @import 'responsive.css';
