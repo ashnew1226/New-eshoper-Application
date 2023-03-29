@@ -10,7 +10,9 @@ COPY Gemfile /Eshopper/Gemfile
 COPY Gemfile.lock /Eshopper/Gemfile.lock
 RUN bundle install
 
-COPY . /Eshopper
+COPY . .
+RUN bundle exec rake assets:precompile
+ENV RAILS_ENV=production
 RUN rails db:create
 RUN bundle exec rails db:migrate
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
