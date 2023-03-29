@@ -14,7 +14,7 @@ COPY . .
 RUN RAILS_ENV=production bundle exec rake assets:precompile
 
 ENV RAILS_ENV=production
-ENV DATABASE_URL= ENV['DATABASE_URL']
+ENV DATABASE_URL= postgresql://postgres:SivjibeJlpphtNHz8Cq2@containers-us-west-73.railway.app:8056/railway
 RUN rails db:create
 RUN bundle exec rails db:migrate
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
