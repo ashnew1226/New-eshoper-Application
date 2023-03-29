@@ -11,7 +11,8 @@ COPY Gemfile.lock /Eshopper/Gemfile.lock
 RUN bundle install
 
 COPY . .
-RUN bundle exec rake assets:precompile
+RUN RAILS_ENV=production bundle exec rake assets:precompile
+
 ENV RAILS_ENV=production
 RUN rails db:create
 RUN bundle exec rails db:migrate
