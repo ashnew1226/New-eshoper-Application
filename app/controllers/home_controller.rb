@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-
+  skip_before_action :authenticate_user!, only: [:index]
   def index
     @banners = BannerManagement.all
     @products = Product.all.take(6)
